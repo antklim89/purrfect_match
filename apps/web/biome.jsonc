@@ -1,0 +1,33 @@
+{
+	"$schema": "../../node_modules/@biomejs/biome/configuration_schema.json",
+	"root": false,
+	"extends": "//",
+	"css": {
+		"parser": { "tailwindDirectives": true },
+		"formatter": {
+			"enabled": true,
+			"indentStyle": "space",
+			"indentWidth": 2,
+			"lineWidth": 120,
+			"quoteStyle": "single"
+		}
+	},
+	"linter": {
+		"domains": {
+			"react": "all"
+		},
+		"enabled": true,
+		"rules": {
+			"a11y": {
+				"recommended": true,
+				"useMediaCaption": "off"
+			},
+			"style": {
+				"useComponentExportOnlyModules": {
+					"level": "info",
+					"options": { "allowExportNames": ["metadata"] }
+				}
+			}
+		}
+	}
+}

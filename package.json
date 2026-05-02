@@ -1,0 +1,23 @@
+{
+  "name": "purrfect_match",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "start": "turbo start",
+    "lint": "turbo lint",
+    "format": "turbo format",
+    "typecheck": "turbo typecheck"
+  },
+  "devDependencies": {
+    "turbo": "^2.9.7",
+    "@biomejs/biome": "2.4.13",
+    "typescript": "6.0.3"
+  },
+  "packageManager": "bun@1.2.21",
+  "engines": {
+    "node": ">=20"
+  },
+  "workspaces": ["apps/*", "packages/*"]
+}

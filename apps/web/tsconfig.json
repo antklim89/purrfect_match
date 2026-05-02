@@ -1,0 +1,27 @@
+{
+	"extends": "../../tsconfig.json",
+	"display": "Next.js",
+	"compilerOptions": {
+		"module": "ESNext",
+		"moduleResolution": "Bundler",
+		"jsx": "react-jsx",
+		"paths": {
+			"@/*": ["./src/*"],
+			"@/api/*": ["../api/src/*"]
+		},
+		"plugins": [
+			{
+				"name": "next"
+			}
+		],
+		"types": ["bun"]
+	},
+	"include": [
+		"next-env.d.ts",
+		"next.config.ts",
+		"src/**/*.ts",
+		"src/**/*.tsx",
+		".next/types/**/*.ts"
+	],
+	"exclude": ["node_modules", ".turbo", ".next"]
+}
