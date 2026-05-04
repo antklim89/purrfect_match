@@ -13,7 +13,7 @@ const nextConfig: NextConfig = {
   env,
   rewrites: () => [
     {
-      destination: 'http://192.168.90.20:8000/api/:path*',
+      destination: `${env.API_URL}/api/:path*`,
       source: '/api/:path*',
     },
   ],
