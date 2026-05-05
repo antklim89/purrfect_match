@@ -11,6 +11,7 @@
   "scripts": {
     "dev": "bun run --hot src/app.ts",
     "start": "bun run src/app.ts",
+    "test": "bun test",
     "studio": "drizzle-kit studio",
     "typecheck": "bunx --bun tsc --noEmit -w --preserveWatchOutput -p tsconfig.json",
     "db:generate": "drizzle-kit generate",
