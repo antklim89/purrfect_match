@@ -1,0 +1,18 @@
+services:
+  db:
+    image: postgres:18.4-alpine3.24
+    restart: unless-stopped
+    shm_size: 128mb
+    ports:
+      - 5432:5432
+    volumes:
+      - type: tmpfs
+        target: /dev/shm
+        tmpfs:
+          size: 134217728
+      - database:/var/lib/postgresql
+    environment:
+      POSTGRES_PASSWORD: postgres
+
+volumes:
+  database:

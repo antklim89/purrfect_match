@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": ["../../tsconfig.json"],
+  "compilerOptions": {
+    "paths": {
+      "@/api/*": ["../api/src/*"]
+    },
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "declarationDir": "src/shared/types/api",
+    "noEmit": false,
+    "noCheck": true,
+    "preserveWatchOutput": true,
+
+    "rootDir": "../api/src"
+  },
+  "files": ["../api/src/app.ts"]
+}

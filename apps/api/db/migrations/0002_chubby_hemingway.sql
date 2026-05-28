@@ -1,0 +1,1 @@
+ALTER TABLE "ad" RENAME COLUMN "published" TO "isPublished";
