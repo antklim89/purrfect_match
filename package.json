@@ -1,0 +1,29 @@
+{
+  "name": "purrfect_match",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "start": "turbo start",
+    "test": "turbo test",
+    "lint": "turbo lint",
+    "format": "turbo format",
+    "typecheck": "turbo typecheck"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.5.1",
+    "testcontainers": "^12.0.4",
+    "turbo": "^2.10.0",
+    "typescript": "6.0.3",
+    "vitest": "^4.1.10"
+  },
+  "packageManager": "bun@1.2.21",
+  "engines": {
+    "node": ">=20"
+  },
+  "workspaces": ["apps/*", "packages/*"],
+  "dependencies": {
+    "@faker-js/faker": "^10.5.0"
+  }
+}

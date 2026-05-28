@@ -1,0 +1,180 @@
+{
+  "$schema": "node_modules/@biomejs/biome/configuration_schema.json",
+
+  "assist": {
+    "enabled": true,
+    "actions": {
+      "source": {
+        "noDuplicateClasses": "on",
+        "organizeImports": {
+          "level": "on",
+          "options": {
+            "groups": [
+              "react*",
+              "next*",
+              ":BUN:",
+              ":NODE:",
+              ":PACKAGE:",
+              ":PACKAGE_WITH_PROTOCOL:",
+              ":BLANK_LINE:",
+              ":ALIAS:",
+              "./**",
+              "../**"
+            ]
+          }
+        }
+      }
+    }
+  },
+
+  "vcs": {
+    "clientKind": "git",
+    "enabled": true,
+    "useIgnoreFile": true
+  },
+
+  "files": {
+    "ignoreUnknown": true,
+    "includes": ["src/**/*", "supabase/seed.ts", "!**/*-generated", "!**/*-generated.*"]
+  },
+
+  "formatter": {
+    "expand": "auto",
+    "formatWithErrors": false,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 120
+  },
+
+  "html": {
+    "formatter": {
+      "indentScriptAndStyle": true,
+      "whitespaceSensitivity": "strict"
+    }
+  },
+
+  "javascript": {
+    "formatter": {
+      "jsxQuoteStyle": "double",
+      "quoteProperties": "asNeeded",
+      "quoteStyle": "single",
+      "semicolons": "always",
+      "trailingCommas": "all",
+      "arrowParentheses": "asNeeded"
+    }
+  },
+
+  "linter": {
+    "enabled": true,
+    "domains": {
+      "drizzle": "all",
+      "react": "all",
+      "next": "none",
+      "tailwind": "all",
+      "test": "all",
+      "types": "all",
+      "solid": "none",
+      "qwik": "none"
+    },
+    "rules": {
+      "a11y": {
+        "preset": "all",
+        "useMediaCaption": "off"
+      },
+
+      "complexity": {
+        "preset": "all",
+        "noExcessiveLinesPerFunction": { "level": "error", "options": { "skipBlankLines": true, "skipIifes": true } },
+        "useOptionalChain": { "fix": "safe", "level": "error" }
+      },
+
+      "correctness": {
+        "preset": "all",
+        "noUnresolvedImports": "off",
+        "useImportExtensions": "off",
+        "noUndeclaredDependencies": "off",
+        "noNodejsModules": "off"
+      },
+
+      "performance": {
+        "preset": "all",
+        "noBarrelFile": "off",
+        "noJsxPropsBind": "off"
+      },
+
+      "security": {
+        "preset": "all",
+        "noSecrets": { "level": "error", "options": { "entropyThreshold": 50 } }
+      },
+
+      "suspicious": {
+        "preset": "all",
+        "noConsole": { "level": "warn", "options": { "allow": ["error", "warn"] } },
+        "noEqualsToNull": "off",
+        "noLeakedRender": "off",
+        "noReactSpecificProps": "off",
+        "noArrayIndexKey": "off"
+      },
+
+      "nursery": {
+        "preset": "recommended",
+        "noExcessiveNestedCallbacks": "error",
+        "noFloatingPromises": "error",
+        "noImpliedEval": "error",
+        "noLoopFunc": "error",
+        "noRestrictedDependencies": "error",
+        "noUnnecessaryTemplateExpression": "error",
+        "useArraySome": "error",
+        "useDomNodeTextContent": "error",
+        "useExhaustiveSwitchCases": "error",
+        "useIframeSandbox": "error",
+        "useIncludes": { "fix": "safe", "level": "error" },
+        "useMathMinMax": "error",
+        "useReactAsyncServerFunction": { "fix": "safe", "level": "error" },
+        "useReactFunctionComponentDefinition": { "fix": "safe", "level": "error" },
+        "useReduceTypeParameter": { "fix": "safe", "level": "error" },
+        "useRegexpTest": "error"
+      },
+
+      "style": {
+        "preset": "recommended",
+        "noCommonJs": "error",
+        "noEnum": "error",
+        "noMultiAssign": "error",
+        "noNegationElse": "error",
+        "noParameterAssign": "error",
+        "noParameterProperties": "error",
+        "useComponentExportOnlyModules": "off",
+        "useConsistentCurlyBraces": { "fix": "safe", "level": "error" },
+        "useErrorCause": "error",
+        "useNodejsImportProtocol": { "fix": "safe", "level": "error" },
+        "useReactFunctionComponents": "error",
+        "useShorthandAssign": { "fix": "safe", "level": "error" },
+        "useThrowNewError": { "fix": "safe", "level": "error" },
+        "useThrowOnlyError": "error",
+        "useUnifiedTypeSignatures": { "fix": "safe", "level": "error" },
+        "useConsistentTypeDefinitions": {
+          "fix": "safe",
+          "level": "error",
+          "options": { "style": "interface" }
+        },
+        "useFilenamingConvention": {
+          "level": "off",
+          "options": { "filenameCases": ["kebab-case"], "requireAscii": true, "strictCase": true }
+        }
+      }
+    }
+  },
+  "overrides": [
+    {
+      "includes": ["**/*.test.ts"],
+      "linter": {
+        "rules": {
+          "performance": { "noAwaitInLoops": "off", "noDelete": "off" },
+          "style": { "noNonNullAssertion": "off" },
+          "complexity": { "noExcessiveLinesPerFunction": "off" }
+        }
+      }
+    }
+  ]
+}
