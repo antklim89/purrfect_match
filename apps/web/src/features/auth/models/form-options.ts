@@ -1,7 +1,7 @@
 import { BASE_ERROR_CODES } from 'better-auth';
 import { toast } from 'sonner';
 
-import { authClient } from '@/shared/lib/authClient';
+import { authClient } from '@/shared/lib/auth-client';
 import { createFormOptions } from '@/shared/lib/form';
 import { SignInSchema, SignUpSchema } from './schema';
 

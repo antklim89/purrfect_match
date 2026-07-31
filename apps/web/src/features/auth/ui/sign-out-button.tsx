@@ -1,7 +1,7 @@
 'use client';
 import { type ComponentProps, useTransition } from 'react';
 
-import { authClient } from '@/shared/lib/authClient';
+import { authClient } from '@/shared/lib/auth-client';
 import {
   AlertDialog,
   AlertDialogAction,

@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
 
 import { SignOutButton } from '@/features/auth';
-import { authClient } from '@/shared/lib/authClient';
+import { authClient } from '@/shared/lib/auth-client';
 import { Skeleton } from '@/shared/ui/skeleton';
 
 export function HeaderAuth({ className, ...props }: { className?: string } & ComponentProps<'a'>) {

@@ -1,7 +1,7 @@
 import { cacheLife } from 'next/cache';
 
 import { AdCard, AdList } from '@/features/ad';
-import { apiClient, apiParse } from '@/shared/lib/apiClient';
+import { apiClient, apiParse } from '@/shared/lib/api-client';
 import { ErrorComponent } from '@/shared/ui/error-component';
 import { Hero } from '@/widgets/hero';
 

@@ -1,5 +1,5 @@
 import { AdDescription, AdImages, AdInfo } from '@/features/ad';
-import { apiClient, apiParse } from '@/shared/lib/apiClient';
+import { apiClient, apiParse } from '@/shared/lib/api-client';
 import { ErrorComponent } from '@/shared/ui/error-component';
 import { AdSection } from '@/widgets/ad-section';
 
