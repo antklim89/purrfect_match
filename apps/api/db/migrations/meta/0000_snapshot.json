@@ -1,5 +1,5 @@
 {
-  "id": "f70878e1-28de-4b8e-9c9e-b30185415f41",
+  "id": "84ef2047-6c20-48bb-8251-dbf2e7969ae1",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -419,6 +419,36 @@
           "type": "timestamp",
           "primaryKey": false,
           "notNull": true
+        },
+        "full_name": {
+          "name": "full_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "tel": {
+          "name": "tel",
+          "type": "text[]",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "messengers": {
+          "name": "messengers",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "address": {
+          "name": "address",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
         }
       },
       "indexes": {},

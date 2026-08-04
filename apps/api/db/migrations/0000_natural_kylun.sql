@@ -56,6 +56,11 @@ CREATE TABLE "user" (
 	"image" text,
 	"created_at" timestamp NOT NULL,
 	"updated_at" timestamp NOT NULL,
+	"full_name" text,
+	"tel" text[],
+	"messengers" jsonb,
+	"address" text,
+	"description" text,
 	CONSTRAINT "user_email_unique" UNIQUE("email")
 );
 --> statement-breakpoint

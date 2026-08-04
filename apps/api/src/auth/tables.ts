@@ -1,5 +1,6 @@
+import type { UserMessengerType } from '@purrfect_match/shared/entities/auth/types';
 import { relations } from 'drizzle-orm';
-import { boolean, index, pgTable, text, timestamp } from 'drizzle-orm/pg-core';
+import { boolean, index, jsonb, pgTable, text, timestamp } from 'drizzle-orm/pg-core';
 
 export const userTable = pgTable('user', {
   id: text('id').primaryKey(),
@@ -11,6 +12,11 @@ export const userTable = pgTable('user', {
   updatedAt: timestamp('updated_at')
     .$onUpdate(() => new Date())
     .notNull(),
+  fullName: text('full_name'),
+  tel: text('tel').array(),
+  messengers: jsonb('messengers').$type<UserMessengerType[]>(),
+  address: text('address'),
+  description: text('description'),
 });
 
 export const sessionTable = pgTable(

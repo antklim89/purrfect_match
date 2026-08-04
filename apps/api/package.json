@@ -15,7 +15,7 @@
     "studio": "drizzle-kit studio",
     "typecheck": "bun --bun tsc --noEmit -w --preserveWatchOutput -p tsconfig.json",
     "db:generate": "bun --bun drizzle-kit generate",
-    "db:migrate": "bun --bun drizzle-kit migrate"
+    "db:migrate": "bun --bun src/migrate.ts"
   },
   "dependencies": {
     "@electric-sql/pglite": "^0.5.3",
