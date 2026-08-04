@@ -9,7 +9,7 @@ export function ErrorComponent({
   type = 'unexpected',
 }: {
   title?: string;
-  message: string;
+  message?: string;
   type?: ErrType;
 }) {
   const titleMap = {
@@ -24,7 +24,7 @@ export function ErrorComponent({
     <Alert className="border-red-950 dark:border-red-400 bg-destructive text-destructive-foreground">
       <AlertTriangleIcon />
       <AlertTitle className="text-white">{title ?? titleMap[type] ?? titleMap.unexpected}</AlertTitle>
-      <AlertDescription className="text-white">{message}</AlertDescription>
+      <AlertDescription className="text-white">{message ?? 'Unexpected error. Try again later.'}</AlertDescription>
     </Alert>
   );
 }
