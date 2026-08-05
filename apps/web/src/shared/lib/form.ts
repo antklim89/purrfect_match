@@ -81,7 +81,7 @@ export function createFormOptions<
     },
     validationLogic: revalidateLogic(),
     onSubmitInvalid({ formApi }) {
-      console.error('Form Submit Error:\n', formApi.state.errors);
+      console.error('Form Submit Error:\n', formApi.state.values, formApi.state.errors);
     },
     ...defaultOpts,
   });

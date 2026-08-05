@@ -1,10 +1,10 @@
 import type { ComponentProps } from 'react';
+import { XIcon } from 'lucide-react';
 
 import { Button } from './button';
 import { Field, FieldError, FieldLabel } from './field';
-import { Input } from './input';
+import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput, InputGroupTextarea } from './input-group';
 import { Spinner } from './spinner';
-import { Textarea } from './textarea';
 import { useFieldContext, useFormContext } from '../lib/form';
 import { cn } from '../lib/utils';
 
@@ -18,13 +18,22 @@ export function FormInput({
   return (
     <Field data-invalid={!field.state.meta.isValid}>
       {label ? <FieldLabel htmlFor={field.name + field.form.formId}>{label}</FieldLabel> : null}
-      <Input
-        aria-invalid={!field.state.meta.isValid}
-        id={field.name + field.form.formId}
-        value={field.state.value}
-        onChange={e => field.handleChange(e.target.value)}
-        {...props}
-      />
+      <InputGroup>
+        <InputGroupInput
+          aria-invalid={!field.state.meta.isValid}
+          id={field.name + field.form.formId}
+          value={field.state.value}
+          onChange={e => field.handleChange(e.target.value)}
+          {...props}
+        />
+        {field.state.value.length > 0 && (
+          <InputGroupAddon align="inline-end">
+            <InputGroupButton onClick={() => field.setValue('')}>
+              <span className="sr-only">clear {field.name} input</span> <XIcon />
+            </InputGroupButton>
+          </InputGroupAddon>
+        )}
+      </InputGroup>
       <FieldError errors={errors} />
     </Field>
   );
@@ -40,13 +49,22 @@ export function FormTextarea({
   return (
     <Field data-invalid={!field.state.meta.isValid}>
       {label ? <FieldLabel htmlFor={field.name + field.form.formId}>{label}</FieldLabel> : null}
-      <Textarea
-        aria-invalid={!field.state.meta.isValid}
-        id={field.name + field.form.formId}
-        {...props}
-        value={field.state.value}
-        onChange={e => field.handleChange(e.target.value)}
-      />
+      <InputGroup>
+        <InputGroupTextarea
+          aria-invalid={!field.state.meta.isValid}
+          id={field.name + field.form.formId}
+          {...props}
+          value={field.state.value}
+          onChange={e => field.handleChange(e.target.value)}
+        />
+        {field.state.value.length > 0 && (
+          <InputGroupAddon align="inline-end" className="self-start">
+            <InputGroupButton onClick={() => field.setValue('')}>
+              <span className="sr-only">clear {field.name} input</span> <XIcon />
+            </InputGroupButton>
+          </InputGroupAddon>
+        )}
+      </InputGroup>
       <FieldError errors={errors} />
     </Field>
   );
@@ -80,14 +98,9 @@ export function FormSubmitButton({
   const form = useFormContext();
 
   return (
-    <form.Subscribe
-      selector={state => ({
-        isSubmitting: state.isSubmitting,
-        isDisabled: !state.canSubmit,
-      })}
-    >
-      {({ isSubmitting, isDisabled }) => (
-        <Button type="submit" form={form.formId} disabled={isSubmitting || isDisabled} {...props}>
+    <form.Subscribe selector={state => state.isSubmitting}>
+      {isSubmitting => (
+        <Button type="submit" form={form.formId} disabled={isSubmitting} {...props}>
           {isSubmitting ? <Spinner data-icon="inline-start" /> : null}{' '}
           {isSubmitting ? (submittingText ? submittingText : children) : children}
         </Button>
