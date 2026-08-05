@@ -16,9 +16,10 @@ export function FormInput({
   const field = useFieldContext<string>();
 
   return (
-    <Field>
+    <Field data-invalid={!field.state.meta.isValid}>
       {label ? <FieldLabel htmlFor={field.name + field.form.formId}>{label}</FieldLabel> : null}
       <Input
+        aria-invalid={!field.state.meta.isValid}
         id={field.name + field.form.formId}
         value={field.state.value}
         onChange={e => field.handleChange(e.target.value)}
@@ -37,9 +38,10 @@ export function FormTextarea({
   const field = useFieldContext<string>();
 
   return (
-    <Field>
+    <Field data-invalid={!field.state.meta.isValid}>
       {label ? <FieldLabel htmlFor={field.name + field.form.formId}>{label}</FieldLabel> : null}
       <Textarea
+        aria-invalid={!field.state.meta.isValid}
         id={field.name + field.form.formId}
         {...props}
         value={field.state.value}
@@ -87,7 +89,7 @@ export function FormSubmitButton({
       {({ isSubmitting, isDisabled }) => (
         <Button type="submit" form={form.formId} disabled={isSubmitting || isDisabled} {...props}>
           {isSubmitting ? <Spinner data-icon="inline-start" /> : null}{' '}
-          {!isSubmitting ? children : submittingText ? submittingText : children}
+          {isSubmitting ? (submittingText ? submittingText : children) : children}
         </Button>
       )}
     </form.Subscribe>
