@@ -1,5 +1,5 @@
 'use client';
-import type { UserInfoType } from '@purrfect_match/shared/entities/auth/types';
+import type { ProfileType } from '@purrfect_match/shared/entities/auth/types';
 
 import { useAppForm } from '@/shared/lib/form';
 import { Button } from '@/shared/ui/button';
@@ -7,15 +7,14 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/shared/u
 import { UserInfoUpdateForm } from './user-info-update-form';
 import { userInfoUpdateFormOptions } from '../models/form-options';
 
-export function UserInfoUpdateCard({ user }: { user: UserInfoType }) {
+export function UserInfoUpdateCard({ user }: { user: ProfileType }) {
   const form = useAppForm({
     ...userInfoUpdateFormOptions,
     defaultValues: {
-      name: user.name ?? userInfoUpdateFormOptions.defaultValues.name,
-      address: user.address ?? userInfoUpdateFormOptions.defaultValues.address,
-      description: user.description ?? userInfoUpdateFormOptions.defaultValues.description,
-      fullName: user.fullName ?? userInfoUpdateFormOptions.defaultValues.fullName,
-      messengers: user.messengers ?? userInfoUpdateFormOptions.defaultValues.messengers,
+      address: user.address ?? userInfoUpdateFormOptions.defaultValues?.address,
+      description: user.description ?? userInfoUpdateFormOptions.defaultValues?.description,
+      fullName: user.fullName ?? userInfoUpdateFormOptions.defaultValues?.fullName,
+      messengers: user.messengers ?? userInfoUpdateFormOptions.defaultValues?.messengers,
     },
   });
 
@@ -23,7 +22,7 @@ export function UserInfoUpdateCard({ user }: { user: UserInfoType }) {
     <form.AppForm>
       <Card>
         <CardHeader>
-          <CardTitle className="text-2xl font-bold">{user.fullName || user.name || 'User'}'s Profile</CardTitle>
+          <CardTitle className="text-2xl font-bold">{user.fullName || 'User'}'s Profile</CardTitle>
         </CardHeader>
         <CardContent>
           <UserInfoUpdateForm />

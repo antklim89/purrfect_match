@@ -1,4 +1,3 @@
-import { UserMessengersSchema } from '@purrfect_match/shared/entities/auth/schema';
 import { betterAuth } from 'better-auth';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 import { testUtils } from 'better-auth/plugins';
@@ -8,26 +7,16 @@ import { db } from './db';
 import { env } from './env';
 
 export const auth = betterAuth({
-  user: {
-    additionalFields: {
-      fullName: { type: 'string', required: false },
-      tel: { type: 'string[]', required: false },
-      messengers: {
-        type: 'json',
-        required: false,
-        validator: {
-          input: UserMessengersSchema,
-        },
-      },
-      address: { type: 'string', required: false },
-      description: { type: 'string', required: false },
-    },
-  },
   experimental: {
     joins: true,
   },
   trustedOrigins() {
     return [env.WEB_URL];
+  },
+  session: {
+    cookieCache: {
+      enabled: true,
+    },
   },
   baseURL: env.API_URL,
   secret: env.BETTER_AUTH_SECRET,

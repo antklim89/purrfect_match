@@ -13,16 +13,6 @@ export function UserInfoUpdateForm() {
 
   return (
     <form.Form>
-      <form.AppField name="name">
-        {field => (
-          <field.FormInput
-            autoComplete="name"
-            placeholder="Enter your name"
-            label="Name"
-            errors={field.state.meta.errors}
-          />
-        )}
-      </form.AppField>
       <form.AppField name="fullName">
         {field => (
           <field.FormInput

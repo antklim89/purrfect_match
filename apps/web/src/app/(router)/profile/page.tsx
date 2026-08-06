@@ -1,18 +1,15 @@
-import { UserInfoSchema } from '@purrfect_match/shared/entities/auth/schema';
 import { headers } from 'next/headers';
-import { redirect } from 'next/navigation';
 
 import { UserInfoUpdateCard } from '@/features/user-info-update';
-import { authClient } from '@/shared/lib/auth-client';
+import { apiClient, apiParse } from '@/shared/lib/api-client';
 import { ErrorComponent } from '@/shared/ui/error-component';
 
 export default async function Page() {
-  const { data, error } = await authClient.getSession({ fetchOptions: { headers: await headers() } });
+  const headersStore = await headers();
+  const { result, error } = await apiParse(
+    apiClient.api.auth['get-profile'].$get(undefined, { headers: Object.fromEntries(headersStore.entries()) }),
+  );
   if (error) return <ErrorComponent {...error} />;
-  if (!data?.user) return redirect('/');
 
-  const { data: userData, success } = await UserInfoSchema.safeParseAsync(data.user);
-  if (!success) return <ErrorComponent message="Failed to receive user info." type="unexpected" />;
-
-  return <UserInfoUpdateCard user={userData} />;
+  return <UserInfoUpdateCard user={result} />;
 }

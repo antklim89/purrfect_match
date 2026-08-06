@@ -12,7 +12,7 @@ import type { User } from 'better-auth';
 import type { Context, ValidationTargets } from 'hono';
 import { cors } from 'hono/cors';
 import { createMiddleware } from 'hono/factory';
-import type { HTTPResponseError, Input, TypedResponse } from 'hono/types';
+import type { HTTPResponseError, TypedResponse } from 'hono/types';
 import { prettifyError, type ZodObject } from 'zod';
 import type { ZodMiniObject } from 'zod/v4-mini';
 
@@ -40,7 +40,7 @@ export const schemaMiddleware = <Schema extends ZodObject | ZodMiniObject, Targe
 export const authMiddleware = createMiddleware<
   { Variables: { user: User } },
   string,
-  Input,
+  { outputFormat: undefined },
   Response & TypedResponse<Err<'authentication', Issues>, 401, 'json'>
 >(async (c, next) => {
   const session = await auth.api.getSession({ headers: c.req.raw.headers });

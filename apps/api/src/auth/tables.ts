@@ -12,11 +12,6 @@ export const userTable = pgTable('user', {
   updatedAt: timestamp('updated_at')
     .$onUpdate(() => new Date())
     .notNull(),
-  fullName: text('full_name'),
-  tel: text('tel').array(),
-  messengers: jsonb('messengers').$type<UserMessengerType[]>(),
-  address: text('address'),
-  description: text('description'),
 });
 
 export const sessionTable = pgTable(
@@ -76,6 +71,20 @@ export const verificationTable = pgTable(
   },
   table => [index('verification_identifier_idx').on(table.identifier)],
 );
+
+export const profileTable = pgTable('profile', {
+  id: text('id')
+    .primaryKey()
+    .references(() => userTable.id, { onDelete: 'cascade' }),
+  updatedAt: timestamp('updated_at')
+    .$onUpdate(() => new Date())
+    .notNull(),
+  fullName: text('full_name'),
+  tel: text('tel').array(),
+  messengers: jsonb('messengers').$type<UserMessengerType[]>(),
+  address: text('address'),
+  description: text('description'),
+});
 
 export const userRelations = relations(userTable, ({ many }) => ({
   sessions: many(sessionTable),
