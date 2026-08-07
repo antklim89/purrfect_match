@@ -34,14 +34,22 @@ export function AuthCard({ type }: { type: 'signIn' | 'signUp' }) {
             {type === 'signIn' ? (
               <p>
                 Doesn't have an account{' '}
-                <Link className="text-blue-600 underline dark:text-blue-400" href="/auth/sign-up">
+                <Link
+                  replace
+                  className="text-blue-600 underline dark:text-blue-400"
+                  href={`/auth/sign-up?back=${backHref}`}
+                >
                   Sign Up
                 </Link>
               </p>
             ) : (
               <p>
                 Already have an account{' '}
-                <Link className="text-blue-600 underline dark:text-blue-400" href="/auth/sign-in">
+                <Link
+                  replace
+                  className="text-blue-600 underline dark:text-blue-400"
+                  href={`/auth/sign-in?back=${backHref}`}
+                >
                   Sign In
                 </Link>
               </p>
