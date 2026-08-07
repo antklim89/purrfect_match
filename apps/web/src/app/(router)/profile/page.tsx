@@ -1,6 +1,6 @@
 import { headers } from 'next/headers';
 
-import { UserInfoUpdateCard } from '@/features/user-info-update';
+import { ProfileUpdateCard } from '@/features/profile-update';
 import { apiClient, apiParse } from '@/shared/lib/api-client';
 import { ErrorComponent } from '@/shared/ui/error-component';
 
@@ -11,5 +11,5 @@ export default async function Page() {
   );
   if (error) return <ErrorComponent {...error} />;
 
-  return <UserInfoUpdateCard user={result} />;
+  return <ProfileUpdateCard user={result} />;
 }

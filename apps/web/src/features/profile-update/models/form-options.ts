@@ -1,13 +1,13 @@
-import { UserInfoUpdateSchema } from '@purrfect_match/shared/entities/auth/schema';
-import type { UserInfoUpdateType, UserMessengerType } from '@purrfect_match/shared/entities/auth/types';
+import { ProfileUpdateSchema } from '@purrfect_match/shared/entities/auth/schema';
+import type { ProfileUpdateType, UserMessengerType } from '@purrfect_match/shared/entities/auth/types';
 import { toast } from 'sonner';
 import { z } from 'zod/v4-mini';
 
 import { apiClient, apiParse } from '@/shared/lib/api-client';
 import { createFormOptions } from '@/shared/lib/form';
 
-export const userInfoUpdateFormOptions = createFormOptions({
-  schema: z.required(UserInfoUpdateSchema),
+export const profileUpdateFormOptions = createFormOptions({
+  schema: z.required(ProfileUpdateSchema),
   defaultValues: {
     address: '',
     description: '',
@@ -15,7 +15,7 @@ export const userInfoUpdateFormOptions = createFormOptions({
     messengers: [] as UserMessengerType[],
   },
   async onSubmit({ value, formApi }) {
-    const changedValues: Partial<UserInfoUpdateType> = Object.fromEntries(
+    const changedValues: Partial<ProfileUpdateType> = Object.fromEntries(
       Object.entries(value).filter(([key]) => !formApi.getFieldMeta(key as keyof typeof value)?.isDefaultValue),
     );
 

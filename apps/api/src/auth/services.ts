@@ -1,10 +1,10 @@
-import type { UserInfoUpdateType } from '@purrfect_match/shared/entities/auth/types';
+import type { ProfileUpdateType } from '@purrfect_match/shared/entities/auth/types';
 import { errUnexpected, ok } from '@purrfect_match/shared/lib/result';
 
 import { db } from '@/lib/db';
 import { profileTable } from './tables';
 
-export async function profileUpdateService({ userId, input }: { userId: string; input: UserInfoUpdateType }) {
+export async function profileUpdateService({ userId, input }: { userId: string; input: ProfileUpdateType }) {
   await db
     .insert(profileTable)
     .values({ id: userId, ...input })

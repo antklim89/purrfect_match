@@ -4,17 +4,17 @@ import type { ProfileType } from '@purrfect_match/shared/entities/auth/types';
 import { useAppForm } from '@/shared/lib/form';
 import { Button } from '@/shared/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/shared/ui/card';
-import { UserInfoUpdateForm } from './user-info-update-form';
-import { userInfoUpdateFormOptions } from '../models/form-options';
+import { ProfileUpdateForm } from './profile-update-form';
+import { profileUpdateFormOptions } from '../models/form-options';
 
-export function UserInfoUpdateCard({ user }: { user: ProfileType }) {
+export function ProfileUpdateCard({ user }: { user: ProfileType }) {
   const form = useAppForm({
-    ...userInfoUpdateFormOptions,
+    ...profileUpdateFormOptions,
     defaultValues: {
-      address: user.address ?? userInfoUpdateFormOptions.defaultValues.address,
-      description: user.description ?? userInfoUpdateFormOptions.defaultValues.description,
-      fullName: user.fullName ?? userInfoUpdateFormOptions.defaultValues.fullName,
-      messengers: user.messengers ?? userInfoUpdateFormOptions.defaultValues.messengers,
+      address: user.address ?? profileUpdateFormOptions.defaultValues.address,
+      description: user.description ?? profileUpdateFormOptions.defaultValues.description,
+      fullName: user.fullName ?? profileUpdateFormOptions.defaultValues.fullName,
+      messengers: user.messengers ?? profileUpdateFormOptions.defaultValues.messengers,
     },
   });
 
@@ -25,7 +25,7 @@ export function UserInfoUpdateCard({ user }: { user: ProfileType }) {
           <CardTitle className="text-2xl font-bold">{user.fullName || 'User'}'s Profile</CardTitle>
         </CardHeader>
         <CardContent>
-          <UserInfoUpdateForm />
+          <ProfileUpdateForm />
         </CardContent>
         <CardFooter className="justify-end">
           <Button variant="ghost" onClick={() => form.reset()} className="grow">

@@ -9,7 +9,7 @@ export const UserMessengersSchema = z
   .array(UserMessengerSchema)
   .check(z.maxLength(20, 'Too many phone numbers. Max allowed 20.'));
 
-export const UserInfoUpdateSchema = z.object({
+export const ProfileUpdateSchema = z.object({
   fullName: z.optional(z.string().check(z.maxLength(300))),
   address: z.optional(z.string().check(z.maxLength(4000))),
   description: z.optional(z.string().check(z.maxLength(4000))),

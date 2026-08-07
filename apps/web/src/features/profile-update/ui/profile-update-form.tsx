@@ -6,10 +6,10 @@ import { Button } from '@/shared/ui/button';
 import { Field, FieldError, FieldLabel, FieldSet } from '@/shared/ui/field';
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@/shared/ui/input-group';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
-import { userInfoUpdateFormOptions } from '../models/form-options';
+import { profileUpdateFormOptions } from '../models/form-options';
 
-export function UserInfoUpdateForm() {
-  const form = useTypedAppFormContext(userInfoUpdateFormOptions);
+export function ProfileUpdateForm() {
+  const form = useTypedAppFormContext(profileUpdateFormOptions);
 
   return (
     <form.Form>

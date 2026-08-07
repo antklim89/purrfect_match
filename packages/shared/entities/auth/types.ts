@@ -1,9 +1,9 @@
 import type { profileTable } from '@purrfect_match/api/auth/tables';
 import type { z } from 'zod/v4-mini';
 
-import type { UserInfoUpdateSchema, UserMessengerSchema } from './schema';
+import type { ProfileUpdateSchema, UserMessengerSchema } from './schema';
 
 export type UserMessengerType = z.infer<typeof UserMessengerSchema>;
-export type UserInfoUpdateType = z.infer<typeof UserInfoUpdateSchema>;
+export type ProfileUpdateType = z.infer<typeof ProfileUpdateSchema>;
 
 export type ProfileType = typeof profileTable.$inferSelect;
