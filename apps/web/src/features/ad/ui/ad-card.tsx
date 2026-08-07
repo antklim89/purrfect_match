@@ -1,4 +1,5 @@
 import { AD_IMAGE_HEIGHT, AD_IMAGE_WIDTH } from '@purrfect_match/shared/entities/ads/config';
+import type { AdPreviewType } from '@purrfect_match/shared/entities/ads/types';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -6,7 +7,6 @@ import adCardFallback from '@/shared/assets/ad-card-fallback.jpg';
 import { formatDate, formatPrice } from '@/shared/lib/utils';
 import { buttonVariants } from '@/shared/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/shared/ui/card';
-import type { AdPreviewType } from '../model/types';
 
 export function AdCard({ ad }: { ad: AdPreviewType }) {
   const image = ad.images[0];

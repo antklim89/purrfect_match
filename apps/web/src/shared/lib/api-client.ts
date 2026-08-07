@@ -1,8 +1,8 @@
+import type { AppType } from '@purrfect_match/api/app';
 import { errUnexpected } from '@purrfect_match/shared/lib/result';
 import { hc, type parseResponse } from 'hono/client';
 
 import { env } from './env';
-import type { AppType } from '../types/api-generated/app';
 
 export const apiClient = hc<AppType>(typeof window === 'undefined' ? env.API_URL : env.WEB_URL);
 

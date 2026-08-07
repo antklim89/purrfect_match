@@ -1,6 +1,7 @@
+import type { AdType } from '@purrfect_match/shared/entities/ads/types';
+
 import { formatDate, formatPrice } from '@/shared/lib/utils';
 import { Card, CardContent, CardFooter, CardHeader } from '@/shared/ui/card';
-import type { AdType } from '../model/types';
 
 export function AdInfo({ ad }: { ad: AdType }) {
   return (

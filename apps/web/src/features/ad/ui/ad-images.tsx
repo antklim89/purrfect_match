@@ -1,8 +1,8 @@
 import { AD_IMAGE_HEIGHT, AD_IMAGE_WIDTH } from '@purrfect_match/shared/entities/ads/config';
+import type { AdType } from '@purrfect_match/shared/entities/ads/types';
 import Image from 'next/image';
 
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/shared/ui/carousel';
-import type { AdType } from '../model/types';
 
 export function AdImages({ ad }: { ad: AdType }) {
   return (

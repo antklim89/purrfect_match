@@ -3,9 +3,18 @@
   "extends": ["../../tsconfig.json"],
   "compilerOptions": {
     "paths": {
-      "@/*": ["./src/*"]
-    }
+      "@/*": ["./src/*"],
+      "@purrfect_match/api/*": ["./src/*"]
+    },
+  "declaration": true,
+  "emitDeclarationOnly": true,
+  "declarationDir": "dist",
+  "noEmit": false,
+  "noCheck": true,
+  "preserveWatchOutput": true,
+
+  "rootDir": "src"
   },
   "display": "Hono",
-  "include": ["src/**/*.ts", "src/**/*.tsx", "drizzle.config.ts"]
+  "include": ["src/**/*.ts", "src/**/*.tsx"]
 }
