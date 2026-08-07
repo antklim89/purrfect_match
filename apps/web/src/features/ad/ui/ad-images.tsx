@@ -19,17 +19,6 @@ export function AdImages({ ad }: { ad: AdType }) {
             />
           </CarouselItem>
         ))}
-        {ad.images.map(image => (
-          <CarouselItem className="basis-1/2 pt-1" key={image.id}>
-            <Image
-              className=""
-              alt="ad image"
-              src={`/media${image.url}`}
-              width={AD_IMAGE_WIDTH}
-              height={AD_IMAGE_HEIGHT}
-            />
-          </CarouselItem>
-        ))}
       </CarouselContent>
       <CarouselPrevious />
       <CarouselNext />
