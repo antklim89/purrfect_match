@@ -11,10 +11,10 @@ export function UserInfoUpdateCard({ user }: { user: ProfileType }) {
   const form = useAppForm({
     ...userInfoUpdateFormOptions,
     defaultValues: {
-      address: user.address ?? userInfoUpdateFormOptions.defaultValues?.address,
-      description: user.description ?? userInfoUpdateFormOptions.defaultValues?.description,
-      fullName: user.fullName ?? userInfoUpdateFormOptions.defaultValues?.fullName,
-      messengers: user.messengers ?? userInfoUpdateFormOptions.defaultValues?.messengers,
+      address: user.address ?? userInfoUpdateFormOptions.defaultValues.address,
+      description: user.description ?? userInfoUpdateFormOptions.defaultValues.description,
+      fullName: user.fullName ?? userInfoUpdateFormOptions.defaultValues.fullName,
+      messengers: user.messengers ?? userInfoUpdateFormOptions.defaultValues.messengers,
     },
   });
 
