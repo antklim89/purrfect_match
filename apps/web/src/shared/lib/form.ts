@@ -6,9 +6,8 @@ import {
   revalidateLogic,
   type StandardSchemaV1,
 } from '@tanstack/react-form';
-import type z from 'zod';
 
-import { Form, FormInput, FormSubmitButton, FormTextarea } from '@/shared/ui/form';
+import { Form, FormFileInput, FormInput, FormNumberInput, FormSubmitButton, FormTextarea } from '@/shared/ui/form';
 
 export const { fieldContext, formContext, useFieldContext, useFormContext } = createFormHookContexts();
 export const { useAppForm, withForm, useTypedAppFormContext } = createFormHook({
@@ -17,6 +16,8 @@ export const { useAppForm, withForm, useTypedAppFormContext } = createFormHook({
   fieldComponents: {
     FormInput,
     FormTextarea,
+    FormNumberInput,
+    FormFileInput,
   },
   formComponents: {
     Form,
@@ -25,7 +26,6 @@ export const { useAppForm, withForm, useTypedAppFormContext } = createFormHook({
 });
 
 export function createFormOptions<
-  Schema extends StandardSchemaV1<TFormData, unknown>,
   TOptions extends Partial<
     FormOptions<
       TFormData,
@@ -42,7 +42,7 @@ export function createFormOptions<
       TSubmitMeta
     >
   >,
-  TFormData extends z.infer<Schema>,
+  TFormData,
   TOnMount extends undefined | StandardSchemaV1<TFormData, unknown>,
   TOnChange extends undefined | StandardSchemaV1<TFormData, unknown>,
   TOnChangeAsync extends undefined | StandardSchemaV1<TFormData, unknown>,
@@ -73,7 +73,7 @@ export function createFormOptions<
     TSubmitMeta
   >
 > &
-  TOptions & { schema: Schema }) {
+  TOptions & { schema: StandardSchemaV1<TFormData, unknown> }) {
   return formOptions({
     validators: {
       onDynamic: schema,

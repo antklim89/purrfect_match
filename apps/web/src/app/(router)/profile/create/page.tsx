@@ -1,3 +1,5 @@
+import { AdCreateCard } from '@/features/ad-create';
+
 export default function Page() {
-  return <div>Create</div>;
+  return <AdCreateCard />;
 }

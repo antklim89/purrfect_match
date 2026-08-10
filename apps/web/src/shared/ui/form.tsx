@@ -1,8 +1,11 @@
 import type { ComponentProps } from 'react';
-import { XIcon } from 'lucide-react';
+import { Trash2Icon, XIcon } from 'lucide-react';
+import Image from 'next/image';
+import { z } from 'zod/v4-mini';
 
-import { Button } from './button';
+import { Button, buttonVariants } from './button';
 import { Field, FieldError, FieldLabel } from './field';
+import { Input } from './input';
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput, InputGroupTextarea } from './input-group';
 import { Spinner } from './spinner';
 import { useFieldContext, useFormContext } from '../lib/form';
@@ -29,6 +32,87 @@ export function FormInput({
         {field.state.value.length > 0 && (
           <InputGroupAddon align="inline-end">
             <InputGroupButton onClick={() => field.setValue('')}>
+              <span className="sr-only">clear {field.name} input</span> <XIcon />
+            </InputGroupButton>
+          </InputGroupAddon>
+        )}
+      </InputGroup>
+      <FieldError errors={errors} />
+    </Field>
+  );
+}
+
+export function FormFileInput({
+  label,
+  errors,
+  ...props
+}: ComponentProps<'input'> & { label?: string; errors?: Array<{ message?: string } | undefined> }) {
+  const field = useFieldContext<File[]>();
+
+  return (
+    <Field data-invalid={!field.state.meta.isValid}>
+      <FieldLabel className={buttonVariants({ variant: 'outline' })} htmlFor={field.name + field.form.formId}>
+        {label ?? 'Upload'}
+      </FieldLabel>
+      <Input
+        className="hidden"
+        aria-invalid={!field.state.meta.isValid}
+        id={field.name + field.form.formId}
+        multiple
+        type="file"
+        onChange={e => {
+          if (!e.target.files) return;
+          const files = Array.from(e.target.files);
+          field.handleChange([...field.state.value, ...files]);
+          e.target.value = '';
+        }}
+        {...props}
+      />
+      <div className="flex flex-col gap-1">
+        {field.state.value.map((img, index) => (
+          <div key={img.name} className="flex gap-2 items-center">
+            <Image
+              src={URL.createObjectURL(img)}
+              alt="uploaded image"
+              className="w-16 aspect-square object-cover"
+              width={64}
+              height={64}
+            />
+            <span className="grow">{img.name}</span>
+            <Button variant="destructive" onClick={() => field.removeValue(index)}>
+              <span className="sr-only">Remove uploaded image</span>
+              <Trash2Icon />
+            </Button>
+          </div>
+        ))}
+      </div>
+      <FieldError errors={errors} />
+    </Field>
+  );
+}
+
+export function FormNumberInput({
+  label,
+  errors,
+  ...props
+}: ComponentProps<typeof Input> & { label?: string; errors?: Array<{ message?: string } | undefined> }) {
+  const field = useFieldContext<number>();
+
+  return (
+    <Field data-invalid={!field.state.meta.isValid}>
+      {label ? <FieldLabel htmlFor={field.name + field.form.formId}>{label}</FieldLabel> : null}
+      <InputGroup>
+        <InputGroupInput
+          aria-invalid={!field.state.meta.isValid}
+          inputMode="numeric"
+          id={field.name + field.form.formId}
+          value={field.state.value}
+          onChange={e => field.handleChange(z.catch(z.coerce.number(), 0).parse(e.target.value))}
+          {...props}
+        />
+        {field.state.value > 0 && (
+          <InputGroupAddon align="inline-end">
+            <InputGroupButton onClick={() => field.setValue(0)}>
               <span className="sr-only">clear {field.name} input</span> <XIcon />
             </InputGroupButton>
           </InputGroupAddon>
@@ -94,7 +178,7 @@ export function FormSubmitButton({
   children,
   submittingText,
   ...props
-}: ComponentProps<'button'> & { submittingText?: string }) {
+}: ComponentProps<typeof Button> & { submittingText?: string }) {
   const form = useFormContext();
 
   return (

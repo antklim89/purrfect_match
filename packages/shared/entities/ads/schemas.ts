@@ -5,13 +5,13 @@ import { ADS_SORT_BY, adConfig, MAX_ADS_LIMIT } from './config';
 export const AdCreateSchema = z.object({
   name: z.string().check(z.minLength(adConfig.name.min), z.maxLength(adConfig.name.max)),
   type: z.string().check(z.minLength(adConfig.type.min), z.maxLength(adConfig.type.max)),
-  price: z.coerce.number().check(z.minimum(adConfig.price.min), z.maximum(adConfig.price.max)),
+  price: z.coerce.number<number>().check(z.minimum(adConfig.price.min), z.maximum(adConfig.price.max)),
   description: z.string().check(z.minLength(adConfig.description.min), z.maxLength(adConfig.description.max)),
   breed: z.string().check(z.minLength(adConfig.breed.min), z.maxLength(adConfig.breed.max)),
-  isPublished: z.optional(z.boolean()),
+  isPublished: z.coerce.boolean<boolean>(),
   images: z.pipe(
-    z.union([z.file(), z.array(z.file()).check(z.minLength(1), z.maxLength(10))]),
-    z.transform(v => (Array.isArray(v) ? v : [v])),
+    z.transform<File[]>(v => (Array.isArray(v) ? v : [v])),
+    z.array(z.file()).check(z.minLength(1), z.maxLength(10)),
   ),
 });
 
