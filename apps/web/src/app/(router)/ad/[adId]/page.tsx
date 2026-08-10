@@ -12,6 +12,8 @@ const getAd = cache(async ({ id }: { id: string }) => {
 });
 
 export async function generateMetadata({ params }: PageProps<'/ad/[adId]'>): Promise<Metadata> {
+  'use cache';
+
   const { adId } = await params;
   const { error, result: ad } = await getAd({ id: adId });
   if (error) return { title: 'Error', description: error.message };
