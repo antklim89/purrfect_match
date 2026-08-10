@@ -39,3 +39,6 @@ npm-debug.log*
 
 *-generated.*
 *-generated
+
+apps/api/media/
+!apps/api/development/
