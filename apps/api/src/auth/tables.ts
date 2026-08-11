@@ -77,7 +77,7 @@ export const profileTable = pgTable('profile', {
     .primaryKey()
     .references(() => userTable.id, { onDelete: 'cascade' }),
   updatedAt: timestamp('updated_at', { mode: 'string' })
-    .$onUpdate(() => new Date())
+    .$onUpdate(() => new Date().toISOString())
     .notNull(),
   fullName: text('full_name'),
   tel: text('tel').array(),

@@ -1,6 +1,5 @@
 /** biome-ignore-all lint/performance/noAwaitInLoops: ok */
 import { faker } from '@faker-js/faker';
-import { adConfig } from '@purrfect_match/shared/entities/ads/config';
 import { sql } from 'drizzle-orm';
 import { PgTable } from 'drizzle-orm/pg-core';
 
@@ -44,8 +43,8 @@ async function createAd() {
       name: faker.animal.petName(),
       breed: faker.helpers.arrayElement(breeds),
       type: faker.helpers.arrayElement(type),
-      description: faker.lorem.sentence({ min: 20, max: 2000 }).slice(0, adConfig.description.max),
-      price: faker.number.float({ min: adConfig.price.min, max: adConfig.price.max, multipleOf: 0.02 }),
+      description: faker.lorem.sentence({ min: 20, max: 2000 }).slice(0, 38000),
+      price: faker.number.float({ min: 0, max: 1000000, multipleOf: 0.02 }),
       userId: faker.helpers.arrayElement(users).id,
       createdAt: faker.date.past({ years: 7 }).toISOString(),
       isPublished: true,
@@ -62,7 +61,7 @@ async function createAdImages() {
   const adsImages: AdImageInsertType[] = ads.flatMap(ad =>
     faker.helpers.arrayElements(adImages).flatMap(adImageSrc => {
       return {
-        url: `/development/ads/${adImageSrc}`,
+        url: `/media/development/ads/${adImageSrc}`,
         adId: ad.id,
         blurDataUrl: PLACEHOLDER_BLUR_DATA,
       };

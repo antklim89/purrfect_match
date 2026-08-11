@@ -1,13 +1,13 @@
 import { z } from 'zod/v4-mini';
 
-import { ADS_SORT_BY, adConfig, MAX_ADS_LIMIT } from './config';
+import { ADS_SORT_BY, MAX_ADS_LIMIT } from './config';
 
 export const AdCreateSchema = z.object({
-  name: z.string().check(z.minLength(adConfig.name.min), z.maxLength(adConfig.name.max)),
-  type: z.string().check(z.minLength(adConfig.type.min), z.maxLength(adConfig.type.max)),
-  price: z.coerce.number<number>().check(z.minimum(adConfig.price.min), z.maximum(adConfig.price.max)),
-  description: z.string().check(z.minLength(adConfig.description.min), z.maxLength(adConfig.description.max)),
-  breed: z.string().check(z.minLength(adConfig.breed.min), z.maxLength(adConfig.breed.max)),
+  name: z.string().check(z.minLength(2), z.maxLength(500)),
+  type: z.string().check(z.minLength(2), z.maxLength(500)),
+  price: z.coerce.number<number>().check(z.minimum(0), z.maximum(9000000)),
+  description: z.string().check(z.minLength(10), z.maxLength(40000)),
+  breed: z.string().check(z.minLength(2), z.maxLength(500)),
   isPublished: z.coerce.boolean<boolean>(),
   images: z.pipe(
     z.transform<File[]>(v => (Array.isArray(v) ? v : [v])),
@@ -16,9 +16,9 @@ export const AdCreateSchema = z.object({
 });
 
 export const AdFilterSchema = z.object({
-  search: z.optional(z.string().check(z.maxLength(adConfig.search.max))),
-  type: z.optional(z.string().check(z.maxLength(adConfig.type.max))),
-  breed: z.optional(z.string().check(z.maxLength(adConfig.breed.max))),
+  search: z.optional(z.string().check(z.maxLength(500))),
+  type: z.optional(z.string().check(z.maxLength(500))),
+  breed: z.optional(z.string().check(z.maxLength(500))),
   userId: z.optional(z.string()),
   page: z.optional(z.coerce.number().check(z.positive())),
   sortBy: z.optional(z.literal(ADS_SORT_BY)),
