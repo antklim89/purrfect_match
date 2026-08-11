@@ -1,5 +1,5 @@
-import { AD_IMAGE_HEIGHT, AD_IMAGE_WIDTH } from '@purrfect_match/shared/entities/ads/config';
-import type { AdType } from '@purrfect_match/shared/entities/ads/types';
+import { AD_IMAGE_HEIGHT, AD_IMAGE_WIDTH } from '@purrfect_match/shared/entities/ad/config';
+import type { AdType } from '@purrfect_match/shared/entities/ad/types';
 import Image from 'next/image';
 
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/shared/ui/carousel';

@@ -1,4 +1,4 @@
-import { AdCreateSchema, AdFilterSchema } from '@purrfect_match/shared/entities/ads/schemas';
+import { AdCreateSchema, AdFilterSchema } from '@purrfect_match/shared/entities/ad/schemas';
 import { uuidv7Schema } from '@purrfect_match/shared/lib/schemas';
 import { Hono } from 'hono';
 import { bodyLimit } from 'hono/body-limit';

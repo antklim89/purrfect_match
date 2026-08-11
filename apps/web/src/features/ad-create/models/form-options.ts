@@ -1,6 +1,6 @@
 import type { Route } from 'next';
-import { AdCreateSchema } from '@purrfect_match/shared/entities/ads/schemas';
-import type { AdCreateType } from '@purrfect_match/shared/entities/ads/types';
+import { AdCreateSchema } from '@purrfect_match/shared/entities/ad/schemas';
+import type { AdCreateType } from '@purrfect_match/shared/entities/ad/types';
 import { formOptions, revalidateLogic } from '@tanstack/react-form';
 import { toast } from 'sonner';
 

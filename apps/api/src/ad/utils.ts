@@ -4,7 +4,7 @@ import { join, resolve } from 'node:path';
 import { Readable } from 'node:stream';
 import { buffer } from 'node:stream/consumers';
 import { pipeline } from 'node:stream/promises';
-import { AD_IMAGE_HEIGHT, AD_IMAGE_WIDTH, IMAGE_EXT } from '@purrfect_match/shared/entities/ads/config';
+import { AD_IMAGE_HEIGHT, AD_IMAGE_WIDTH, IMAGE_EXT } from '@purrfect_match/shared/entities/ad/config';
 import sharp from 'sharp';
 
 import { MEDIA_ROOT_FOLDER, MEDIA_ROOT_URL } from '@/lib/constants';

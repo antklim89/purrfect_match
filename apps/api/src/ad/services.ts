@@ -1,5 +1,5 @@
 import * as fs from 'node:fs/promises';
-import type { AdCreateType, AdFilterType } from '@purrfect_match/shared/entities/ads/types';
+import type { AdCreateType, AdFilterType } from '@purrfect_match/shared/entities/ad/types';
 import { errNotFound, errUnexpected, ok } from '@purrfect_match/shared/lib/result';
 import type { User } from 'better-auth';
 import { and, asc, desc, eq, gt, like, lt, not, or } from 'drizzle-orm';

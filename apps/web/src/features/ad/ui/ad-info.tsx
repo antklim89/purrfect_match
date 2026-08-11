@@ -1,4 +1,4 @@
-import type { AdType } from '@purrfect_match/shared/entities/ads/types';
+import type { AdType } from '@purrfect_match/shared/entities/ad/types';
 
 import { formatDate, formatPrice } from '@/shared/lib/utils';
 import { Card, CardContent, CardFooter, CardHeader } from '@/shared/ui/card';

@@ -1,4 +1,4 @@
-import { ADS_SORT_BY } from '@purrfect_match/shared/entities/ads/config';
+import { ADS_SORT_BY } from '@purrfect_match/shared/entities/ad/config';
 import { eq } from 'drizzle-orm';
 import { testClient } from 'hono/testing';
 import { beforeEach, describe, expect, it } from 'vitest';
