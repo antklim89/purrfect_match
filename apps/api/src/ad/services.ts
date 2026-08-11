@@ -112,7 +112,7 @@ export async function adFindManyService(
 export async function adFindOneService({ id }: { id: AdSelectType['id'] }) {
   const ad = await db.query.adTable.findFirst({
     where: eq(adTable.id, id),
-    with: { images: { columns: { id: true, blurDataUrl: true, url: true }, limit: 1 }, user: true },
+    with: { images: { columns: { id: true, blurDataUrl: true, url: true } }, user: true },
   });
   if (!ad) return errNotFound('Ad not found.');
 
