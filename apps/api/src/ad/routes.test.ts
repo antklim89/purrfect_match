@@ -4,6 +4,7 @@ import { testClient } from 'hono/testing';
 import { beforeEach, describe, expect, it } from 'vitest';
 
 import app from '@/app';
+import { MEDIA_ROOT_URL } from '@/lib/constants';
 import { adTable } from './tables';
 import type { AdSelectType } from './types';
 import { getAdMediaPath } from './utils';
@@ -23,6 +24,7 @@ function createTestAdForm() {
     description: 'A very nice parrot!!!',
     images: [new File([file1], 'file1.jpg')],
     price: '499.99',
+    isPublished: 'false',
   };
 }
 
@@ -100,7 +102,12 @@ describe('[POST] /api/ad', () => {
     expect(createdAd.images).toHaveLength(1);
     expect(createdAd.images[0]).toHaveProperty(
       'url',
-      getAdMediaPath({ adId: createdAd.id, userId: user.id, fileName: createdAd!.images[0]!.id }),
+      getAdMediaPath({
+        root: MEDIA_ROOT_URL,
+        adId: createdAd.id,
+        userId: user.id,
+        fileName: createdAd!.images[0]!.id,
+      }),
     );
   });
 

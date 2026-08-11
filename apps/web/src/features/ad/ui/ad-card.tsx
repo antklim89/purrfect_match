@@ -15,7 +15,7 @@ export function AdCard({ ad }: { ad: AdPreviewType }) {
     <Card>
       <Image
         className="aspect-video w-full object-cover"
-        src={image?.url ? `/media${image.url}` : adCardFallback.src}
+        src={image?.url ? image.url : adCardFallback.src}
         blurDataURL={image?.blurDataUrl ?? adCardFallback.blurDataURL}
         placeholder="blur"
         alt="Image with animal"

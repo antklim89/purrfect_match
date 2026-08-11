@@ -7,7 +7,7 @@ import { pipeline } from 'node:stream/promises';
 import { AD_IMAGE_HEIGHT, AD_IMAGE_WIDTH, IMAGE_EXT } from '@purrfect_match/shared/entities/ads/config';
 import sharp from 'sharp';
 
-import { MEDIA_ROOT_FOLDER } from '@/lib/constants';
+import { MEDIA_ROOT_FOLDER, MEDIA_ROOT_URL } from '@/lib/constants';
 
 export function getUserMediaDir({ root = '/', userId }: { root?: string; userId: string }) {
   return resolve(root, userId);
@@ -44,7 +44,7 @@ async function uploadImage({ image, adId, userId }: { userId: string; adId: stri
   const fileName = Bun.randomUUIDv7();
   const adMediaDir = getAdMediaDir({ root: MEDIA_ROOT_FOLDER, userId, adId });
   const adMediaPath = getAdMediaPath({ root: MEDIA_ROOT_FOLDER, userId, adId, fileName });
-  const adMediaUrlPath = getAdMediaPath({ userId, adId, fileName });
+  const adMediaUrlPath = getAdMediaPath({ root: MEDIA_ROOT_URL, userId, adId, fileName });
 
   await fs.mkdir(adMediaDir, { recursive: true });
 

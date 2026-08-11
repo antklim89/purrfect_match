@@ -11,9 +11,10 @@ export function AdImages({ ad }: { ad: AdType }) {
         {ad.images.map(image => (
           <CarouselItem className="basis-1/2 pt-1" key={image.id}>
             <Image
-              className=""
+              blurDataURL={image.blurDataUrl}
+              placeholder="blur"
               alt="ad image"
-              src={`/media${image.url}`}
+              src={image.url}
               width={AD_IMAGE_WIDTH}
               height={AD_IMAGE_HEIGHT}
             />
