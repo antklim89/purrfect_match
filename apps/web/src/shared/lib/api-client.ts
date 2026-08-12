@@ -18,10 +18,12 @@ export async function apiCall<T, U extends number = StatusCode, F extends Respon
       return { error: { message: error.message, status: response.status }, data: null };
     }
 
+    if (response.status === 204) return { error: null, data: null as T };
+
     const data = (await response.json()) as T;
     return { data, error: null };
   } catch (error) {
     console.error('Fetch Error:\n', error);
-    return { error: { message: 'Failed to make request.', status: 500 as U }, data: null };
+    return { error: { message: 'Failed to make request.', status: 500 }, data: null };
   }
 }
