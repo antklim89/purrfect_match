@@ -1,4 +1,5 @@
 import { ProfileUpdateSchema } from '@purrfect_match/shared/entities/auth/schema';
+import { StatusCode } from '@purrfect_match/shared/lib/status-codes';
 import { Hono } from 'hono';
 
 import { auth } from '@/lib/auth';
@@ -16,8 +17,8 @@ const app = new Hono()
     const user = c.get('user');
     const input = c.req.valid('json');
 
-    const result = await profileUpdateService({ userId: user.id, input });
-    return c.json(result);
+    await profileUpdateService({ userId: user.id, input });
+    return c.body(null, StatusCode.NO_CONTENT);
   })
   .on(['POST', 'GET'], '*', c => auth.handler(c.req.raw));
 

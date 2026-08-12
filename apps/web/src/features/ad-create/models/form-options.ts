@@ -4,7 +4,7 @@ import type { AdCreateType } from '@purrfect_match/shared/entities/ad/types';
 import { formOptions, revalidateLogic } from '@tanstack/react-form';
 import { toast } from 'sonner';
 
-import { apiClient, apiParse } from '@/shared/lib/api-client';
+import { apiCall, apiClient } from '@/shared/lib/api-client';
 
 export const adCreateFormOptions = formOptions({
   validators: {
@@ -27,7 +27,7 @@ export const adCreateFormOptions = formOptions({
   async onSubmit({ value, formApi, meta }) {
     toast.loading('Updating user data...', { id: formApi.formId });
 
-    const { result, error } = await apiParse(
+    const { data, error } = await apiCall(
       apiClient.api.ad.$post({
         form: { ...value, isPublished: String(value.isPublished), price: String(value.price) },
       }),
@@ -37,7 +37,7 @@ export const adCreateFormOptions = formOptions({
     if (error) return toast.error('User data update failed', { id: formApi.formId });
     toast.success('User data updated successfully', { id: formApi.formId });
 
-    meta.replace(`/ad/${result.id}` as Route);
+    meta.replace(`/ad/${data.id}` as Route);
   },
   onSubmitMeta: {
     replace: (() => null) as (path: Route) => void,

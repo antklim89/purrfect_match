@@ -1,5 +1,6 @@
 import { AdCreateSchema, AdFilterSchema } from '@purrfect_match/shared/entities/ad/schemas';
 import { uuidv7Schema } from '@purrfect_match/shared/lib/schemas';
+import { StatusCode } from '@purrfect_match/shared/lib/status-codes';
 import { Hono } from 'hono';
 import { bodyLimit } from 'hono/body-limit';
 
@@ -30,15 +31,15 @@ export const adRoute = new Hono()
       const input = c.req.valid('form');
 
       const result = await adCreateService({ userId: user.id, input });
-      return c.json(result);
+      return c.json(result, StatusCode.CREATED);
     },
   )
   .delete('/:id', schemaMiddleware('param', uuidv7Schema), authMiddleware, async c => {
     const user = c.get('user');
     const { id } = c.req.valid('param');
 
-    const result = await adDeleteService({ userId: user.id, id });
-    return c.json(result);
+    await adDeleteService({ userId: user.id, id });
+    return c.body(null, StatusCode.NO_CONTENT);
   })
   .patch('/:id/publish', schemaMiddleware('param', uuidv7Schema), authMiddleware, async c => {
     const user = c.get('user');

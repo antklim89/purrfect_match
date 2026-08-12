@@ -2,6 +2,7 @@ import { testClient } from 'hono/testing';
 import { describe, expect, it } from 'vitest';
 
 import app from '@/app';
+import { testApiCall } from '@/test/api-call';
 import { profileTable } from './tables';
 import { db } from '../lib/db';
 import { registerTestUser } from '../test/insert-data';
@@ -18,29 +19,26 @@ const testProfile = {
 describe('[GET] /api/auth/get-profile', () => {
   it('should get profile if not exists', async () => {
     const { headers, user } = await registerTestUser();
-    const response = await client.api.auth['get-profile'].$get(undefined, { headers });
-    const { error, result } = await response.json();
+    const { data, error } = await testApiCall(client.api.auth['get-profile'].$get(undefined, { headers }));
     if (error) return expect(error).toBeNull();
-    expect(result.id).toEqual(user.id);
+    expect(data.id).toEqual(user.id);
   });
 
   it('should get profile if exists', async () => {
     const { headers, user } = await registerTestUser();
     await db.insert(profileTable).values({ id: user.id, fullName: 'Foo Bar' });
-    const response = await client.api.auth['get-profile'].$get(undefined, { headers });
-    const { error, result } = await response.json();
+    const { data, error } = await testApiCall(client.api.auth['get-profile'].$get(undefined, { headers }));
     if (error) return expect(error).toBeNull();
 
-    expect(result.id).toEqual(user.id);
-    expect(result.fullName).toEqual('Foo Bar');
+    expect(data.id).toEqual(user.id);
+    expect(data.fullName).toEqual('Foo Bar');
   });
 });
 
 describe('[POST] /api/auth/update-profile', () => {
   it('should update profile if not exists', async () => {
     const { headers, user } = await registerTestUser();
-    const response = await client.api.auth['update-profile'].$post({ json: testProfile }, { headers });
-    const { error } = await response.json();
+    const { error } = await testApiCall(client.api.auth['update-profile'].$post({ json: testProfile }, { headers }));
     if (error) return expect(error).toBeNull();
 
     const updatedProfile = await db.query.profileTable.findFirst({
@@ -53,8 +51,7 @@ describe('[POST] /api/auth/update-profile', () => {
   it('should update profile if exists', async () => {
     const { headers, user } = await registerTestUser();
     await db.insert(profileTable).values({ id: user.id, fullName: 'Foo Baz' });
-    const response = await client.api.auth['update-profile'].$post({ json: testProfile }, { headers });
-    const { error } = await response.json();
+    const { error } = await testApiCall(client.api.auth['update-profile'].$post({ json: testProfile }, { headers }));
     if (error) return expect(error).toBeNull();
 
     const updatedProfile = await db.query.profileTable.findFirst({

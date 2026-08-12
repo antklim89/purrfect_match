@@ -1,5 +1,6 @@
 import type { ProfileUpdateType } from '@purrfect_match/shared/entities/auth/types';
-import { errUnexpected, ok } from '@purrfect_match/shared/lib/result';
+import { StatusCode } from '@purrfect_match/shared/lib/status-codes';
+import { HTTPException } from 'hono/http-exception';
 
 import { db } from '@/lib/db';
 import { profileTable } from './tables';
@@ -10,17 +11,17 @@ export async function profileUpdateService({ userId, input }: { userId: string; 
     .values({ id: userId, ...input })
     .onConflictDoUpdate({ target: profileTable.id, set: input });
 
-  return ok(null);
+  return null;
 }
 
 export async function profileGetService({ userId }: { userId: string }) {
   const profile = await db.query.profileTable.findFirst({
     where: (fields, operators) => operators.eq(fields.id, userId),
   });
-  if (profile) return ok(profile);
+  if (profile) return profile;
 
   const [insertedProfile] = await db.insert(profileTable).values({ id: userId }).returning();
-  if (!insertedProfile) return errUnexpected('Failed to get user profile.');
+  if (!insertedProfile) throw new HTTPException(StatusCode.SERVER_ERROR, { message: 'Failed to get user profile.' });
 
-  return ok(insertedProfile);
+  return insertedProfile;
 }

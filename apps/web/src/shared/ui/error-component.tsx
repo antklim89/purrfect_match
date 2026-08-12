@@ -1,4 +1,3 @@
-import type { ErrType } from '@purrfect_match/shared/lib/result';
 import { AlertTriangleIcon } from 'lucide-react';
 
 import { Alert, AlertDescription, AlertTitle } from './alert';
@@ -6,24 +5,24 @@ import { Alert, AlertDescription, AlertTitle } from './alert';
 export function ErrorComponent({
   title,
   message,
-  type = 'unexpected',
+  status = 500,
 }: {
   title?: string;
   message?: string;
-  type?: ErrType;
+  status?: number;
 }) {
   const titleMap = {
-    unexpected: 'Unexpected Error',
-    authentication: 'Authentication Error',
-    conflict: 'Conflict Error',
-    not_found: 'Not Found Error',
-    validation: 'Validation Error',
-  };
+    500: 'Unexpected Error',
+    400: 'Client Error',
+    401: 'Authentication Error',
+    409: 'Conflict Error',
+    404: 'Not Found Error',
+  } as Record<number, string>;
 
   return (
     <Alert className="border-red-950 dark:border-red-400 bg-destructive text-destructive-foreground">
       <AlertTriangleIcon />
-      <AlertTitle className="text-white">{title ?? titleMap[type] ?? titleMap.unexpected}</AlertTitle>
+      <AlertTitle className="text-white">{title ?? titleMap[status] ?? titleMap[500]}</AlertTitle>
       <AlertDescription className="text-white">{message ?? 'Unexpected error. Try again later.'}</AlertDescription>
     </Alert>
   );

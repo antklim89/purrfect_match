@@ -3,7 +3,7 @@ import type { ProfileUpdateType, UserMessengerType } from '@purrfect_match/share
 import { toast } from 'sonner';
 import { z } from 'zod/v4-mini';
 
-import { apiClient, apiParse } from '@/shared/lib/api-client';
+import { apiCall, apiClient } from '@/shared/lib/api-client';
 import { createFormOptions } from '@/shared/lib/form';
 
 export const profileUpdateFormOptions = createFormOptions({
@@ -21,7 +21,7 @@ export const profileUpdateFormOptions = createFormOptions({
 
     if (formApi.state.isPristine) return;
     toast.loading('Updating user data...', { id: formApi.formId });
-    const { error } = await apiParse(apiClient.api.auth['update-profile'].$post({ json: changedValues }));
+    const { error } = await apiCall(apiClient.api.auth['update-profile'].$post({ json: changedValues }));
 
     formApi.reset(value);
     if (error) toast.success('User data update failed', { id: formApi.formId });

@@ -1,21 +1,22 @@
 import { cache } from 'react';
 import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 
 import { AdDescription, AdImages, AdInfo } from '@/features/ad';
 import adCardFallback from '@/shared/assets/ad-card-fallback.jpg';
-import { apiClient, apiParse } from '@/shared/lib/api-client';
+import { apiCall, apiClient } from '@/shared/lib/api-client';
 import { ErrorComponent } from '@/shared/ui/error-component';
 import { AdSection } from '@/widgets/ad-section';
 
 const getAd = cache(async ({ id }: { id: string }) => {
-  return await apiParse(apiClient.api.ad[':id'].$get({ param: { id } }));
+  return await apiCall(apiClient.api.ad[':id'].$get({ param: { id } }));
 });
 
 export async function generateMetadata({ params }: PageProps<'/ad/[adId]'>): Promise<Metadata> {
   'use cache';
 
   const { adId } = await params;
-  const { error, result: ad } = await getAd({ id: adId });
+  const { error, data: ad } = await getAd({ id: adId });
   if (error) return { title: 'Error', description: error.message };
 
   const image = ad.images[0] ? `/media${ad.images[0].url}` : adCardFallback.src;
@@ -40,7 +41,8 @@ export default async function Page({ params }: PageProps<'/ad/[adId]'>) {
   'use cache';
 
   const { adId } = await params;
-  const { error, result: ad } = await getAd({ id: adId });
+  const { error, data: ad } = await getAd({ id: adId });
+  if (error?.status === 404) notFound();
   if (error) return <ErrorComponent {...error} />;
 
   return (

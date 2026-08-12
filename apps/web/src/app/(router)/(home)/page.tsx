@@ -1,7 +1,7 @@
 import { cacheLife } from 'next/cache';
 
 import { AdCard, AdList } from '@/features/ad';
-import { apiClient, apiParse } from '@/shared/lib/api-client';
+import { apiCall, apiClient } from '@/shared/lib/api-client';
 import { ErrorComponent } from '@/shared/ui/error-component';
 import { Hero } from '@/widgets/hero';
 
@@ -22,7 +22,7 @@ async function AdsSection() {
   'use cache';
   cacheLife('hours');
 
-  const { result: ads, error } = await apiParse(
+  const { data: ads, error } = await apiCall(
     apiClient.api.ad.$get({ query: { limit: '6', sortBy: 'createdAt', orderBy: 'desc' } }),
   );
   if (error) return <ErrorComponent {...error} />;

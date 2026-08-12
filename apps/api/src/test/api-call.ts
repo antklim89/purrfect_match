@@ -1,13 +1,8 @@
-import type { AppType } from '@purrfect_match/api/app';
-import { type ClientResponse, hc } from 'hono/client';
+import type { ClientResponse } from 'hono/client';
 import type { ResponseFormat } from 'hono/types';
 import type { StatusCode } from 'hono/utils/http-status';
 
-import { env } from './env';
-
-export const apiClient = hc<AppType>(typeof window === 'undefined' ? env.API_URL : env.WEB_URL);
-
-export async function apiCall<T, U extends number = StatusCode, F extends ResponseFormat = string>(
+export async function testApiCall<T, U extends number = StatusCode, F extends ResponseFormat = string>(
   fetchRes: Promise<ClientResponse<T, U, F>>,
 ) {
   try {

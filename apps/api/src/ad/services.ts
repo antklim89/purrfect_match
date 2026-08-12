@@ -1,8 +1,9 @@
 import * as fs from 'node:fs/promises';
 import type { AdCreateType, AdFilterType } from '@purrfect_match/shared/entities/ad/types';
-import { errNotFound, errUnexpected, ok } from '@purrfect_match/shared/lib/result';
+import { StatusCode } from '@purrfect_match/shared/lib/status-codes';
 import type { User } from 'better-auth';
 import { and, asc, desc, eq, gt, like, lt, not, or } from 'drizzle-orm';
+import { HTTPException } from 'hono/http-exception';
 
 import { db } from '@/lib/db';
 import { adImageTable, adTable } from './tables';
@@ -39,12 +40,12 @@ export async function adCreateService({ userId, input }: { userId: User['id']; i
       const insertedAdImages = await insertedAdImagesPromise;
       if (insertedAdImages.length === 0) throw new Error('Failed to insert ad images.');
 
-      return ok(insertedAd);
+      return insertedAd;
     });
   } catch (error) {
     await fs.rm(getAdMediaDir({ userId, adId }), { force: true, recursive: true });
     console.error(error);
-    return errUnexpected('Failed to upload images');
+    throw new HTTPException(StatusCode.SERVER_ERROR, { message: 'Failed to upload images', cause: error });
   }
 }
 
@@ -103,10 +104,10 @@ export async function adFindManyService(
   if (ads.length > limit) {
     ads.pop();
     const lastAd = ads.at(-1) as (typeof ads)[number];
-    return ok({ data: ads, nextCursor: { cursorId: lastAd.id, cursor: lastAd[sortBy] } });
+    return { data: ads, nextCursor: { cursorId: lastAd.id, cursor: lastAd[sortBy] } };
   }
 
-  return ok({ data: ads, nextCursor: null });
+  return { data: ads, nextCursor: null };
 }
 
 export async function adFindOneService({ id }: { id: AdSelectType['id'] }) {
@@ -114,15 +115,15 @@ export async function adFindOneService({ id }: { id: AdSelectType['id'] }) {
     where: eq(adTable.id, id),
     with: { images: { columns: { id: true, blurDataUrl: true, url: true } }, user: true },
   });
-  if (!ad) return errNotFound('Ad not found.');
+  if (!ad) throw new HTTPException(StatusCode.NOT_FOUND, { message: 'Ad not found.' });
 
-  return ok(ad);
+  return ad;
 }
 
 export async function adDeleteService({ userId, id }: { userId: User['id']; id: AdSelectType['id'] }) {
   await db.delete(adTable).where(and(eq(adTable.id, id), eq(adTable.userId, userId)));
 
-  return ok(null);
+  return null;
 }
 
 export async function adPublishService({ userId, id }: { userId: User['id']; id: AdSelectType['id'] }) {
@@ -131,7 +132,7 @@ export async function adPublishService({ userId, id }: { userId: User['id']; id:
     .set({ isPublished: not(adTable.isPublished) })
     .where(and(eq(adTable.id, id), eq(adTable.userId, userId)))
     .returning({ id: adTable.id, isPublished: adTable.isPublished });
-  if (!result) return errNotFound('Ad not updated.');
+  if (!result) throw new HTTPException(StatusCode.NOT_FOUND, { message: 'Ad not updated.' });
 
-  return ok(result);
+  return result;
 }
