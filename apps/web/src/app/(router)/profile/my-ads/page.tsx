@@ -1,10 +1,15 @@
+import type { Route } from 'next';
+import { Trash2Icon } from 'lucide-react';
+import { revalidatePath } from 'next/cache';
 import { headers } from 'next/headers';
 
 import { AdItem } from '@/features/ad/ui/ad-item';
+import { AdDeleteButton } from '@/features/ad-delete';
 import { apiCall, apiClient } from '@/shared/lib/api-client';
 import { authClient } from '@/shared/lib/auth-client';
+import { Button } from '@/shared/ui/button';
 import { ErrorComponent } from '@/shared/ui/error-component';
-import { MyAdsList } from '@/widgets/my-ads-list';
+import { MyAdsList, MyAdsListEmpty } from '@/widgets/my-ads-list';
 
 export default async function Page() {
   const { data } = await authClient.getSession({ fetchOptions: { headers: await headers() } });
@@ -15,10 +20,29 @@ export default async function Page() {
   );
   if (error) return <ErrorComponent {...error} />;
 
+  if (ads.data.length === 0) return <MyAdsListEmpty />;
   return (
     <MyAdsList>
       {ads.data.map(ad => (
-        <AdItem actionsSlot={null} key={ad.id} ad={ad} />
+        <AdItem
+          actionsSlot={
+            <AdDeleteButton
+              id={ad.id}
+              aria-label="delete ad"
+              onDelete={async () => {
+                'use server';
+                revalidatePath('/profile/my-ads' satisfies Route, 'page');
+              }}
+              render={
+                <Button variant="destructive">
+                  <Trash2Icon />
+                </Button>
+              }
+            />
+          }
+          key={ad.id}
+          ad={ad}
+        />
       ))}
     </MyAdsList>
   );
