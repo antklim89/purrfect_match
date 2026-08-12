@@ -113,7 +113,8 @@
         "noEqualsToNull": "off",
         "noLeakedRender": "off",
         "noReactSpecificProps": "off",
-        "noArrayIndexKey": "off"
+        "noArrayIndexKey": "off",
+        "useAwait": "off"
       },
 
       "nursery": {
