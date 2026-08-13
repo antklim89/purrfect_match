@@ -13,6 +13,8 @@ export async function testApiCall<T, U extends number = StatusCode, F extends Re
       return { error: { message: error.message, status: response.status }, data: null };
     }
 
+    if (response.status === 204) return { error: null, data: null as T };
+
     const data = (await response.json()) as T;
     return { data, error: null };
   } catch (error) {
