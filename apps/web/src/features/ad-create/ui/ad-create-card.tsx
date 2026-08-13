@@ -23,12 +23,12 @@ export function AdCreateCard() {
         <CardFooter className="justify-end">
           <form.FormSubmitButton
             variant="outline"
-            onClick={() => form.setFieldValue('isPublished', true)}
+            onClick={() => form.setFieldValue('isPublished', 'true')}
             className="grow"
           >
             Create And Publish
           </form.FormSubmitButton>
-          <form.FormSubmitButton onClick={() => form.setFieldValue('isPublished', false)} className="grow">
+          <form.FormSubmitButton onClick={() => form.setFieldValue('isPublished', 'false')} className="grow">
             Create
           </form.FormSubmitButton>
         </CardFooter>

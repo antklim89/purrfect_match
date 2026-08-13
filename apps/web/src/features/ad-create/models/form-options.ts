@@ -1,6 +1,5 @@
 import type { Route } from 'next';
 import { AdCreateSchema } from '@purrfect_match/shared/entities/ad/schemas';
-import type { AdCreateType } from '@purrfect_match/shared/entities/ad/types';
 import { formOptions, revalidateLogic } from '@tanstack/react-form';
 import { toast } from 'sonner';
 
@@ -16,20 +15,20 @@ export const adCreateFormOptions = formOptions({
     console.error('Form Submit Error:\n', formApi.state.values, formApi.state.errors);
   },
   defaultValues: {
-    breed: '',
-    description: '',
+    name: 'Lorem',
+    type: 'Cat',
+    breed: 'Hello',
+    description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum, labore?',
     images: [] as File[],
-    isPublished: false,
-    name: '',
-    price: 0,
-    type: '',
-  } as AdCreateType,
+    isPublished: 'false',
+    price: 499,
+  },
   async onSubmit({ value, formApi, meta }) {
     toast.loading('Updating user data...', { id: formApi.formId });
 
     const { data, error } = await apiCall(
       apiClient.api.ad.$post({
-        form: { ...value, isPublished: String(value.isPublished), price: String(value.price) },
+        form: { ...value, price: String(value.price) },
       }),
     );
 
