@@ -1,14 +1,15 @@
+import * as fs from 'node:fs/promises';
 import { ADS_SORT_BY } from '@purrfect_match/shared/entities/ad/config';
 import { eq } from 'drizzle-orm';
 import { testClient } from 'hono/testing';
-import { beforeEach, describe, expect, it } from 'vitest';
+import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
 
 import app from '@/app';
-import { MEDIA_ROOT_URL } from '@/lib/constants';
+import { MEDIA_ROOT_FOLDER, MEDIA_ROOT_URL } from '@/lib/constants';
 import { testApiCall } from '@/test/api-call';
 import { adTable } from './tables';
 import type { AdSelectType } from './types';
-import { getAdMediaPath } from './utils';
+import { getAdMediaDir, getAdMediaPath } from './utils';
 import { db } from '../lib/db';
 import { insertData, insertListData, registerTestUser } from '../test/insert-data';
 import { createTestAdData } from '../test/test-data';
@@ -28,15 +29,24 @@ function createTestAdForm() {
     isPublished: 'false',
   };
 }
+beforeAll(async () => {
+  await fs.rm(MEDIA_ROOT_FOLDER, { force: true, recursive: true });
+});
 
 describe('[DELETE] /api/ad/:id', () => {
   it('should delete ad', async () => {
     const { headers, user } = await registerTestUser();
-    const ad = await insertData(adTable, createTestAdData(user.id));
-    const { error } = await testApiCall(client.api.ad[':id'].$delete({ param: { id: ad.id } }, { headers }));
-    if (error) return expect(error).toBeNull();
-    const deletedAd = await db.query.adTable.findFirst({ where: eq(adTable.id, ad.id) });
+
+    const testAdForm = createTestAdForm();
+    const { data: ad } = await testApiCall(client.api.ad.$post({ form: testAdForm }, { headers }));
+
+    await testApiCall(client.api.ad[':id'].$delete({ param: { id: ad!.id } }, { headers }));
+
+    const deletedAd = await db.query.adTable.findFirst({ where: eq(adTable.id, ad!.id) });
+    const mediaDir = getAdMediaDir({ root: MEDIA_ROOT_FOLDER, adId: ad!.id, userId: user.id });
+
     expect(deletedAd).toBeUndefined();
+    expect(await fs.exists(mediaDir)).toBeFalsy();
   });
 
   it('should not delete ad if not authenticated', async () => {

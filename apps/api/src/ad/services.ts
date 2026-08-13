@@ -5,6 +5,7 @@ import type { User } from 'better-auth';
 import { and, asc, desc, eq, gt, like, lt, not, or } from 'drizzle-orm';
 import { HTTPException } from 'hono/http-exception';
 
+import { MEDIA_ROOT_FOLDER } from '@/lib/constants';
 import { db } from '@/lib/db';
 import { adImageTable, adTable } from './tables';
 import type { AdSelectType } from './types';
@@ -122,9 +123,19 @@ export async function adFindOneService({ id }: { id: AdSelectType['id'] }) {
 }
 
 export async function adDeleteService({ userId, id }: { userId: User['id']; id: AdSelectType['id'] }) {
-  await db.delete(adTable).where(and(eq(adTable.id, id), eq(adTable.userId, userId)));
+  return await db.transaction(async tx => {
+    await tx.delete(adTable).where(and(eq(adTable.id, id), eq(adTable.userId, userId)));
 
-  return null;
+    const mediaDir = getAdMediaDir({ root: MEDIA_ROOT_FOLDER, adId: id, userId });
+
+    try {
+      await fs.rm(mediaDir, { force: true, recursive: true });
+    } catch (error) {
+      throw new HTTPException(StatusCode.SERVER_ERROR, { message: 'Failed to delete ad.', cause: error });
+    }
+
+    return null;
+  });
 }
 
 export async function adPublishService({ userId, id }: { userId: User['id']; id: AdSelectType['id'] }) {
