@@ -1,7 +1,7 @@
 import type { Route } from 'next';
 import { Trash2Icon } from 'lucide-react';
 import { revalidatePath } from 'next/cache';
-import { headers } from 'next/headers';
+import { headers as getHeaders } from 'next/headers';
 
 import { AdItem } from '@/features/ad/ui/ad-item';
 import { AdDeleteButton } from '@/features/ad-delete';
@@ -12,11 +12,15 @@ import { ErrorComponent } from '@/shared/ui/error-component';
 import { MyAdsList, MyAdsListEmpty } from '@/widgets/my-ads-list';
 
 export default async function Page() {
-  const { data } = await authClient.getSession({ fetchOptions: { headers: await headers() } });
+  const headers = await getHeaders();
+  const { data } = await authClient.getSession({ fetchOptions: { headers: headers } });
   if (!data?.user) return <ErrorComponent status={401} message="Authenticate to see this page." />;
 
   const { data: ads, error } = await apiCall(
-    apiClient.api.ad.$get({ query: { userId: data.user.id, limit: '50', sortBy: 'createdAt', orderBy: 'desc' } }),
+    apiClient.api.ad.$get(
+      { query: { userId: data.user.id, limit: '50', sortBy: 'createdAt', orderBy: 'desc' } },
+      { headers: Object.fromEntries(headers.entries()) },
+    ),
   );
   if (error) return <ErrorComponent {...error} />;
 
