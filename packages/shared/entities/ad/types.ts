@@ -7,7 +7,10 @@ import type { AdCreateSchema, AdFilterSchema } from './schemas';
 export type AdCreateType = z.infer<typeof AdCreateSchema>;
 export type AdFilterType = z.infer<typeof AdFilterSchema>;
 
-export type AdPreviewType = Pick<AdSelectType, 'id' | 'name' | 'breed' | 'type' | 'price' | 'createdAt'> & {
+export type AdPreviewType = Pick<
+  AdSelectType,
+  'id' | 'name' | 'breed' | 'type' | 'price' | 'createdAt' | 'isPublished'
+> & {
   images: Pick<AdImageSelectType, 'url' | 'blurDataUrl'>[];
 };
 

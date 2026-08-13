@@ -77,6 +77,7 @@ export async function adFindManyService(
       name: true,
       price: true,
       type: true,
+      isPublished: true,
     },
     orderBy(fields) {
       const orderFn = orderBy === 'desc' ? desc : asc;
