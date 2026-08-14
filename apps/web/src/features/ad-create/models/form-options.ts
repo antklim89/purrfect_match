@@ -3,7 +3,7 @@ import { AdCreateSchema } from '@purrfect_match/shared/entities/ad/schemas';
 import { formOptions, revalidateLogic } from '@tanstack/react-form';
 import { toast } from 'sonner';
 
-import { apiCall, apiClient } from '@/shared/lib/api-client';
+import { createAd } from '@/shared/api/ads';
 
 export const adCreateFormOptions = formOptions({
   validators: {
@@ -26,11 +26,7 @@ export const adCreateFormOptions = formOptions({
   async onSubmit({ value, formApi, meta }) {
     toast.loading('Updating user data...', { id: formApi.formId });
 
-    const { data, error } = await apiCall(
-      apiClient.api.ad.$post({
-        form: { ...value, price: String(value.price) },
-      }),
-    );
+    const { data, error } = await createAd({ value: { ...value, price: String(value.price) } });
 
     formApi.reset(value);
     if (error) return toast.error('User data update failed', { id: formApi.formId });

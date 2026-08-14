@@ -1,18 +1,9 @@
-import { cache } from 'react';
 import type { Metadata } from 'next';
-import { headers } from 'next/headers';
 import { notFound } from 'next/navigation';
 
 import { ProfileUpdateCard } from '@/features/profile-update';
-import { apiCall, apiClient } from '@/shared/lib/api-client';
+import { getProfile } from '@/shared/api/profiles';
 import { ErrorComponent } from '@/shared/ui/error-component';
-
-const getProfile = cache(async () => {
-  const headersStore = await headers();
-  return await apiCall(
-    apiClient.api.auth['get-profile'].$get(undefined, { headers: Object.fromEntries(headersStore.entries()) }),
-  );
-});
 
 export async function generateMetadata(): Promise<Metadata> {
   const { data, error } = await getProfile();

@@ -6,7 +6,7 @@ import type { AdType } from '@purrfect_match/shared/entities/ad/types';
 import { Trash2Icon } from 'lucide-react';
 import { toast } from 'sonner';
 
-import { apiCall, apiClient } from '@/shared/lib/api-client';
+import { deleteAd } from '@/shared/api/ads';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -28,7 +28,7 @@ export function AdDeleteButton({
   const [isPending, startTransition] = useTransition();
   function handleAdDelete() {
     startTransition(async () => {
-      const { error } = await apiCall(apiClient.api.ad[':id'].$delete({ param: { id } }));
+      const { error } = await deleteAd({ adId: id });
 
       if (error) {
         toast.error('Failed to delete ad');

@@ -6,7 +6,7 @@ import type { AdType } from '@purrfect_match/shared/entities/ad/types';
 import { EyeIcon, EyeOffIcon } from 'lucide-react';
 import { toast } from 'sonner';
 
-import { apiCall, apiClient } from '@/shared/lib/api-client';
+import { publishAd } from '@/shared/api/ads';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -32,7 +32,7 @@ export function AdPublishButton({
 
   function handleAdPublish() {
     startTransition(async () => {
-      const { error } = await apiCall(apiClient.api.ad[':id'].publish.$patch({ param: { id } }));
+      const { error } = await publishAd({ adId: id });
 
       if (error) {
         toast.error('Failed to publish ad');

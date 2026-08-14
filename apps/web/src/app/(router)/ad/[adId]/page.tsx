@@ -1,16 +1,11 @@
-import { cache } from 'react';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { AdDescription, AdImages, AdInfo } from '@/features/ad';
+import { getAd } from '@/shared/api/ads';
 import adCardFallback from '@/shared/assets/ad-card-fallback.jpg';
-import { apiCall, apiClient } from '@/shared/lib/api-client';
 import { ErrorComponent } from '@/shared/ui/error-component';
 import { AdSection } from '@/widgets/ad-section';
-
-const getAd = cache(async ({ id }: { id: string }) => {
-  return await apiCall(apiClient.api.ad[':id'].$get({ param: { id } }));
-});
 
 export async function generateMetadata({ params }: PageProps<'/ad/[adId]'>): Promise<Metadata> {
   'use cache';
