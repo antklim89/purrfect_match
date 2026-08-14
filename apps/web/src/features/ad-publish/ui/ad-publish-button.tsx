@@ -47,7 +47,6 @@ export function AdPublishButton({
   return (
     <AlertDialog actionsRef={actionsRef}>
       <AlertDialogTrigger
-        nativeButton={false}
         render={
           isPublished ? (
             <Button title="Ad is published" aria-label="open publish unpublish this ad dialog">
