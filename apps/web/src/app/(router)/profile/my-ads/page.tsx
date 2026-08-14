@@ -5,6 +5,7 @@ import { headers as getHeaders } from 'next/headers';
 
 import { AdItem } from '@/features/ad/ui/ad-item';
 import { AdDeleteButton } from '@/features/ad-delete';
+import { AdPublishButton } from '@/features/ad-publish';
 import { apiCall, apiClient } from '@/shared/lib/api-client';
 import { authClient } from '@/shared/lib/auth-client';
 import { Button } from '@/shared/ui/button';
@@ -30,19 +31,28 @@ export default async function Page() {
       {ads.data.map(ad => (
         <AdItem
           actionsSlot={
-            <AdDeleteButton
-              id={ad.id}
-              aria-label="delete ad"
-              onDelete={async () => {
-                'use server';
-                revalidatePath('/profile/my-ads' satisfies Route, 'page');
-              }}
-              render={
-                <Button variant="destructive">
-                  <Trash2Icon />
-                </Button>
-              }
-            />
+            <>
+              <AdPublishButton
+                id={ad.id}
+                isPublished={ad.isPublished}
+                onPublish={async () => {
+                  'use server';
+                  revalidatePath('/profile/my-ads' satisfies Route, 'page');
+                }}
+              />
+              <AdDeleteButton
+                id={ad.id}
+                onDelete={async () => {
+                  'use server';
+                  revalidatePath('/profile/my-ads' satisfies Route, 'page');
+                }}
+                render={
+                  <Button variant="destructive">
+                    <Trash2Icon />
+                  </Button>
+                }
+              />
+            </>
           }
           key={ad.id}
           ad={ad}
