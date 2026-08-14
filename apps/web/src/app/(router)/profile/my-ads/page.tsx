@@ -1,4 +1,4 @@
-import type { Route } from 'next';
+import type { Metadata, Route } from 'next';
 import { revalidatePath } from 'next/cache';
 
 import { AdItem } from '@/features/ad/ui/ad-item';
@@ -9,10 +9,9 @@ import { authClient } from '@/shared/lib/auth-client';
 import { ErrorComponent } from '@/shared/ui/error-component';
 import { MyAdsList, MyAdsListEmpty } from '@/widgets/my-ads-list';
 
-async function revalidateAds() {
-  'use server';
-  revalidatePath('/profile/my-ads' satisfies Route, 'page');
-}
+export const metadata: Metadata = {
+  title: 'My Ads',
+};
 
 export default async function Page() {
   const { data } = await authClient.getSession();
@@ -38,4 +37,9 @@ export default async function Page() {
       ))}
     </MyAdsList>
   );
+}
+
+async function revalidateAds() {
+  'use server';
+  revalidatePath('/profile/my-ads' satisfies Route, 'page');
 }
