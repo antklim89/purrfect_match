@@ -10,6 +10,11 @@ import { authClient } from '@/shared/lib/auth-client';
 import { ErrorComponent } from '@/shared/ui/error-component';
 import { MyAdsList, MyAdsListEmpty } from '@/widgets/my-ads-list';
 
+async function revalidateAds() {
+  'use server';
+  revalidatePath('/profile/my-ads' satisfies Route, 'page');
+}
+
 export default async function Page() {
   const headers = await getHeaders();
   const { data } = await authClient.getSession({ fetchOptions: { headers: headers } });
@@ -30,21 +35,8 @@ export default async function Page() {
         <AdItem
           actionsSlot={
             <>
-              <AdPublishButton
-                id={ad.id}
-                isPublished={ad.isPublished}
-                onPublish={async () => {
-                  'use server';
-                  revalidatePath('/profile/my-ads' satisfies Route, 'page');
-                }}
-              />
-              <AdDeleteButton
-                id={ad.id}
-                onDelete={async () => {
-                  'use server';
-                  revalidatePath('/profile/my-ads' satisfies Route, 'page');
-                }}
-              />
+              <AdPublishButton id={ad.id} isPublished={ad.isPublished} onPublish={revalidateAds} />
+              <AdDeleteButton id={ad.id} onDelete={revalidateAds} />
             </>
           }
           key={ad.id}
