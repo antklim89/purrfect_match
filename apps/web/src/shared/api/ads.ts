@@ -1,5 +1,6 @@
 import { cache } from 'react';
 import type { AdCreateType } from '@purrfect_match/shared/entities/ad/types';
+import type { ReadonlyHeaders } from 'next/dist/server/web/spec-extension/adapters/headers';
 
 import { apiCall, apiClient } from '@/shared/lib/api-client';
 import type { FormValues } from '@/shared/lib/types';
@@ -12,16 +13,17 @@ export const getAd = cache(async ({ id }: { id: string }) => {
   return await apiCall(apiClient.api.ad[':id'].$get({ param: { id } }));
 });
 
-export const getMyAds = cache(async ({ userId }: { userId: string }) => {
-  return await apiCall(apiClient.api.ad.$get({ query: { userId, limit: '50', sortBy: 'createdAt', orderBy: 'desc' } }));
+export const getMyAds = cache(async ({ userId, headers }: { userId: string; headers: ReadonlyHeaders }) => {
+  return await apiCall(
+    apiClient.api.ad.$get(
+      { query: { userId, limit: '50', sortBy: 'createdAt', orderBy: 'desc' } },
+      { headers: Object.fromEntries(headers.entries()) },
+    ),
+  );
 });
 
 export const createAd = cache(async ({ value }: { value: FormValues<AdCreateType> }) => {
-  return await apiCall(
-    apiClient.api.ad.$post({
-      form: value,
-    }),
-  );
+  return await apiCall(apiClient.api.ad.$post({ form: value }));
 });
 
 export const deleteAd = cache(async ({ adId }: { adId: string }) => {

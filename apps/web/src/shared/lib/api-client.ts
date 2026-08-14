@@ -5,14 +5,7 @@ import type { StatusCode } from 'hono/utils/http-status';
 
 import { env } from './env';
 
-export const apiClient = hc<AppType>(typeof window === 'undefined' ? env.API_URL : env.WEB_URL, {
-  async headers() {
-    if (typeof window !== 'undefined') return {};
-    const { headers: getHeaders } = await import('next/headers');
-    const headers = await getHeaders();
-    return Object.fromEntries(headers.entries());
-  },
-});
+export const apiClient = hc<AppType>(typeof window === 'undefined' ? env.API_URL : env.WEB_URL);
 
 export async function apiCall<T, U extends number = StatusCode, F extends ResponseFormat = string>(
   fetchRes: Promise<ClientResponse<T, U, F>>,
