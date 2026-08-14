@@ -9,7 +9,6 @@
     "dev:next": "bun next dev -H 0.0.0.0",
     "dev:typecheck": "bun typecheck",
     "build": "run-s build:**",
-    "build:api-typegen": "bun api-typegen",
     "build:next": "bun next build",
     "start": "bun next start",
     "typecheck": "tsc --noEmit -w --preserveWatchOutput -p tsconfig.json",
