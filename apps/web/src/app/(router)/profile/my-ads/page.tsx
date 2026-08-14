@@ -1,5 +1,4 @@
 import type { Route } from 'next';
-import { Trash2Icon } from 'lucide-react';
 import { revalidatePath } from 'next/cache';
 import { headers as getHeaders } from 'next/headers';
 
@@ -8,7 +7,6 @@ import { AdDeleteButton } from '@/features/ad-delete';
 import { AdPublishButton } from '@/features/ad-publish';
 import { apiCall, apiClient } from '@/shared/lib/api-client';
 import { authClient } from '@/shared/lib/auth-client';
-import { Button } from '@/shared/ui/button';
 import { ErrorComponent } from '@/shared/ui/error-component';
 import { MyAdsList, MyAdsListEmpty } from '@/widgets/my-ads-list';
 
@@ -46,11 +44,6 @@ export default async function Page() {
                   'use server';
                   revalidatePath('/profile/my-ads' satisfies Route, 'page');
                 }}
-                render={
-                  <Button variant="destructive">
-                    <Trash2Icon />
-                  </Button>
-                }
               />
             </>
           }

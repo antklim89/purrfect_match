@@ -3,6 +3,7 @@
 import { type ComponentProps, useRef, useTransition } from 'react';
 import type { DialogRootActions } from '@base-ui/react';
 import type { AdType } from '@purrfect_match/shared/entities/ad/types';
+import { Trash2Icon } from 'lucide-react';
 import { toast } from 'sonner';
 
 import { apiCall, apiClient } from '@/shared/lib/api-client';
@@ -15,6 +16,7 @@ import {
   AlertDialogHeader,
   AlertDialogTrigger,
 } from '@/shared/ui/alert-dialog';
+import { Button } from '@/shared/ui/button';
 import { Spinner } from '@/shared/ui/spinner';
 
 export function AdDeleteButton({
@@ -40,7 +42,15 @@ export function AdDeleteButton({
 
   return (
     <AlertDialog actionsRef={actionsRef}>
-      <AlertDialogTrigger aria-label="open delete ad dialog" {...props} />
+      <AlertDialogTrigger
+        aria-label="open delete ad dialog"
+        render={
+          <Button variant="destructive">
+            <Trash2Icon />
+          </Button>
+        }
+        {...props}
+      />
       <AlertDialogContent size="sm">
         <AlertDialogHeader>Are you sure you want delete this ad?</AlertDialogHeader>
         <AlertDialogFooter>
