@@ -1,14 +1,16 @@
 import type { Route } from 'next';
 import { AdCreateSchema } from '@purrfect_match/shared/entities/ad/schemas';
+import { ImagesSchema } from '@purrfect_match/shared/lib/schemas';
 import { formOptions, revalidateLogic } from '@tanstack/react-form';
 import { toast } from 'sonner';
+import { z } from 'zod/v4-mini';
 
 import { createAd } from '@/shared/api/ads';
 
 export const adCreateFormOptions = formOptions({
   validators: {
-    onDynamic: AdCreateSchema,
-    onSubmit: AdCreateSchema,
+    onDynamic: z.object({ ...AdCreateSchema.shape, images: ImagesSchema }),
+    onSubmit: z.object({ ...AdCreateSchema.shape, images: ImagesSchema }),
   },
   validationLogic: revalidateLogic(),
   onSubmitInvalid({ formApi }) {
@@ -20,13 +22,14 @@ export const adCreateFormOptions = formOptions({
     breed: 'Hello',
     description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum, labore?',
     images: [] as File[],
-    isPublished: 'false',
+    isPublished: false,
     price: 499,
   },
   async onSubmit({ value, formApi, meta }) {
     toast.loading('Updating user data...', { id: formApi.formId });
 
-    const { data, error } = await createAd({ value: { ...value, price: String(value.price) } });
+    const { images, ...input } = value;
+    const { data, error } = await createAd({ input, images });
 
     formApi.reset(value);
     if (error) return toast.error('User data update failed', { id: formApi.formId });

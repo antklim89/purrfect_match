@@ -11,7 +11,15 @@ import { adImageTable, adTable } from './tables';
 import type { AdSelectType } from './types';
 import { getAdMediaDir, uploadImages } from './utils';
 
-export async function adCreateService({ userId, input }: { userId: User['id']; input: AdCreateType }) {
+export async function adCreateService({
+  userId,
+  input,
+  images,
+}: {
+  userId: User['id'];
+  input: AdCreateType;
+  images: File[];
+}) {
   const adId = Bun.randomUUIDv7();
 
   try {
@@ -32,7 +40,7 @@ export async function adCreateService({ userId, input }: { userId: User['id']; i
 
       const insertedAdImagesPromise = tx
         .insert(adImageTable)
-        .values(await uploadImages({ images: input.images, userId, adId }))
+        .values(await uploadImages({ images, userId, adId }))
         .returning({ id: adTable.id });
 
       const [insertedAd] = await insertedAdPromise;

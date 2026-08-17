@@ -1,5 +1,5 @@
 import { AdCreateSchema, AdFilterSchema } from '@purrfect_match/shared/entities/ad/schemas';
-import { uuidv7Schema } from '@purrfect_match/shared/lib/schemas';
+import { formDataWithImagesSchema, uuidv7Schema } from '@purrfect_match/shared/lib/schemas';
 import { StatusCode } from '@purrfect_match/shared/lib/status-codes';
 import { Hono } from 'hono';
 import { bodyLimit } from 'hono/body-limit';
@@ -24,13 +24,13 @@ export const adRoute = new Hono()
   .post(
     '/',
     bodyLimit({ maxSize: 10 * 1024 * 1024 }),
-    schemaMiddleware('form', AdCreateSchema),
+    schemaMiddleware('form', formDataWithImagesSchema(AdCreateSchema)),
     authMiddleware,
     async c => {
       const user = c.get('user');
-      const input = c.req.valid('form');
+      const { input, images } = c.req.valid('form');
 
-      const result = await adCreateService({ userId: user.id, input });
+      const result = await adCreateService({ userId: user.id, input, images });
       return c.json(result, StatusCode.CREATED);
     },
   )

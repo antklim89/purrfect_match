@@ -3,7 +3,6 @@ import type { AdCreateType } from '@purrfect_match/shared/entities/ad/types';
 import type { ReadonlyHeaders } from 'next/dist/server/web/spec-extension/adapters/headers';
 
 import { apiCall, apiClient } from '@/shared/lib/api-client';
-import type { FormValues } from '@/shared/lib/types';
 
 export const getNewAds = cache(async () => {
   return await apiCall(apiClient.api.ad.$get({ query: { limit: '6', sortBy: 'createdAt', orderBy: 'desc' } }));
@@ -22,8 +21,8 @@ export const getMyAds = cache(async ({ userId, headers }: { userId: string; head
   );
 });
 
-export const createAd = cache(async ({ value }: { value: FormValues<AdCreateType> }) => {
-  return await apiCall(apiClient.api.ad.$post({ form: value }));
+export const createAd = cache(async ({ input, images }: { input: AdCreateType; images: File[] }) => {
+  return await apiCall(apiClient.api.ad.$post({ form: { input: JSON.stringify(input), images } }));
 });
 
 export const deleteAd = cache(async ({ adId }: { adId: string }) => {

@@ -1,5 +1,6 @@
 import * as fs from 'node:fs/promises';
 import { ADS_SORT_BY } from '@purrfect_match/shared/entities/ad/config';
+import type { AdCreateType } from '@purrfect_match/shared/entities/ad/types';
 import { eq } from 'drizzle-orm';
 import { testClient } from 'hono/testing';
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
@@ -16,19 +17,17 @@ import { createTestAdData } from '../test/test-data';
 
 const client = testClient(app);
 
-const file1 = await Bun.file('./src/test/images/placeholder-1.jpg').arrayBuffer();
+const images = [new File([await Bun.file('./src/test/images/placeholder-1.jpg').arrayBuffer()], 'file1.jpg')];
 
-function createTestAdForm() {
-  return {
-    name: 'Coco',
-    type: 'Parrot',
-    breed: 'Cockatoo',
-    description: 'A very nice parrot!!!',
-    images: [new File([file1], 'file1.jpg')],
-    price: '499.99',
-    isPublished: 'false',
-  };
-}
+const adCreateTestData: AdCreateType = {
+  name: 'Coco',
+  type: 'Parrot',
+  breed: 'Cockatoo',
+  description: 'A very nice parrot!!!',
+  price: 499.99,
+  isPublished: false,
+};
+
 beforeAll(async () => {
   await fs.rm(MEDIA_ROOT_FOLDER, { force: true, recursive: true });
 });
@@ -37,8 +36,9 @@ describe('[DELETE] /api/ad/:id', () => {
   it('should delete ad', async () => {
     const { headers, user } = await registerTestUser();
 
-    const testAdForm = createTestAdForm();
-    const { data: ad } = await testApiCall(client.api.ad.$post({ form: testAdForm }, { headers }));
+    const { data: ad } = await testApiCall(
+      client.api.ad.$post({ form: { input: JSON.stringify(adCreateTestData), images } }, { headers }),
+    );
 
     await testApiCall(client.api.ad[':id'].$delete({ param: { id: ad!.id } }, { headers }));
 
@@ -91,18 +91,19 @@ describe('[DELETE] /api/ad/:id', () => {
 describe('[POST] /api/ad', () => {
   it('should create ad', async () => {
     const { headers, user } = await registerTestUser();
-    const testAdForm = createTestAdForm();
 
-    const { data, error } = await testApiCall(client.api.ad.$post({ form: testAdForm }, { headers }));
+    const { data, error } = await testApiCall(
+      client.api.ad.$post({ form: { input: JSON.stringify(adCreateTestData), images } }, { headers }),
+    );
     if (error) return expect(error).toBeNull();
 
     const createdAd = (await db.query.adTable.findFirst({ where: eq(adTable.id, data.id), with: { images: true } }))!;
 
     expect(createdAd).toHaveProperty('id');
-    expect(createdAd).toHaveProperty('name', testAdForm.name);
-    expect(createdAd).toHaveProperty('description', testAdForm.description);
-    expect(createdAd).toHaveProperty('breed', testAdForm.breed);
-    expect(createdAd).toHaveProperty('type', testAdForm.type);
+    expect(createdAd).toHaveProperty('name', adCreateTestData.name);
+    expect(createdAd).toHaveProperty('description', adCreateTestData.description);
+    expect(createdAd).toHaveProperty('breed', adCreateTestData.breed);
+    expect(createdAd).toHaveProperty('type', adCreateTestData.type);
     expect(createdAd).toHaveProperty('price', 499.99);
     expect(createdAd).toHaveProperty('createdAt');
     expect(createdAd).toHaveProperty('userId', user.id);
@@ -120,8 +121,9 @@ describe('[POST] /api/ad', () => {
   });
 
   it('should not create ad if not authenticated', async () => {
-    const testAdForm = createTestAdForm();
-    const { data, error } = await testApiCall(client.api.ad.$post({ form: testAdForm }));
+    const { data, error } = await testApiCall(
+      client.api.ad.$post({ form: { input: JSON.stringify(adCreateTestData), images } }),
+    );
 
     if (data) return expect(data).toBeNull();
 
@@ -130,10 +132,12 @@ describe('[POST] /api/ad', () => {
 
   it('should not create ad if not valid input', async () => {
     const { headers } = await registerTestUser();
-    const testAdForm = createTestAdForm();
-    // @ts-expect-error
-    delete testAdForm.breed;
-    const { data, error } = await testApiCall(client.api.ad.$post({ form: testAdForm }, { headers }));
+    const { data, error } = await testApiCall(
+      client.api.ad.$post(
+        { form: { input: JSON.stringify({ ...adCreateTestData, breed: undefined }), images } },
+        { headers },
+      ),
+    );
 
     if (data) return expect(data).toBeNull();
 
@@ -142,9 +146,9 @@ describe('[POST] /api/ad', () => {
 
   it('should not create ad without images', async () => {
     const { headers } = await registerTestUser();
-    const testAdForm = createTestAdForm();
-    testAdForm.images = [];
-    const { data, error } = await testApiCall(client.api.ad.$post({ form: testAdForm }, { headers }));
+    const { data, error } = await testApiCall(
+      client.api.ad.$post({ form: { input: JSON.stringify(adCreateTestData), images: [] } }, { headers }),
+    );
 
     if (data) return expect(data).toBeNull();
 
