@@ -1,5 +1,6 @@
 import { ProfileUpdateSchema } from '@purrfect_match/shared/entities/auth/schema';
-import type { ProfileUpdateType, UserMessengerType } from '@purrfect_match/shared/entities/auth/types';
+import type { ProfileUpdateType } from '@purrfect_match/shared/entities/auth/types';
+import type { ContactType } from '@purrfect_match/shared/entities/contact/types';
 import { toast } from 'sonner';
 import { z } from 'zod/v4-mini';
 
@@ -12,7 +13,7 @@ export const profileUpdateFormOptions = createFormOptions({
     address: '',
     description: '',
     fullName: '',
-    messengers: [] as UserMessengerType[],
+    contacts: [] as ContactType[],
   },
   async onSubmit({ value, formApi }) {
     const changedValues: Partial<ProfileUpdateType> = Object.fromEntries(

@@ -14,7 +14,7 @@ export function ProfileUpdateCard({ user }: { user: ProfileType }) {
       address: user.address ?? profileUpdateFormOptions.defaultValues.address,
       description: user.description ?? profileUpdateFormOptions.defaultValues.description,
       fullName: user.fullName ?? profileUpdateFormOptions.defaultValues.fullName,
-      messengers: user.messengers ?? profileUpdateFormOptions.defaultValues.messengers,
+      contacts: user.contacts ?? profileUpdateFormOptions.defaultValues.contacts,
     },
   });
 

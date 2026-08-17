@@ -1,4 +1,4 @@
-import type { UserMessengerType } from '@purrfect_match/shared/entities/auth/types';
+import type { ContactType } from '@purrfect_match/shared/entities/contact/types';
 import { relations } from 'drizzle-orm';
 import { boolean, index, jsonb, pgTable, text, timestamp } from 'drizzle-orm/pg-core';
 
@@ -81,7 +81,7 @@ export const profileTable = pgTable('profile', {
     .notNull(),
   fullName: text('full_name'),
   tel: text('tel').array(),
-  messengers: jsonb('messengers').$type<UserMessengerType[]>(),
+  contacts: jsonb('contacts').$type<ContactType[]>(),
   address: text('address'),
   description: text('description'),
 });

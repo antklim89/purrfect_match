@@ -13,7 +13,7 @@ const testProfile = {
   address: 'Address',
   description: 'Lorem ipsum',
   fullName: 'Foo Bar',
-  messengers: [{ messenger: 'phone', number: '7 (555) 555-55-55' }],
+  contacts: [{ type: 'phone', number: '7 (555) 555-55-55' }],
 };
 
 describe('[GET] /api/auth/get-profile', () => {

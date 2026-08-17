@@ -1,4 +1,4 @@
-import { userMessengers } from '@purrfect_match/shared/entities/auth/config';
+import { contacts } from '@purrfect_match/shared/entities/contact/config';
 import { Trash2Icon } from 'lucide-react';
 
 import { useTypedAppFormContext } from '@/shared/lib/form';
@@ -42,13 +42,13 @@ export function ProfileUpdateForm() {
         )}
       </form.AppField>
 
-      <form.AppField name="messengers" mode="array">
+      <form.AppField name="contacts" mode="array">
         {field => (
           <field.FormArray label="Phone or Messenger Numbers">
             {field.state.value.map((_, index) => (
               <Field key={index}>
                 <InputGroup>
-                  <form.AppField name={`messengers[${index}].number`}>
+                  <form.AppField name={`contacts[${index}].number`}>
                     {subfield => (
                       <InputGroupInput
                         id={field.form.formId + index}
@@ -58,8 +58,8 @@ export function ProfileUpdateForm() {
                     )}
                   </form.AppField>
                   <InputGroupAddon align="inline-start">
-                    <form.AppField name={`messengers[${index}].messenger`}>
-                      {subfield => <subfield.FormSelect items={userMessengers} />}
+                    <form.AppField name={`contacts[${index}].type`}>
+                      {subfield => <subfield.FormSelect items={contacts} />}
                     </form.AppField>
                   </InputGroupAddon>
                   <InputGroupAddon align="inline-end">
@@ -68,14 +68,14 @@ export function ProfileUpdateForm() {
                     </InputGroupButton>
                   </InputGroupAddon>
                 </InputGroup>
-                <form.AppField name={`messengers[${index}].number`}>
+                <form.AppField name={`contacts[${index}].number`}>
                   {subfield => <FieldError errors={subfield.state.meta.errors} />}
                 </form.AppField>
               </Field>
             ))}
 
-            <Button variant="outline" onClick={() => field.pushValue({ messenger: 'phone', number: '' })}>
-              Add Phone Number
+            <Button variant="outline" onClick={() => field.pushValue({ type: 'phone', number: '' })}>
+              Add Contact
             </Button>
           </field.FormArray>
         )}

@@ -1,4 +1,4 @@
-export const userMessengers = [
+export const contacts = [
   { label: 'Phone', value: 'phone' },
   { label: 'WhatsApp', value: 'whatsapp' },
   { label: 'Telegram', value: 'telegram' },
