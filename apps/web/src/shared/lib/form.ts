@@ -7,7 +7,16 @@ import {
   type StandardSchemaV1,
 } from '@tanstack/react-form';
 
-import { Form, FormFileInput, FormInput, FormNumberInput, FormSubmitButton, FormTextarea } from '@/shared/ui/form';
+import {
+  Form,
+  FormArray,
+  FormFileInput,
+  FormInput,
+  FormNumberInput,
+  FormSelect,
+  FormSubmitButton,
+  FormTextarea,
+} from '@/shared/ui/form';
 
 export const { fieldContext, formContext, useFieldContext, useFormContext } = createFormHookContexts();
 export const { useAppForm, withForm, useTypedAppFormContext } = createFormHook({
@@ -18,6 +27,8 @@ export const { useAppForm, withForm, useTypedAppFormContext } = createFormHook({
     FormTextarea,
     FormNumberInput,
     FormFileInput,
+    FormArray,
+    FormSelect,
   },
   formComponents: {
     Form,

@@ -1,12 +1,13 @@
-import type { ComponentProps } from 'react';
+import type { ComponentProps, ReactNode } from 'react';
 import { Trash2Icon, XIcon } from 'lucide-react';
 import Image from 'next/image';
 import { z } from 'zod/v4-mini';
 
 import { Button, buttonVariants } from './button';
-import { Field, FieldError, FieldLabel } from './field';
+import { Field, FieldError, FieldLabel, FieldSet } from './field';
 import { Input } from './input';
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput, InputGroupTextarea } from './input-group';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from './select';
 import { Spinner } from './spinner';
 import { useFieldContext, useFormContext } from '../lib/form';
 import { cn } from '../lib/utils';
@@ -190,5 +191,48 @@ export function FormSubmitButton({
         </Button>
       )}
     </form.Subscribe>
+  );
+}
+
+export function FormArray({ label, children }: { label?: string; children: ReactNode }) {
+  const field = useFieldContext<unknown[]>();
+
+  return (
+    <FieldSet className="flex flex-col gap-2">
+      <FieldLabel htmlFor={field.form.formId + (field.state.value.length - 1)}>{label}</FieldLabel>
+      {children}
+      <FieldError errors={field.state.meta.errors} />
+    </FieldSet>
+  );
+}
+
+export function FormSelect<T extends { label: React.ReactNode; value: unknown }>({
+  items,
+}: {
+  items: ReadonlyArray<T>;
+}) {
+  const field = useFieldContext<T>();
+
+  const firstItem = items[0];
+  if (!firstItem) return null;
+  return (
+    <Select
+      onValueChange={v => field.handleChange(v ?? firstItem)}
+      items={items}
+      value={field.state.value || firstItem.value}
+    >
+      <SelectTrigger className="-ml-1 ">
+        <SelectValue placeholder="Messenger" />
+      </SelectTrigger>
+      <SelectContent alignItemWithTrigger>
+        <SelectGroup>
+          {items.map(item => (
+            <SelectItem key={item.value as string} value={item.value}>
+              {item.label}
+            </SelectItem>
+          ))}
+        </SelectGroup>
+      </SelectContent>
+    </Select>
   );
 }
