@@ -34,6 +34,7 @@ export async function adCreateService({
           price: input.price,
           isPublished: input.isPublished,
           type: input.type,
+          contacts: input.contacts,
           userId,
         })
         .returning({ id: adTable.id });

@@ -1,5 +1,6 @@
+import type { ContactType } from '@purrfect_match/shared/entities/contact/types';
 import { relations, sql } from 'drizzle-orm';
-import { boolean, numeric, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
+import { boolean, jsonb, numeric, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
 
 import { userTable } from '@/auth/tables';
 
@@ -11,6 +12,7 @@ export const adTable = pgTable('ad', {
   breed: text('breed').notNull(),
   type: text().notNull(),
   price: numeric({ precision: 10, scale: 2, mode: 'number' }).notNull(),
+  contacts: jsonb('contacts').$type<ContactType[]>(),
   userId: text('user_id')
     .notNull()
     .references(() => userTable.id, { onDelete: 'cascade' }),

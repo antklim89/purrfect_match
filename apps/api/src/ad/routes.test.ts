@@ -26,6 +26,7 @@ const adCreateTestData: AdCreateType = {
   description: 'A very nice parrot!!!',
   price: 499.99,
   isPublished: false,
+  contacts: [{ type: 'phone', number: '7 (555) 555 55 55' }],
 };
 
 beforeAll(async () => {
@@ -104,6 +105,7 @@ describe('[POST] /api/ad', () => {
     expect(createdAd).toHaveProperty('description', adCreateTestData.description);
     expect(createdAd).toHaveProperty('breed', adCreateTestData.breed);
     expect(createdAd).toHaveProperty('type', adCreateTestData.type);
+    expect(createdAd).toHaveProperty('contacts', adCreateTestData.contacts);
     expect(createdAd).toHaveProperty('price', 499.99);
     expect(createdAd).toHaveProperty('createdAt');
     expect(createdAd).toHaveProperty('userId', user.id);
