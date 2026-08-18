@@ -9,7 +9,7 @@ export const AdCreateSchema = z.object({
   price: z.number().check(z.minimum(0), z.maximum(9000000)),
   description: z.string().check(z.minLength(10), z.maxLength(40000)),
   breed: z.string().check(z.minLength(2), z.maxLength(500)),
-  contacts: z.optional(ContactArraySchema),
+  contacts: ContactArraySchema,
   isPublished: z.boolean(),
 });
 

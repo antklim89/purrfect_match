@@ -1,5 +1,6 @@
 import type { Route } from 'next';
 import { AdCreateSchema } from '@purrfect_match/shared/entities/ad/schemas';
+import type { ContactType } from '@purrfect_match/shared/entities/contact/types';
 import { ImagesSchema } from '@purrfect_match/shared/lib/schemas';
 import { formOptions, revalidateLogic } from '@tanstack/react-form';
 import { toast } from 'sonner';
@@ -17,12 +18,13 @@ export const adCreateFormOptions = formOptions({
     console.error('Form Submit Error:\n', formApi.state.values, formApi.state.errors);
   },
   defaultValues: {
-    name: 'Lorem',
-    type: 'Cat',
-    breed: 'Hello',
-    description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum, labore?',
+    name: '',
+    type: '',
+    breed: '',
+    description: '',
     images: [] as File[],
     isPublished: false,
+    contacts: [] as ContactType[],
     price: 499,
   },
   async onSubmit({ value, formApi, meta }) {
