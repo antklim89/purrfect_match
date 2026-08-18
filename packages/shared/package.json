@@ -1,8 +1,5 @@
 {
   "name": "@purrfect_match/shared",
   "version": "0.0.1",
-  "private": true,
-  "dependencies": {
-    "@purrfect_match/api": "workspace:*"
-  }
+  "private": true
 }
