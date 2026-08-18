@@ -2,6 +2,8 @@ import type { AdType } from '@purrfect_match/shared/entities/ad/types';
 
 import { formatDate, formatPrice } from '@/shared/lib/utils';
 import { Card, CardContent, CardFooter, CardHeader } from '@/shared/ui/card';
+import { ItemGroup } from '@/shared/ui/item';
+import { AdContact } from './ad-contact';
 
 export function AdInfo({ ad }: { ad: AdType }) {
   return (
@@ -18,7 +20,13 @@ export function AdInfo({ ad }: { ad: AdType }) {
           by {ad.user.name} at {formatDate(ad.createdAt)}
         </p>
       </CardHeader>
-      <CardContent className="h-full"></CardContent>
+      <CardContent className="h-full">
+        <ItemGroup>
+          {ad.contacts?.map(contact => (
+            <AdContact contact={contact} key={contact.type + contact.number} />
+          ))}
+        </ItemGroup>
+      </CardContent>
       <CardFooter>
         <p className="w-full text-end text-4xl">{formatPrice(ad.price)}</p>
       </CardFooter>
