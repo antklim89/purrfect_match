@@ -1,7 +1,7 @@
 import { z } from 'zod/v4-mini';
 
-import { ADS_SORT_BY, MAX_ADS_LIMIT } from './config';
-import { ContactArraySchema } from '../contact/schema';
+import { ADS_SORT_BY, MAX_ADS_LIMIT } from './constants';
+import { ContactArraySchema } from '../contact/schemas';
 
 export const AdCreateSchema = z.object({
   name: z.string().check(z.minLength(2), z.maxLength(500)),

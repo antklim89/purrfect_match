@@ -1,4 +1,4 @@
-import { SignInSchema, SignUpSchema } from '@purrfect_match/shared/entities/auth/schema';
+import { SignInSchema, SignUpSchema } from '@purrfect_match/shared/entities/auth/schemas';
 import { BASE_ERROR_CODES } from 'better-auth';
 import { toast } from 'sonner';
 

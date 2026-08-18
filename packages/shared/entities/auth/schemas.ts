@@ -1,6 +1,6 @@
 import { z } from 'zod/v4-mini';
 
-import { ContactArraySchema } from '../contact/schema';
+import { ContactArraySchema } from '../contact/schemas';
 
 export const ProfileUpdateSchema = z.object({
   fullName: z.optional(z.string().check(z.maxLength(300))),

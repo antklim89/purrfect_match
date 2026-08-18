@@ -1,4 +1,4 @@
-import { ProfileUpdateSchema } from '@purrfect_match/shared/entities/auth/schema';
+import { ProfileUpdateSchema } from '@purrfect_match/shared/entities/auth/schemas';
 import type { ProfileUpdateType } from '@purrfect_match/shared/entities/auth/types';
 import type { ContactType } from '@purrfect_match/shared/entities/contact/types';
 import { toast } from 'sonner';

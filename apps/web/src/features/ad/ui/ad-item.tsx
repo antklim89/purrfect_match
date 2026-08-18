@@ -1,6 +1,6 @@
 'use client';
 import type { ReactNode } from 'react';
-import { AD_IMAGE_HEIGHT, AD_IMAGE_WIDTH } from '@purrfect_match/shared/entities/ad/config';
+import { AD_IMAGE_HEIGHT, AD_IMAGE_WIDTH } from '@purrfect_match/shared/entities/ad/constants';
 import type { AdPreviewType } from '@purrfect_match/shared/entities/ad/types';
 import Image from 'next/image';
 import Link from 'next/link';
