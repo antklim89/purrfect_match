@@ -22,7 +22,7 @@ export function ProfileUpdateCard({ user }: { user: ProfileType }) {
     <form.AppForm>
       <Card>
         <CardHeader>
-          <CardTitle className="text-2xl font-bold">{user.fullName || 'User'}'s Profile</CardTitle>
+          <CardTitle className="text-2xl font-bold">User's Profile</CardTitle>
         </CardHeader>
         <CardContent>
           <ProfileUpdateForm />
