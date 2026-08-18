@@ -1,9 +1,9 @@
+import { SignInSchema, SignUpSchema } from '@purrfect_match/shared/entities/auth/schema';
 import { BASE_ERROR_CODES } from 'better-auth';
 import { toast } from 'sonner';
 
 import { authClient } from '@/shared/lib/auth-client';
 import { createFormOptions } from '@/shared/lib/form';
-import { SignInSchema, SignUpSchema } from './schema';
 
 export const signInOptions = createFormOptions({
   schema: SignInSchema,
@@ -41,7 +41,7 @@ export const signUpOptions = createFormOptions({
     const backHref = new URLSearchParams(location.search).get('back') || '/';
 
     toast.loading('Signing up...', { id: formApi.formId });
-    const { error } = await authClient.signUp.email({ email: value.email, password: value.password, name: '' });
+    const { error } = await authClient.signUp.email({ email: value.email, password: value.password, name: value.name });
 
     if (error?.code === BASE_ERROR_CODES.USER_ALREADY_EXISTS_USE_ANOTHER_EMAIL.code) {
       return toast.error(error.message, { id: formApi.formId });

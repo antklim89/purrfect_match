@@ -1,3 +1,4 @@
+import { CreateUserSchema } from '@purrfect_match/shared/entities/auth/schema';
 import { betterAuth } from 'better-auth';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 import { testUtils } from 'better-auth/plugins';
@@ -28,4 +29,16 @@ export const auth = betterAuth({
     schema: { user: userTable, account: accountTable, session: sessionTable, verification: verificationTable },
   }),
   plugins: [testUtils()],
+  databaseHooks: {
+    user: {
+      create: {
+        async before(user) {
+          const { success, error } = await CreateUserSchema.safeParseAsync(user);
+          if (success) return;
+          console.error('User Create Error:\n', error.message);
+          return false;
+        },
+      },
+    },
+  },
 });
