@@ -7,6 +7,19 @@ import { env } from './env';
 
 export const apiClient = hc<AppType>(typeof window === 'undefined' ? env.API_URL : env.WEB_URL);
 
+export const apiSessionClient = hc<AppType>(
+  typeof window === 'undefined' ? env.API_URL : env.WEB_URL,
+  typeof window === 'undefined'
+    ? {
+        async headers() {
+          const { headers: getHeaders } = await import('next/headers');
+          const headers = await getHeaders();
+          return Object.fromEntries(headers.entries());
+        },
+      }
+    : undefined,
+);
+
 export async function apiCall<T, U extends number = StatusCode, F extends ResponseFormat = string>(
   fetchRes: Promise<ClientResponse<T, U, F>>,
 ) {

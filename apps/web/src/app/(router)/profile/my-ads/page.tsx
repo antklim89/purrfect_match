@@ -1,6 +1,5 @@
 import type { Metadata, Route } from 'next';
 import { revalidatePath } from 'next/cache';
-import { headers } from 'next/headers';
 
 import { AdItem } from '@/features/ad/ui/ad-item';
 import { AdDeleteButton } from '@/features/ad-delete';
@@ -18,7 +17,7 @@ export default async function Page() {
   const { data } = await authClient.getSession();
   if (!data?.user) return <ErrorComponent status={401} message="Authenticate to see this page." />;
 
-  const { data: ads, error } = await getMyAds({ userId: data.user.id, headers: await headers() });
+  const { data: ads, error } = await getMyAds({ userId: data.user.id });
   if (error) return <ErrorComponent {...error} />;
 
   if (ads.data.length === 0) return <MyAdsListEmpty />;

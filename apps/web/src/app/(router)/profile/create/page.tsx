@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import { headers } from 'next/headers';
 import { notFound } from 'next/navigation';
 
 import { AdCreateCard } from '@/features/ad-create';
@@ -11,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 export default async function Page() {
-  const { data, error } = await getProfile({ headers: await headers() });
+  const { data, error } = await getProfile();
   if (error?.status === 404) notFound();
   if (error) return <ErrorComponent {...error} />;
   return <AdCreateCard profile={data} />;
