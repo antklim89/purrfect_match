@@ -1,5 +1,6 @@
 'use client';
 
+import type { ProfileType } from '@purrfect_match/shared/entities/auth/types';
 import { useRouter } from 'next/navigation';
 
 import { useAppForm } from '@/shared/lib/form';
@@ -7,9 +8,16 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/shared/u
 import { AdCreateForm } from './ad-create-form';
 import { adCreateFormOptions } from '../models/form-options';
 
-export function AdCreateCard() {
+export function AdCreateCard({ profile }: { profile: ProfileType }) {
   const router = useRouter();
-  const form = useAppForm({ ...adCreateFormOptions, onSubmitMeta: { replace: router.replace } });
+  const form = useAppForm({
+    ...adCreateFormOptions,
+    onSubmitMeta: { replace: router.replace },
+    defaultValues: {
+      ...adCreateFormOptions.defaultValues,
+      contacts: profile.contacts || adCreateFormOptions.defaultValues.contacts,
+    },
+  });
 
   return (
     <form.AppForm>
