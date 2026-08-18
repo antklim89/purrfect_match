@@ -1,4 +1,4 @@
-import { CreateUserSchema } from '@purrfect_match/shared/entities/auth/schema';
+import { CreateUserSchema } from '@purrfect_match/shared/entities/auth/schemas';
 import { betterAuth } from 'better-auth';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 import { testUtils } from 'better-auth/plugins';

@@ -1,5 +1,5 @@
 import * as fs from 'node:fs/promises';
-import { ADS_SORT_BY } from '@purrfect_match/shared/entities/ad/config';
+import { ADS_SORT_BY } from '@purrfect_match/shared/entities/ad/constants';
 import type { AdCreateType } from '@purrfect_match/shared/entities/ad/types';
 import { eq } from 'drizzle-orm';
 import { testClient } from 'hono/testing';

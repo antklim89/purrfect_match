@@ -25,7 +25,7 @@ export const adCreateFormOptions = formOptions({
     images: [] as File[],
     isPublished: false,
     contacts: [] as ContactType[],
-    price: 499,
+    price: 0,
   },
   async onSubmit({ value, formApi, meta }) {
     toast.loading('Updating user data...', { id: formApi.formId });

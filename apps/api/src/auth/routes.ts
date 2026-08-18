@@ -1,4 +1,4 @@
-import { ProfileUpdateSchema } from '@purrfect_match/shared/entities/auth/schema';
+import { ProfileUpdateSchema } from '@purrfect_match/shared/entities/auth/schemas';
 import { StatusCode } from '@purrfect_match/shared/lib/status-codes';
 import { Hono } from 'hono';
 
