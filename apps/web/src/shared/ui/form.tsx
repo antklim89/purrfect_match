@@ -155,7 +155,7 @@ export function FormTextarea({
   );
 }
 
-export function Form({ onSubmit, children, className, ...props }: ComponentProps<'form'>) {
+export function Form({ children, className, ...props }: ComponentProps<'form'>) {
   const form = useFormContext();
 
   return (

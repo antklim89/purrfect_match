@@ -1,6 +1,8 @@
 'use client';
-import type { ProfileType } from '@purrfect_match/shared/entities/auth/types';
+import type { ProfileType, ProfileUpdateType } from '@purrfect_match/shared/entities/auth/types';
+import { toast } from 'sonner';
 
+import { apiCall, apiClient } from '@/shared/lib/api-client';
 import { useAppForm } from '@/shared/lib/form';
 import { Button } from '@/shared/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/shared/ui/card';
@@ -15,6 +17,19 @@ export function ProfileUpdateCard({ user }: { user: ProfileType }) {
       description: user.description ?? profileUpdateFormOptions.defaultValues.description,
       fullName: user.fullName ?? profileUpdateFormOptions.defaultValues.fullName,
       contacts: user.contacts ?? profileUpdateFormOptions.defaultValues.contacts,
+    },
+    async onSubmit({ value, formApi }) {
+      const changedValues: Partial<ProfileUpdateType> = Object.fromEntries(
+        Object.entries(value).filter(([key]) => !formApi.getFieldMeta(key as keyof typeof value)?.isDefaultValue),
+      );
+
+      if (formApi.state.isPristine) return;
+      toast.loading('Updating user data...', { id: formApi.formId });
+      const { error } = await apiCall(apiClient.api.auth['update-profile'].$post({ json: changedValues }));
+
+      formApi.reset(value);
+      if (error) toast.success('User data update failed', { id: formApi.formId });
+      toast.success('User data updated successfully', { id: formApi.formId });
     },
   });
 

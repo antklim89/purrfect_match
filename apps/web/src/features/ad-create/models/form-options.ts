@@ -1,22 +1,12 @@
-import type { Route } from 'next';
 import { AdCreateSchema } from '@purrfect_match/shared/entities/ad/schemas';
 import type { ContactType } from '@purrfect_match/shared/entities/contact/types';
 import { ImagesSchema } from '@purrfect_match/shared/lib/schemas';
-import { formOptions, revalidateLogic } from '@tanstack/react-form';
-import { toast } from 'sonner';
 import { z } from 'zod/v4-mini';
 
-import { createAd } from '@/shared/api/ads';
+import { createFormOptions } from '@/shared/lib/form';
 
-export const adCreateFormOptions = formOptions({
-  validators: {
-    onDynamic: z.object({ ...AdCreateSchema.shape, images: ImagesSchema }),
-    onSubmit: z.object({ ...AdCreateSchema.shape, images: ImagesSchema }),
-  },
-  validationLogic: revalidateLogic(),
-  onSubmitInvalid({ formApi }) {
-    console.error('Form Submit Error:\n', formApi.state.values, formApi.state.errors);
-  },
+export const adCreateFormOptions = createFormOptions({
+  schema: z.object({ ...AdCreateSchema.shape, images: ImagesSchema }),
   defaultValues: {
     name: '',
     type: '',
@@ -26,20 +16,5 @@ export const adCreateFormOptions = formOptions({
     isPublished: false,
     contacts: [] as ContactType[],
     price: 0,
-  },
-  async onSubmit({ value, formApi, meta }) {
-    toast.loading('Updating user data...', { id: formApi.formId });
-
-    const { images, ...input } = value;
-    const { data, error } = await createAd({ input, images });
-
-    formApi.reset(value);
-    if (error) return toast.error('User data update failed', { id: formApi.formId });
-    toast.success('User data updated successfully', { id: formApi.formId });
-
-    meta.replace(`/ad/${data.id}` as Route);
-  },
-  onSubmitMeta: {
-    replace: (() => null) as (path: Route) => void,
   },
 });

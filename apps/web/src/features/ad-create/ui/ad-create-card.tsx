@@ -2,7 +2,9 @@
 
 import type { ProfileType } from '@purrfect_match/shared/entities/auth/types';
 import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
+import { createAd } from '@/shared/api/ads';
 import { useAppForm } from '@/shared/lib/form';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/shared/ui/card';
 import { AdCreateForm } from './ad-create-form';
@@ -12,10 +14,21 @@ export function AdCreateCard({ profile }: { profile: ProfileType }) {
   const router = useRouter();
   const form = useAppForm({
     ...adCreateFormOptions,
-    onSubmitMeta: { replace: router.replace },
     defaultValues: {
       ...adCreateFormOptions.defaultValues,
       contacts: profile.contacts || adCreateFormOptions.defaultValues.contacts,
+    },
+    async onSubmit({ value, formApi }) {
+      toast.loading('Updating user data...', { id: formApi.formId });
+
+      const { images, ...input } = value;
+      const { data, error } = await createAd({ input, images });
+      if (error) return toast.error(error.message, { id: formApi.formId });
+
+      formApi.reset(value);
+      toast.success('User data updated successfully', { id: formApi.formId });
+
+      router.replace(`/ad/${data.id}`);
     },
   });
 
@@ -36,7 +49,11 @@ export function AdCreateCard({ profile }: { profile: ProfileType }) {
           >
             Create And Publish
           </form.FormSubmitButton>
-          <form.FormSubmitButton onClick={() => form.setFieldValue('isPublished', false)} className="grow">
+          <form.FormSubmitButton
+            variant="default"
+            onClick={() => form.setFieldValue('isPublished', false)}
+            className="grow"
+          >
             Create
           </form.FormSubmitButton>
         </CardFooter>
