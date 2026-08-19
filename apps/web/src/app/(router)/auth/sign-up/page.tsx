@@ -1,13 +1,13 @@
 import type { Metadata } from 'next';
 
-import { AuthCard } from '@/features/auth';
+import { SignUpCard } from '@/features/auth';
 
 export const metadata: Metadata = {
   title: 'Sign Up',
 };
 
 async function Page() {
-  return <AuthCard type="signUp" />;
+  return <SignUpCard />;
 }
 
 export default Page;
