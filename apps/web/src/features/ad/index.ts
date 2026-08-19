@@ -1,7 +1,10 @@
 export { AdCard } from './ui/ad-card';
 export { AdDescription } from './ui/ad-description';
+export { AdDescriptionFallback } from './ui/ad-description-fallback';
 export { AdImages } from './ui/ad-images';
+export { AdImagesFallback } from './ui/ad-images-fallback';
 export { AdInfo } from './ui/ad-info';
+export { AdInfoFallback } from './ui/ad-info-fallback';
 export { AdItem } from './ui/ad-item';
 export { AdItemFallback } from './ui/ad-item-fallback';
 export { AdList } from './ui/ad-list';
