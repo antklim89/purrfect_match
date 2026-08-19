@@ -17,7 +17,7 @@ export function HeaderAuth({ className, ...props }: { className?: string } & Com
   }
   if (data?.session) {
     return (
-      <Link className={className} {...props} href="/profile">
+      <Link className={className} {...props} href="/profile/info">
         Profile
       </Link>
     );

@@ -8,7 +8,7 @@ export function ProfileLayout({ children }: { children: ReactNode }) {
   return (
     <div className="container my-8 flex gap-4 flex-col md:flex-row">
       <div className="flex flex-wrap md:flex-col gap-2 *:grow *:min-w-38 self-start">
-        <Link href="/profile" className={buttonVariants({ variant: 'outline' })}>
+        <Link href="/profile/info" className={buttonVariants({ variant: 'outline' })}>
           User
         </Link>
         <Link href="/profile/create" className={buttonVariants({ variant: 'outline' })}>
