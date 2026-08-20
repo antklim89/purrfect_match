@@ -30,7 +30,15 @@ export function AdCreateForm() {
         {field => <field.FormNumberInput placeholder="Enter price" label="Price" errors={field.state.meta.errors} />}
       </form.AppField>
       <form.AppField name="images">
-        {field => <field.FormFileInput accept="image/*" label="Upload Images" errors={field.state.meta.errors} />}
+        {field => (
+          <field.FormFileInput
+            placeholder="Upload images"
+            accept="image/*"
+            label="Images"
+            multiple
+            errors={field.state.meta.errors}
+          />
+        )}
       </form.AppField>
 
       <form.AppField name="contacts" mode="array">

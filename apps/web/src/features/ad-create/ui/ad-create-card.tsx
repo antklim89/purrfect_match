@@ -19,14 +19,14 @@ export function AdCreateCard({ profile }: { profile: ProfileType }) {
       contacts: profile.contacts || adCreateFormOptions.defaultValues.contacts,
     },
     async onSubmit({ value, formApi }) {
-      toast.loading('Updating user data...', { id: formApi.formId });
+      toast.loading('Creating new ad...', { id: formApi.formId });
 
       const { images, ...input } = value;
       const { data, error } = await createAd({ input, images });
       if (error) return toast.error(error.message, { id: formApi.formId });
 
       formApi.reset(value);
-      toast.success('User data updated successfully', { id: formApi.formId });
+      toast.success('Ad created successfully', { id: formApi.formId });
 
       router.replace(`/ad/${data.id}`);
     },
