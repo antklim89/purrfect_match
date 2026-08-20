@@ -1,4 +1,6 @@
 /** biome-ignore-all lint/suspicious/noConsole: ok */
+
+import process from 'node:process';
 import { migrate } from 'drizzle-orm/bun-sql/migrator';
 
 import { db } from './lib/db';

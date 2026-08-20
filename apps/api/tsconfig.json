@@ -6,13 +6,13 @@
       "@/*": ["./src/*"],
       "@purrfect_match/api/*": ["./src/*"]
     },
-  "declaration": true,
-  "emitDeclarationOnly": true,
-  "declarationDir": "dist",
-  "noEmit": false,
-  "preserveWatchOutput": true,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "declarationDir": "dist",
+    "noEmit": false,
+    "preserveWatchOutput": true,
 
-  "rootDir": "src"
+    "rootDir": "src"
   },
   "display": "Hono",
   "include": ["src/**/*"]

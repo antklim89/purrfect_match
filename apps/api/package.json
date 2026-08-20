@@ -1,25 +1,26 @@
 {
   "name": "@purrfect_match/api",
-  "module": "index.ts",
-  "type": "module",
   "private": true,
+  "type": "module",
 
   "exports": {
     "./*": {
       "types": "./dist/*.d.ts"
     }
   },
+  "module": "index.ts",
 
   "scripts": {
+    "db:generate": "bun --bun drizzle-kit generate",
+    "db:migrate": "bun --bun src/migrate.ts",
     "dev": "run-p dev:**",
     "dev:app": "bun run --hot src/app.ts",
-    "dev:typecheck": "bun typecheck",
+    "dev:typecheck": "bun typecheck -w --preserveWatchOutput",
+    "lint": "biome check",
     "start": "bun run src/app.ts",
-    "test": "bun run --bun vitest",
     "studio": "drizzle-kit studio",
-    "typecheck": "bun --bun tsc -w --preserveWatchOutput -p tsconfig.json",
-    "db:generate": "bun --bun drizzle-kit generate",
-    "db:migrate": "bun --bun src/migrate.ts"
+    "test": "bun run --bun vitest",
+    "typecheck": "bun --bun tsc -p tsconfig.json"
   },
   "dependencies": {
     "@electric-sql/pglite": "^0.5.3",
@@ -36,7 +37,7 @@
   "devDependencies": {
     "@testcontainers/postgresql": "^12.0.4",
     "@types/bun": "latest",
-    "npm-run-all": "^4.1.5",
-    "drizzle-kit": "^0.31.10"
+    "drizzle-kit": "^0.31.10",
+    "npm-run-all2": "^9.0.3"
   }
 }

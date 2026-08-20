@@ -11,6 +11,6 @@ export default defineConfig({
   },
 
   test: {
-    setupFiles: resolve('./src/test/init-setup.ts')
+    setupFiles: resolve('./src/test/init-setup.ts'),
   },
 });

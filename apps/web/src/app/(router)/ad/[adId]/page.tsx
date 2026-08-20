@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
-import { AdDescription, AdImages, AdInfo } from '@/features/ad';
-import { getAd } from '@/shared/api/ads';
+import { AdDescription, AdImages, AdInfo } from '@/features/ad/index.ts';
+import { getAd } from '@/shared/api/ads.ts';
 import adCardFallback from '@/shared/assets/ad-card-fallback.jpg';
-import { ErrorComponent } from '@/shared/ui/error-component';
-import { AdSection } from '@/widgets/ad-section';
+import { ErrorComponent } from '@/shared/ui/error-component.tsx';
+import { AdSection } from '@/widgets/ad-section/index.ts';
 
 export async function generateMetadata({ params }: PageProps<'/ad/[adId]'>): Promise<Metadata> {
   'use cache';

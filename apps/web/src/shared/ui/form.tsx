@@ -1,4 +1,5 @@
 import type { ComponentProps, ReactNode } from 'react';
+import { createFormHookContexts } from '@tanstack/react-form';
 import { XIcon } from 'lucide-react';
 import { z } from 'zod/v4-mini';
 
@@ -9,8 +10,9 @@ import type { Input } from './input';
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput, InputGroupTextarea } from './input-group';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from './select';
 import { Spinner } from './spinner';
-import { useFieldContext, useFormContext } from '../lib/form';
 import { cn } from '../lib/utils';
+
+export const { fieldContext, formContext, useFieldContext, useFormContext } = createFormHookContexts();
 
 export function FormInput({
   label,
@@ -162,7 +164,7 @@ export function FormSubmitButton({
     <form.Subscribe selector={state => state.isSubmitting}>
       {isSubmitting => (
         <Button type="submit" form={form.formId} disabled={isSubmitting} {...props}>
-          {isSubmitting ? <Spinner data-icon="inline-start" /> : null}{' '}
+          {isSubmitting ? <Spinner data-icon="inline-start" /> : null}
           {isSubmitting ? (submittingText ? submittingText : children) : children}
         </Button>
       )}

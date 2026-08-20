@@ -5,6 +5,7 @@
     "enabled": true,
     "actions": {
       "source": {
+        "useSortedPackageJson": "on",
         "noDuplicateClasses": "on",
         "organizeImports": {
           "level": "on",
@@ -35,7 +36,19 @@
 
   "files": {
     "ignoreUnknown": true,
-    "includes": ["src/**/*", "supabase/seed.ts", "!**/*-generated", "!**/*-generated.*"]
+    "includes": [
+      "**/*",
+      "!**/next-env.d.ts",
+      "!**/*-generated.*",
+      "!**/*-generated",
+      "!**/node_modules/**/*",
+      "!**/dist/**/*",
+      "!**/out/**/*",
+      "!**/build/**/*",
+      "!**/migrations/**/*",
+      "!**/.next/**/*",
+      "!**/.turbo/**/*"
+    ]
   },
 
   "formatter": {
@@ -69,7 +82,7 @@
     "domains": {
       "drizzle": "all",
       "react": "all",
-      "next": "none",
+      "next": "all",
       "tailwind": "all",
       "test": "all",
       "types": "all",
@@ -77,6 +90,7 @@
       "qwik": "none"
     },
     "rules": {
+      // "preset": "all"
       "a11y": {
         "preset": "all",
         "useMediaCaption": "off"
@@ -162,6 +176,11 @@
         "useFilenamingConvention": {
           "level": "off",
           "options": { "filenameCases": ["kebab-case"], "requireAscii": true, "strictCase": true }
+        },
+        "useConsistentObjectDefinitions": {
+          "level": "on",
+          "fix": "safe",
+          "options": { "syntax": "shorthand" }
         }
       }
     }

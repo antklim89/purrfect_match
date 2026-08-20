@@ -21,22 +21,17 @@ export const apiSessionClient = hc<AppType>(
 );
 
 export async function apiCall<T, U extends number = StatusCode, F extends ResponseFormat = string>(
-  fetchRes: Promise<ClientResponse<T, U, F>>,
+  fetchResponse: Promise<ClientResponse<T, U, F>>,
 ) {
-  try {
-    const response = await fetchRes;
+  const response = await fetchResponse;
 
-    if (!response.ok) {
-      const error = (await response.json()) as { message: string };
-      return { error: { message: error.message, status: response.status }, data: null };
-    }
-
-    if (response.status === 204) return { error: null, data: null as T };
-
-    const data = (await response.json()) as T;
-    return { data, error: null };
-  } catch (error) {
-    console.error('Fetch Error:\n', error);
-    return { error: { message: 'Failed to make request.', status: 500 }, data: null };
+  if (!response.ok) {
+    const error = (await response.json()) as { message: string };
+    return { error: { message: error.message, status: response.status }, data: null };
   }
+
+  if (response.status === 204) return { error: null, data: null as T };
+
+  const data = (await response.json()) as T;
+  return { data, error: null };
 }

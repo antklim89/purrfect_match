@@ -1,6 +1,5 @@
 import {
   createFormHook,
-  createFormHookContexts,
   type FormOptions,
   formOptions,
   revalidateLogic,
@@ -16,9 +15,10 @@ import {
   FormSelect,
   FormSubmitButton,
   FormTextarea,
+  fieldContext,
+  formContext,
 } from '@/shared/ui/form';
 
-export const { fieldContext, formContext, useFieldContext, useFormContext } = createFormHookContexts();
 export const { useAppForm, withForm, useTypedAppFormContext } = createFormHook({
   fieldContext,
   formContext,

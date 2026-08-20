@@ -211,38 +211,39 @@ describe('[GET] /api/ad', () => {
     expect(ad2.id === data.data[1]?.id && ad2.isPublished).toBeFalsy();
   });
 
-  it.each(
-    (['desc', 'asc'] as const).flatMap(orderBy => ADS_SORT_BY.flatMap(sortBy => ({ orderBy, sortBy }))),
-  )('should find all ads with sort $sortBy and order $orderBy', async ({ orderBy, sortBy }) => {
-    let nextCursor: { cursorId: string; cursor: string | number } | null | undefined;
-    const totalAds: Partial<AdSelectType>[] = [];
+  it.each((['desc', 'asc'] as const).flatMap(orderBy => ADS_SORT_BY.flatMap(sortBy => ({ orderBy, sortBy }))))(
+    'should find all ads with sort $sortBy and order $orderBy',
+    async ({ orderBy, sortBy }) => {
+      let nextCursor: { cursorId: string; cursor: string | number } | null | undefined;
+      const totalAds: Partial<AdSelectType>[] = [];
 
-    const allAds = ads
-      .filter(i => i.isPublished)
-      .map(i => i[sortBy])
-      .sort((a, b) => {
-        if (typeof a === 'number' && typeof b === 'number') return a - b;
-        if (typeof a === 'string' && typeof b === 'string') return a.localeCompare(b);
-        return 1;
-      });
-    if (orderBy === 'desc') allAds.reverse();
+      const allAds = ads
+        .filter(i => i.isPublished)
+        .map(i => i[sortBy])
+        .sort((a, b) => {
+          if (typeof a === 'number' && typeof b === 'number') return a - b;
+          if (typeof a === 'string' && typeof b === 'string') return a.localeCompare(b);
+          return 1;
+        });
+      if (orderBy === 'desc') allAds.reverse();
 
-    for (let index = 0; index < 3; index++) {
-      const { data, error } = await testApiCall(
-        client.api.ad.$get({
-          query: { sortBy, orderBy, limit: '5', cursor: nextCursor?.cursor, cursorId: nextCursor?.cursorId },
-        }),
-      );
-      if (error) return expect(error).toBeNull();
+      for (let index = 0; index < 3; index++) {
+        const { data, error } = await testApiCall(
+          client.api.ad.$get({
+            query: { sortBy, orderBy, limit: '5', cursor: nextCursor?.cursor, cursorId: nextCursor?.cursorId },
+          }),
+        );
+        if (error) return expect(error).toBeNull();
 
-      nextCursor = data?.nextCursor;
-      totalAds.push(...data.data);
-    }
+        nextCursor = data?.nextCursor;
+        totalAds.push(...data.data);
+      }
 
-    expect(totalAds.map(i => i[sortBy]).every((i, idx) => i === allAds[idx])).toBeTruthy();
-    expect(totalAds).toHaveLength(12);
-    expect([...new Set(totalAds.map(i => i.id))]).toHaveLength(12);
-  });
+      expect(totalAds.map(i => i[sortBy]).every((i, idx) => i === allAds[idx])).toBeTruthy();
+      expect(totalAds).toHaveLength(12);
+      expect([...new Set(totalAds.map(i => i.id))]).toHaveLength(12);
+    },
+  );
 });
 
 describe('[GET] /api/ad/:id', () => {

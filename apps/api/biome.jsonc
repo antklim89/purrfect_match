@@ -1,16 +1,27 @@
 {
-	"$schema": "../../node_modules/@biomejs/biome/configuration_schema.json",
-	"root": false,
-	"extends": "//",
-	"javascript": {
-		"globals": ["Bun"]
-	},
-	"linter": {
-		"enabled": true,
-		"rules": {
-			"performance": {
-				"noNamespaceImport": "off"
-			}
-		}
-	}
+  "$schema": "../../node_modules/@biomejs/biome/configuration_schema.json",
+  "root": false,
+  "extends": "//",
+  "javascript": {
+    "globals": ["Bun"]
+  },
+  "linter": {
+    "domains": {
+      "drizzle": "all",
+      "react": "none",
+      "next": "none",
+      "tailwind": "none",
+      "test": "all",
+      "types": "all",
+      "solid": "none",
+      "qwik": "none"
+    },
+
+    "enabled": true,
+    "rules": {
+      "performance": {
+        "noNamespaceImport": "off"
+      }
+    }
+  }
 }
