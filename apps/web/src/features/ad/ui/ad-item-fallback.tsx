@@ -5,7 +5,7 @@ import { Skeleton, SkeletonText } from '@/shared/ui/skeleton';
 
 export function AdItemFallback() {
   return (
-    <Item variant="outline">
+    <Item variant="muted">
       <ItemMedia variant="image">
         <Skeleton className="w-full h-full" />
       </ItemMedia>

@@ -25,7 +25,7 @@ export function AdContact({ contact }: { contact: ContactType }) {
       render={
         <a
           aria-label={contact.type}
-          className="text-blue-400 hover:blue-200"
+          className="text-blue-700 dark:text-blue-400"
           href={contactData && `${contactData.hrefPrefix ?? ''}${contact.number}`}
         />
       }

@@ -13,7 +13,7 @@ export function AdItem({ ad, actionsSlot }: { ad: AdPreviewType; actionsSlot: Re
   const image = ad.images[0];
 
   return (
-    <Item className="flex relative hover:bg-muted cursor-pointer" variant="outline">
+    <Item className="flex relative hover:bg-muted cursor-pointer" variant="muted">
       <ItemMedia variant="image">
         <Image
           className="aspect-video w-full object-cover"
@@ -28,7 +28,9 @@ export function AdItem({ ad, actionsSlot }: { ad: AdPreviewType; actionsSlot: Re
 
       <ItemContent>
         <ItemTitle className="text-lg">
-          {ad.name} {ad.type} {ad.breed}
+          <h3>
+            {ad.name} {ad.type} {ad.breed}
+          </h3>
         </ItemTitle>
 
         <ItemDescription>{formatDate(ad.createdAt)}</ItemDescription>
@@ -40,7 +42,11 @@ export function AdItem({ ad, actionsSlot }: { ad: AdPreviewType; actionsSlot: Re
         <span>{formatPrice(ad.price)}</span>
       </ItemFooter>
 
-      <Link href={`/ad/${ad.id}`} className="absolute top-0 left-0 bottom-0 right-0" />
+      <Link
+        aria-label={`ad item ${ad.name} ${ad.type} ${ad.breed}`}
+        href={`/ad/${ad.id}`}
+        className="absolute top-0 left-0 bottom-0 right-0"
+      />
     </Item>
   );
 }

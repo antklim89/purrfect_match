@@ -7,7 +7,10 @@ import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTr
 export function HeaderSheet({ children, logoSlot }: { children: ReactNode; logoSlot: ReactNode }) {
   return (
     <Sheet>
-      <SheetTrigger className={buttonVariants({ size: 'icon', variant: 'ghost', className: 'md:hidden' })}>
+      <SheetTrigger
+        aria-label="toggle navigation menu"
+        className={buttonVariants({ size: 'icon', variant: 'ghost', className: 'md:hidden' })}
+      >
         <MenuIcon />
       </SheetTrigger>
       <SheetContent className="px-4 md:hidden">
