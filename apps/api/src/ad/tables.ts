@@ -7,7 +7,7 @@ import { userTable } from '@/auth/tables';
 export const adTable = pgTable('ad', {
   id: uuid().default(sql`uuidv7()`).primaryKey(),
 
-  isPublished: boolean().default(false),
+  isPublished: boolean().notNull().default(false),
   name: text().notNull(),
   description: text().notNull(),
   breed: text().notNull(),
