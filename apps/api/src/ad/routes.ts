@@ -15,10 +15,11 @@ export const adRoute = new Hono()
     const result = await adFindManyService(query, user?.id);
     return c.json(result);
   })
-  .get('/:id', schemaMiddleware('param', uuidv7Schema), async c => {
+  .get('/:id', schemaMiddleware('param', uuidv7Schema), tryAuthMiddleware, async c => {
     const { id } = c.req.valid('param');
+    const user = c.get('user');
 
-    const result = await adFindOneService({ id });
+    const result = await adFindOneService({ id }, user?.id);
     return c.json(result);
   })
   .post(

@@ -107,7 +107,7 @@ export async function adFindManyService(
         breed ? eq(fields.breed, breed) : undefined,
         type ? eq(fields.type, type) : undefined,
         userId ? eq(fields.userId, userId) : undefined,
-        authorId == null || userId == null || authorId !== userId ? eq(fields.isPublished, true) : undefined,
+        authorId ? or(eq(adTable.userId, authorId), eq(adTable.isPublished, true)) : eq(adTable.isPublished, true),
       );
     },
   });
@@ -121,9 +121,12 @@ export async function adFindManyService(
   return { data: ads, nextCursor: null };
 }
 
-export async function adFindOneService({ id }: { id: AdSelectType['id'] }) {
+export async function adFindOneService({ id }: { id: AdSelectType['id'] }, authorId?: string) {
   const ad = await db.query.adTable.findFirst({
-    where: eq(adTable.id, id),
+    where: and(
+      eq(adTable.id, id),
+      authorId ? or(eq(adTable.userId, authorId), eq(adTable.isPublished, true)) : eq(adTable.isPublished, true),
+    ),
     with: { images: { columns: { id: true, blurDataUrl: true, url: true } }, user: true },
   });
   if (!ad) throw new HTTPException(StatusCode.NOT_FOUND, { message: 'Ad not found.' });

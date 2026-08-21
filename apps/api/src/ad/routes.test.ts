@@ -249,8 +249,17 @@ describe('[GET] /api/ad', () => {
 describe('[GET] /api/ad/:id', () => {
   it('should find ad', async () => {
     const { user } = await registerTestUser();
-    const ad = await insertData(adTable, createTestAdData(user.id));
+    const ad = await insertData(adTable, createTestAdData(user.id, { isPublished: true }));
     const { data, error } = await testApiCall(client.api.ad[':id'].$get({ param: { id: ad.id } }));
+    if (error) return expect(error).toBeNull();
+
+    expect(data.id).toEqual(ad.id);
+  });
+
+  it('should find ad author not published ad', async () => {
+    const { user, headers } = await registerTestUser();
+    const ad = await insertData(adTable, createTestAdData(user.id, { isPublished: false }));
+    const { data, error } = await testApiCall(client.api.ad[':id'].$get({ param: { id: ad.id } }, { headers }));
     if (error) return expect(error).toBeNull();
 
     expect(data.id).toEqual(ad.id);
