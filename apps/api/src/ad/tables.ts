@@ -6,24 +6,29 @@ import { userTable } from '@/auth/tables';
 
 export const adTable = pgTable('ad', {
   id: uuid().default(sql`uuidv7()`).primaryKey(),
+
   isPublished: boolean().default(false),
   name: text().notNull(),
   description: text().notNull(),
-  breed: text('breed').notNull(),
+  breed: text().notNull(),
   type: text().notNull(),
   price: numeric({ precision: 10, scale: 2, mode: 'number' }).notNull(),
-  contacts: jsonb('contacts').$type<ContactType[]>(),
-  userId: text('user_id')
+  contacts: jsonb().$type<ContactType[]>(),
+
+  userId: text()
     .notNull()
     .references(() => userTable.id, { onDelete: 'cascade' }),
+
   createdAt: timestamp('created_at', { mode: 'string', withTimezone: true }).defaultNow().notNull(),
 });
 
 export const adImageTable = pgTable('ad_image', {
   id: uuid().default(sql`uuidv7()`).primaryKey(),
+
   url: text().notNull(),
-  blurDataUrl: text('blur_data_url').notNull(),
-  adId: uuid('ad_id')
+  blurDataUrl: text().notNull(),
+
+  adId: uuid()
     .notNull()
     .references(() => adTable.id, { onDelete: 'cascade' }),
 });
