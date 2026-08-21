@@ -2,9 +2,9 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { AdDescription, AdImages, AdInfo } from '@/features/ad';
-import { getAd } from '@/shared/api/ads.ts';
+import { getAd } from '@/shared/api/ads';
 import adCardFallback from '@/shared/assets/ad-card-fallback.jpg';
-import { ErrorComponent } from '@/shared/ui/error-component.tsx';
+import { ErrorComponent } from '@/shared/ui/error-component';
 import { AdSection, AdSectionContent, AdSectionDescription } from '@/widgets/ad-section';
 
 export async function generateMetadata({ params }: PageProps<'/ad/[adId]'>): Promise<Metadata> {
