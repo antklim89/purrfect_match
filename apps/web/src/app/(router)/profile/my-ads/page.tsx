@@ -5,7 +5,7 @@ import { AdItem } from '@/features/ad/ui/ad-item';
 import { AdDeleteButton } from '@/features/ad-delete';
 import { AdPublishButton } from '@/features/ad-publish';
 import { getMyAds } from '@/shared/api/ads';
-import { authClient } from '@/shared/lib/auth-client';
+import { getSession } from '@/shared/api/auth';
 import { ErrorComponent } from '@/shared/ui/error-component';
 import { MyAdsList, MyAdsListEmpty } from '@/widgets/my-ads-list';
 
@@ -14,10 +14,10 @@ export const metadata: Metadata = {
 };
 
 export default async function Page() {
-  const { data } = await authClient.getSession();
-  if (!data?.user) return <ErrorComponent status={401} message="Authenticate to see this page." />;
+  const { user } = await getSession();
+  if (!user) return <ErrorComponent status={401} message="Authenticate to see this page." />;
 
-  const { data: ads, error } = await getMyAds({ userId: data.user.id });
+  const { data: ads, error } = await getMyAds({ userId: user.id });
   if (error) return <ErrorComponent {...error} />;
 
   if (ads.data.length === 0) return <MyAdsListEmpty />;

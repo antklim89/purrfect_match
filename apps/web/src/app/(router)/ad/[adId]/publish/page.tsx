@@ -7,7 +7,7 @@ import { notFound } from 'next/navigation';
 import { AdDescription, AdImages, AdInfo } from '@/features/ad/index.ts';
 import { AdPublishButton } from '@/features/ad-publish';
 import { getMyAd } from '@/shared/api/ads.ts';
-import { authClient } from '@/shared/lib/auth-client';
+import { getSession } from '@/shared/api/auth';
 import { buttonVariants } from '@/shared/ui/button';
 import { ErrorComponent } from '@/shared/ui/error-component.tsx';
 import { AdSection } from '@/widgets/ad-section/index.ts';
@@ -19,14 +19,14 @@ import {
 } from '@/widgets/ad-section/ui/ad-section';
 
 export default async function Page({ params }: PageProps<'/ad/[adId]'>) {
-  const { data } = await authClient.getSession();
+  const { user } = await getSession();
   const { adId } = await params;
   const { error, data: ad } = await getMyAd({ id: adId });
 
   if (error?.status === 404) notFound();
-  if (!data?.user) notFound();
+  if (!user) notFound();
   if (error) return <ErrorComponent {...error} />;
-  if (data.user.id !== ad.userId) notFound();
+  if (user.id !== ad.userId) notFound();
 
   return (
     <AdSection>
