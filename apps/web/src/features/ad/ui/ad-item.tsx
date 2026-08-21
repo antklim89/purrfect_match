@@ -44,7 +44,7 @@ export function AdItem({ ad, actionsSlot }: { ad: AdPreviewType; actionsSlot: Re
 
       <Link
         aria-label={`ad item ${ad.name} ${ad.type} ${ad.breed}`}
-        href={`/ad/${ad.id}`}
+        href={`/ad/${ad.id}/publish`}
         className="absolute top-0 left-0 bottom-0 right-0"
       />
     </Item>

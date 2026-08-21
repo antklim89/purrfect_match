@@ -6,6 +6,7 @@ import { getAd } from '@/shared/api/ads.ts';
 import adCardFallback from '@/shared/assets/ad-card-fallback.jpg';
 import { ErrorComponent } from '@/shared/ui/error-component.tsx';
 import { AdSection } from '@/widgets/ad-section/index.ts';
+import { AdSectionContent, AdSectionDescription } from '@/widgets/ad-section/ui/ad-section';
 
 export async function generateMetadata({ params }: PageProps<'/ad/[adId]'>): Promise<Metadata> {
   'use cache';
@@ -41,10 +42,14 @@ export default async function Page({ params }: PageProps<'/ad/[adId]'>) {
   if (error) return <ErrorComponent {...error} />;
 
   return (
-    <AdSection
-      descriptionSlot={<AdDescription ad={ad} />}
-      imagesSlot={<AdImages ad={ad} />}
-      infoSlot={<AdInfo ad={ad} />}
-    />
+    <AdSection>
+      <AdSectionContent>
+        <AdImages ad={ad} />
+        <AdInfo ad={ad} />
+      </AdSectionContent>
+      <AdSectionDescription>
+        <AdDescription ad={ad} />
+      </AdSectionDescription>
+    </AdSection>
   );
 }

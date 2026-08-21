@@ -1,22 +1,49 @@
 import type { ReactNode } from 'react';
+import { AlertCircleIcon } from 'lucide-react';
 
-export function AdSection({
-  imagesSlot,
-  descriptionSlot,
-  infoSlot,
+import { Alert, AlertAction, AlertDescription, AlertTitle } from '@/shared/ui/alert';
+
+export function AdSection({ children }: { children: ReactNode }) {
+  return <div className="flex flex-col gap-4">{children}</div>;
+}
+
+export function AdSectionContent({ children }: { children: ReactNode }) {
+  return <div className="grid grid-cols-1 md:grid-cols-2 gap-4">{children}</div>;
+}
+
+export function AdSectionDescription({ children }: { children: ReactNode }) {
+  return (
+    <div className="col-span-full">
+      <h3 className="text-3xl mb-2">Description</h3>
+      {children}
+    </div>
+  );
+}
+
+export function AdSectionPublishAlert({
+  children,
+  isPublished,
+  description,
 }: {
-  imagesSlot: ReactNode;
-  infoSlot: ReactNode;
-  descriptionSlot: ReactNode;
+  children: ReactNode;
+  isPublished?: boolean | null;
+  description?: string;
 }) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      {imagesSlot}
-      {infoSlot}
-      <div className="col-span-full">
-        <h3 className="text-3xl mb-2">Description</h3>
-        {descriptionSlot}
-      </div>
-    </div>
+    <Alert className="my-4 ">
+      <AlertCircleIcon />
+      <AlertTitle>{isPublished ? 'Ad is published' : 'Ad is not published'}</AlertTitle>
+      <AlertDescription>{description}</AlertDescription>
+
+      {children}
+    </Alert>
+  );
+}
+
+export function AdSectionPublishAlertActions({ children }: { children: ReactNode }) {
+  return (
+    <AlertAction className="gap-4">
+      <div className="flex gap-2">{children}</div>
+    </AlertAction>
   );
 }

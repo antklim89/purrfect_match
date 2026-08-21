@@ -11,6 +11,10 @@ export const getAd = cache(async ({ id }: { id: string }) => {
   return await apiCall(apiClient.api.ad[':id'].$get({ param: { id } }));
 });
 
+export const getMyAd = cache(async ({ id }: { id: string }) => {
+  return await apiCall(apiSessionClient.api.ad[':id'].$get({ param: { id } }));
+});
+
 export const getMyAds = cache(async ({ userId }: { userId: string }) => {
   return await apiCall(
     apiSessionClient.api.ad.$get({ query: { userId, limit: '50', sortBy: 'createdAt', orderBy: 'desc' } }),
