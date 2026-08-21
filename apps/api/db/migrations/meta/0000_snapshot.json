@@ -1,9 +1,85 @@
 {
-  "id": "84ef2047-6c20-48bb-8251-dbf2e7969ae1",
+  "id": "c473caac-5d82-4a60-b9ac-3222f553505e",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
+    "public.profile": {
+      "name": "profile",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "full_name": {
+          "name": "full_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "tel": {
+          "name": "tel",
+          "type": "text[]",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "contacts": {
+          "name": "contacts",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "address": {
+          "name": "address",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "profile_id_user_id_fk": {
+          "name": "profile_id_user_id_fk",
+          "tableFrom": "profile",
+          "tableTo": "user",
+          "columnsFrom": [
+            "id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
     "public.ad_image": {
       "name": "ad_image",
       "schema": "",
@@ -21,14 +97,14 @@
           "primaryKey": false,
           "notNull": true
         },
-        "blur_data_url": {
-          "name": "blur_data_url",
+        "blurDataUrl": {
+          "name": "blurDataUrl",
           "type": "text",
           "primaryKey": false,
           "notNull": true
         },
-        "ad_id": {
-          "name": "ad_id",
+        "adId": {
+          "name": "adId",
           "type": "uuid",
           "primaryKey": false,
           "notNull": true
@@ -36,12 +112,12 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "ad_image_ad_id_ad_id_fk": {
-          "name": "ad_image_ad_id_ad_id_fk",
+        "ad_image_adId_ad_id_fk": {
+          "name": "ad_image_adId_ad_id_fk",
           "tableFrom": "ad_image",
           "tableTo": "ad",
           "columnsFrom": [
-            "ad_id"
+            "adId"
           ],
           "columnsTo": [
             "id"
@@ -71,7 +147,7 @@
           "name": "isPublished",
           "type": "boolean",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "default": false
         },
         "name": {
@@ -104,8 +180,14 @@
           "primaryKey": false,
           "notNull": true
         },
-        "user_id": {
-          "name": "user_id",
+        "contacts": {
+          "name": "contacts",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "userId": {
+          "name": "userId",
           "type": "text",
           "primaryKey": false,
           "notNull": true
@@ -120,12 +202,12 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "ad_user_id_user_id_fk": {
-          "name": "ad_user_id_user_id_fk",
+        "ad_userId_user_id_fk": {
+          "name": "ad_userId_user_id_fk",
           "tableFrom": "ad",
           "tableTo": "user",
           "columnsFrom": [
-            "user_id"
+            "userId"
           ],
           "columnsTo": [
             "id"
@@ -137,20 +219,7 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
       "policies": {},
-      "checkConstraints": {
-        "price": {
-          "name": "price",
-          "value": "\"ad\".\"price\" >= 2 AND \"ad\".\"price\" <= 900000"
-        },
-        "name": {
-          "name": "name",
-          "value": "length(\"ad\".\"name\") >= 2 AND length(\"ad\".\"name\") <= 400"
-        },
-        "description": {
-          "name": "description",
-          "value": "length(\"ad\".\"description\") >= 20 AND length(\"ad\".\"description\") <= 40000"
-        }
-      },
+      "checkConstraints": {},
       "isRLSEnabled": false
     },
     "public.account": {
@@ -171,12 +240,6 @@
         },
         "provider_id": {
           "name": "provider_id",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "user_id": {
-          "name": "user_id",
           "type": "text",
           "primaryKey": false,
           "notNull": true
@@ -222,6 +285,12 @@
           "type": "text",
           "primaryKey": false,
           "notNull": false
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
         },
         "created_at": {
           "name": "created_at",
@@ -296,18 +365,6 @@
           "primaryKey": false,
           "notNull": true
         },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "updated_at": {
-          "name": "updated_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true
-        },
         "ip_address": {
           "name": "ip_address",
           "type": "text",
@@ -325,6 +382,18 @@
           "type": "text",
           "primaryKey": false,
           "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
         }
       },
       "indexes": {
@@ -333,6 +402,21 @@
           "columns": [
             {
               "expression": "user_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "session_token_idx": {
+          "name": "session_token_idx",
+          "columns": [
+            {
+              "expression": "token",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -419,39 +503,25 @@
           "type": "timestamp",
           "primaryKey": false,
           "notNull": true
-        },
-        "full_name": {
-          "name": "full_name",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "tel": {
-          "name": "tel",
-          "type": "text[]",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "messengers": {
-          "name": "messengers",
-          "type": "jsonb",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "address": {
-          "name": "address",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "description": {
-          "name": "description",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
         }
       },
-      "indexes": {},
+      "indexes": {
+        "user_id_idx": {
+          "name": "user_id_idx",
+          "columns": [
+            {
+              "expression": "id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {

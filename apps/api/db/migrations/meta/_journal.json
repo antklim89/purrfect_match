@@ -5,22 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1785918754105,
-      "tag": "0000_natural_kylun",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1786002010545,
-      "tag": "0001_colossal_human_torch",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1786022003212,
-      "tag": "0002_sloppy_masked_marvel",
+      "when": 1787313111790,
+      "tag": "0000_dazzling_penance",
       "breakpoints": true
     }
   ]
