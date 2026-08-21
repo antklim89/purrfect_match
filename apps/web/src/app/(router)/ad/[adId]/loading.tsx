@@ -1,6 +1,5 @@
 import { AdDescriptionFallback, AdImagesFallback, AdInfoFallback } from '@/features/ad';
-import { AdSection } from '@/widgets/ad-section';
-import { AdSectionContent, AdSectionDescription } from '@/widgets/ad-section/ui/ad-section';
+import { AdSection, AdSectionContent, AdSectionDescription } from '@/widgets/ad-section';
 
 export default function Loading() {
   return (

@@ -30,6 +30,16 @@
       },
       "correctness": {
         "noProcessGlobal": "off"
+      },
+      "style": {
+        "noRestrictedImports": {
+          "level": "error",
+          "options": {
+            "patterns": [
+              { "group": ["**/entities/*/*/**", "**/pages/*/*/**", "**/features/*/*/**", "**/widgets/*/*/**"] }
+            ]
+          }
+        }
       }
     }
   }

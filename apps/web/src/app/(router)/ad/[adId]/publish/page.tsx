@@ -4,19 +4,19 @@ import { revalidatePath } from 'next/cache';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
-import { AdDescription, AdImages, AdInfo } from '@/features/ad/index.ts';
+import { AdDescription, AdImages, AdInfo } from '@/features/ad';
 import { AdPublishButton } from '@/features/ad-publish';
-import { getMyAd } from '@/shared/api/ads.ts';
+import { getMyAd } from '@/shared/api/ads';
 import { getSession } from '@/shared/api/auth';
 import { buttonVariants } from '@/shared/ui/button';
-import { ErrorComponent } from '@/shared/ui/error-component.tsx';
-import { AdSection } from '@/widgets/ad-section/index.ts';
+import { ErrorComponent } from '@/shared/ui/error-component';
 import {
+  AdSection,
   AdSectionContent,
   AdSectionDescription,
   AdSectionPublishAlert,
   AdSectionPublishAlertActions,
-} from '@/widgets/ad-section/ui/ad-section';
+} from '@/widgets/ad-section';
 
 export default async function Page({ params }: PageProps<'/ad/[adId]'>) {
   const { user } = await getSession();

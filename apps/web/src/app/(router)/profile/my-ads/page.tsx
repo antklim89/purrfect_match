@@ -1,7 +1,7 @@
 import type { Metadata, Route } from 'next';
 import { revalidatePath } from 'next/cache';
 
-import { AdItem } from '@/features/ad/ui/ad-item';
+import { AdItem } from '@/features/ad';
 import { AdDeleteButton } from '@/features/ad-delete';
 import { AdPublishButton } from '@/features/ad-publish';
 import { getMyAds } from '@/shared/api/ads';
