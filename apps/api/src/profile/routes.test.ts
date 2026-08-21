@@ -2,10 +2,10 @@ import { testClient } from 'hono/testing';
 import { describe, expect, it } from 'vitest';
 
 import app from '@/app';
+import { db } from '@/lib/db';
+import { profileTable } from '@/profile/tables';
 import { testApiCall } from '@/test/api-call';
-import { profileTable } from './tables';
-import { db } from '../lib/db';
-import { registerTestUser } from '../test/insert-data';
+import { registerTestUser } from '@/test/insert-data';
 
 const client = testClient(app);
 
@@ -19,7 +19,7 @@ const testProfile = {
 describe('[GET] /api/auth/get-profile', () => {
   it('should get profile if not exists', async () => {
     const { headers, user } = await registerTestUser();
-    const { data, error } = await testApiCall(client.api.auth['get-profile'].$get(undefined, { headers }));
+    const { data, error } = await testApiCall(client.api.profile['get-profile'].$get(undefined, { headers }));
     if (error) return expect(error).toBeNull();
     expect(data.id).toEqual(user.id);
   });
@@ -27,7 +27,7 @@ describe('[GET] /api/auth/get-profile', () => {
   it('should get profile if exists', async () => {
     const { headers, user } = await registerTestUser();
     await db.insert(profileTable).values({ id: user.id, fullName: 'Foo Bar' });
-    const { data, error } = await testApiCall(client.api.auth['get-profile'].$get(undefined, { headers }));
+    const { data, error } = await testApiCall(client.api.profile['get-profile'].$get(undefined, { headers }));
     if (error) return expect(error).toBeNull();
 
     expect(data.id).toEqual(user.id);
@@ -38,7 +38,7 @@ describe('[GET] /api/auth/get-profile', () => {
 describe('[POST] /api/auth/update-profile', () => {
   it('should update profile if not exists', async () => {
     const { headers, user } = await registerTestUser();
-    const { error } = await testApiCall(client.api.auth['update-profile'].$post({ json: testProfile }, { headers }));
+    const { error } = await testApiCall(client.api.profile['update-profile'].$post({ json: testProfile }, { headers }));
     if (error) return expect(error).toBeNull();
 
     const updatedProfile = await db.query.profileTable.findFirst({
@@ -51,7 +51,7 @@ describe('[POST] /api/auth/update-profile', () => {
   it('should update profile if exists', async () => {
     const { headers, user } = await registerTestUser();
     await db.insert(profileTable).values({ id: user.id, fullName: 'Foo Baz' });
-    const { error } = await testApiCall(client.api.auth['update-profile'].$post({ json: testProfile }, { headers }));
+    const { error } = await testApiCall(client.api.profile['update-profile'].$post({ json: testProfile }, { headers }));
     if (error) return expect(error).toBeNull();
 
     const updatedProfile = await db.query.profileTable.findFirst({

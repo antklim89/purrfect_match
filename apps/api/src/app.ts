@@ -7,6 +7,7 @@ import { logger } from 'hono/logger';
 import { adRoute } from '@/ad/routes';
 import { authRoute } from '@/auth/routes';
 import { corsMiddleware, notFoundMiddleware, onErrorMiddleware } from '@/lib/middlewares';
+import { profileRoute } from './profile/routes';
 
 const app = new Hono()
   .use(corsMiddleware)
@@ -15,6 +16,7 @@ const app = new Hono()
   .get('/', async c => c.json({ message: 'ok' }))
   .route('/api/ad', adRoute)
   .route('/api/auth', authRoute)
+  .route('/api/profile', profileRoute)
   .onError(onErrorMiddleware)
   .notFound(notFoundMiddleware);
 
