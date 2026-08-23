@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 
 import { AdDescription, AdImages, AdInfo } from '@/features/ad';
 import { getAd } from '@/shared/api/ads';
-import adCardFallback from '@/shared/assets/ad-card-fallback.jpg';
+import notFoundFallback from '@/shared/assets/not-found.png';
 import { ErrorComponent } from '@/shared/ui/error-component';
 import { AdSection, AdSectionContent, AdSectionDescription } from '@/widgets/ad-section';
 
@@ -14,10 +14,10 @@ export async function generateMetadata({ params }: PageProps<'/ad/[adId]'>): Pro
   const { error, data: ad } = await getAd({ id: adId });
   if (error) return { title: 'Error', description: error.message };
 
-  const image = ad.images[0] ? `/media${ad.images[0].url}` : adCardFallback.src;
+  const image = ad.images[0] ? ad.images[0].url : notFoundFallback.src;
 
   return {
-    title: `${ad.name} ${ad.type}`,
+    title: `${ad.name} ${ad.type} ${ad.breed}`,
     description: ad.description,
     openGraph: {
       title: `${ad.name} ${ad.type}`,

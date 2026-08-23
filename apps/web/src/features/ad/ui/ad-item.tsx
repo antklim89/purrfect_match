@@ -5,7 +5,7 @@ import type { AdPreviewType } from '@purrfect_match/shared/entities/ad/types';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import adCardFallback from '@/shared/assets/ad-card-fallback.jpg';
+import notFoundFallback from '@/shared/assets/not-found.png';
 import { formatDate, formatPrice } from '@/shared/lib/utils';
 import { Item, ItemActions, ItemContent, ItemDescription, ItemFooter, ItemMedia, ItemTitle } from '@/shared/ui/item';
 
@@ -17,8 +17,8 @@ export function AdItem({ ad, actionsSlot }: { ad: AdPreviewType; actionsSlot: Re
       <ItemMedia variant="image">
         <Image
           className="aspect-video w-full object-cover"
-          src={image?.url ? image.url : adCardFallback.src}
-          blurDataURL={image?.blurDataUrl ?? adCardFallback.blurDataURL}
+          src={image?.url ? image.url : notFoundFallback.src}
+          blurDataURL={image?.blurDataUrl ?? notFoundFallback.blurDataURL}
           placeholder="blur"
           alt="Image with animal"
           width={AD_IMAGE_WIDTH / 16}
