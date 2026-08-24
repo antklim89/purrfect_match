@@ -7,7 +7,7 @@ import { Field, FieldLabel, FieldSet } from '@/shared/ui/field';
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@/shared/ui/input-group';
 
 export function AdCatalogFilters({ children }: { children?: ReactNode }) {
-  const [searchFilter, setSearchFilter] = useQueryStates({
+  const [filter, setFilter] = useQueryStates({
     search: parseAsString
       .withDefault('')
       .withOptions({ limitUrlUpdates: { method: 'debounce', timeMs: 700 }, shallow: false }),
@@ -19,14 +19,14 @@ export function AdCatalogFilters({ children }: { children?: ReactNode }) {
         <FieldLabel>Search</FieldLabel>
         <InputGroup>
           <InputGroupInput
-            onChange={e => setSearchFilter({ search: e.target.value })}
-            value={searchFilter.search}
+            onChange={e => setFilter({ search: e.target.value })}
+            value={filter.search}
             placeholder="Enter search term..."
           />
           <InputGroupAddon align="inline-end">
             <InputGroupButton
               aria-label="clear search"
-              onClick={() => setSearchFilter({ search: '' }, { limitUrlUpdates: { method: 'debounce', timeMs: 0 } })}
+              onClick={() => setFilter({ search: '' }, { limitUrlUpdates: { method: 'debounce', timeMs: 0 } })}
             >
               <XIcon />
             </InputGroupButton>

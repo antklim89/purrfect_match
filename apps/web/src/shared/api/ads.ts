@@ -1,7 +1,12 @@
 import { cache } from 'react';
 import type { AdCreateType } from '@purrfect_match/shared/entities/ad/types';
+import type { InferRequestType } from 'hono/client';
 
 import { apiCall, apiClient, apiSessionClient } from '@/shared/lib/api-client';
+
+export const getAds = cache(async ({ query }: InferRequestType<typeof apiClient.api.ad.$get>) => {
+  return await apiCall(apiClient.api.ad.$get({ query }));
+});
 
 export const getNewAds = cache(async () => {
   return await apiCall(apiClient.api.ad.$get({ query: { limit: '6', sortBy: 'createdAt', orderBy: 'desc' } }));
