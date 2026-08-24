@@ -4,6 +4,7 @@ import '@fontsource/figtree/700-italic.css';
 import '@fontsource/figtree/700.css';
 import '../styles/main.css';
 import type { Metadata } from 'next';
+import { NuqsAdapter } from 'nuqs/adapters/next/app';
 
 import mainImage from '@/shared/assets/main-image.jpg';
 import { env } from '@/shared/lib/env';
@@ -12,7 +13,6 @@ import { Footer } from '@/widgets/footer';
 import { Header } from '@/widgets/header';
 import ZodConfig from '../config/zod-config';
 import { ThemeProvider } from '../providers/theme-provider';
-
 export function generateMetadata(): Metadata {
   const title = 'Purrfect Match';
   const description = 'This is a convenient platform for placing ads for the sale of pets or find a fitting pet.';
@@ -45,12 +45,14 @@ function RootLayout({ children }: LayoutProps<'/'>) {
         <link rel="icon" href="/favicon.png" sizes="32x32" />
       </head>
       <body className="grid min-h-screen grid-rows-[auto_1fr_auto]">
-        <ThemeProvider>
-          <Header />
-          <main>{children}</main>
-          <Footer />
-          <Toaster />
-        </ThemeProvider>
+        <NuqsAdapter>
+          <ThemeProvider>
+            <Header />
+            <main>{children}</main>
+            <Footer />
+            <Toaster />
+          </ThemeProvider>
+        </NuqsAdapter>
         <ZodConfig />
       </body>
     </html>
