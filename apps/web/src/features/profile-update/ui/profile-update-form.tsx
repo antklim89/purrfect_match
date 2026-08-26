@@ -59,7 +59,15 @@ export function ProfileUpdateForm() {
                   </form.AppField>
                   <InputGroupAddon align="inline-start">
                     <form.AppField name={`contacts[${index}].type`}>
-                      {subfield => <subfield.FormSelect items={contacts} />}
+                      {subfield => (
+                        <subfield.FormSelect>
+                          {contacts.map(contact => (
+                            <subfield.FormSelectItem value={contact.value} key={contact.value}>
+                              {contact.label}
+                            </subfield.FormSelectItem>
+                          ))}
+                        </subfield.FormSelect>
+                      )}
                     </form.AppField>
                   </InputGroupAddon>
                   <InputGroupAddon align="inline-end">

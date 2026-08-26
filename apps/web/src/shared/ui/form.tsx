@@ -8,7 +8,7 @@ import { Field, FieldError, FieldLabel, FieldSet } from './field';
 import { FileUpload } from './file-upload';
 import type { Input } from './input';
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput, InputGroupTextarea } from './input-group';
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from './select';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './select';
 import { Spinner } from './spinner';
 import { cn } from '../lib/utils';
 
@@ -184,33 +184,28 @@ export function FormArray({ label, children }: { label?: string; children: React
   );
 }
 
-export function FormSelect<T extends { label: React.ReactNode; value: unknown }>({
-  items,
-}: {
-  items: ReadonlyArray<T>;
+export function FormSelect<T>({
+  children,
+  label,
+  ...props
+}: ComponentProps<typeof SelectTrigger> & {
+  label?: string;
 }) {
   const field = useFieldContext<T>();
 
-  const firstItem = items[0];
-  if (!firstItem) return null;
   return (
-    <Select
-      onValueChange={v => field.handleChange(v ?? firstItem)}
-      items={items}
-      value={field.state.value || firstItem.value}
-    >
-      <SelectTrigger className="-ml-1 ">
-        <SelectValue placeholder="Messenger" />
-      </SelectTrigger>
-      <SelectContent alignItemWithTrigger>
-        <SelectGroup>
-          {items.map(item => (
-            <SelectItem key={item.value as string} value={item.value}>
-              {item.label}
-            </SelectItem>
-          ))}
-        </SelectGroup>
-      </SelectContent>
-    </Select>
+    <Field>
+      {label ? <FieldLabel htmlFor={field.name + field.form.formId}>{label}</FieldLabel> : null}
+      <Select onValueChange={v => v && field.handleChange(v)} value={field.state.value}>
+        <SelectTrigger {...props}>
+          <SelectValue placeholder="Messenger" />
+        </SelectTrigger>
+        <SelectContent alignItemWithTrigger>{children}</SelectContent>
+      </Select>
+    </Field>
   );
+}
+
+export function FormSelectItem<T>(props: { value: T } & ComponentProps<typeof SelectItem>) {
+  return <SelectItem {...props} />;
 }

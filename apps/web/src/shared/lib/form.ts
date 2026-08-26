@@ -13,6 +13,7 @@ import {
   FormInput,
   FormNumberInput,
   FormSelect,
+  FormSelectItem,
   FormSubmitButton,
   FormTextarea,
   fieldContext,
@@ -29,6 +30,7 @@ export const { useAppForm, withForm, useTypedAppFormContext } = createFormHook({
     FormFileInput,
     FormArray,
     FormSelect,
+    FormSelectItem,
   },
   formComponents: {
     Form,

@@ -29,9 +29,6 @@ export function AdCatalogFilters({ children }: { children?: ReactNode }) {
     },
   });
 
-  const animalTypesOptions = [ALL, ...animalTypes].map(i => ({ value: i, label: i }));
-  const animalBreedsOptions = [ALL, ...selectedAnimalBreeds].map(i => ({ value: i, label: i }));
-
   function handleReset() {
     form.setFieldValue('search', '');
     form.setFieldValue('type', ALL);
@@ -46,11 +43,33 @@ export function AdCatalogFilters({ children }: { children?: ReactNode }) {
         </form.AppField>
 
         <form.AppField name="type">
-          {field => <field.FormSelect className="capitalize" label="Types" items={animalTypesOptions} />}
+          {field => (
+            <field.FormSelect className="capitalize" label="Types">
+              <field.FormSelectItem value={ALL} className="capitalize">
+                {ALL}
+              </field.FormSelectItem>
+              {animalTypes.map(animalType => (
+                <field.FormSelectItem className="capitalize" value={animalType} key={animalType}>
+                  {animalType}
+                </field.FormSelectItem>
+              ))}
+            </field.FormSelect>
+          )}
         </form.AppField>
 
         <form.AppField name="breed">
-          {field => <field.FormSelect className="capitalize" label="Breeds" items={animalBreedsOptions} />}
+          {field => (
+            <field.FormSelect className="capitalize" label="Breeds">
+              <field.FormSelectItem value={ALL} className="capitalize">
+                {ALL}
+              </field.FormSelectItem>
+              {selectedAnimalBreeds.map(animalBreed => (
+                <field.FormSelectItem className="capitalize" value={animalBreed} key={animalBreed}>
+                  {animalBreed}
+                </field.FormSelectItem>
+              ))}
+            </field.FormSelect>
+          )}
         </form.AppField>
 
         {children}
