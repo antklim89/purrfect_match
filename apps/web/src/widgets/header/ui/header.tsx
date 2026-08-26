@@ -24,7 +24,7 @@ export function Header() {
           <HeaderAuth className={buttonVariants({ variant: 'ghost', className: 'w-22' })} />
         </Suspense>
         <ThemeToggle />
-        <Link className={buttonVariants()} href="/">
+        <Link className={buttonVariants()} href="/ad">
           Explore
         </Link>
       </div>

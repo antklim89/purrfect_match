@@ -1,9 +1,10 @@
 import { ArrowRightIcon } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 import heroImage from '@/shared/assets/hero.jpg';
 import { cn } from '@/shared/lib/utils';
-import { Button } from '@/shared/ui/button';
+import { buttonVariants } from '@/shared/ui/button';
 
 export function Hero() {
   return (
@@ -30,9 +31,9 @@ export function Hero() {
           </p>
 
           <div className="fade-in slide-in-from-bottom-10 flex w-fit animate-in items-center justify-center gap-3 fill-mode-backwards pt-2 delay-300 duration-500 ease-out">
-            <Button>
+            <Link href="/ad" className={buttonVariants()}>
               Explore <ArrowRightIcon />
-            </Button>
+            </Link>
           </div>
         </div>
         <div className="absolute inset-0 -mx-4 rounded-3xl p-3 lg:col-span-3">
