@@ -7,11 +7,13 @@ import { AdCatalog, AdCatalogFilters } from '@/widgets/ad-catalog';
 
 async function Page(props: PageProps<'/ad'>) {
   return (
-    <AdCatalog filtersSlot={<AdCatalogFilters />}>
-      <Suspense fallback={<div>LOADING</div>}>
-        <AdListSection {...props} />
-      </Suspense>
-    </AdCatalog>
+    <section className="w-full max-w-[128rem] mx-auto px-3 my-8">
+      <AdCatalog filtersSlot={<AdCatalogFilters />}>
+        <Suspense fallback={<div>LOADING</div>}>
+          <AdListSection {...props} />
+        </Suspense>
+      </AdCatalog>
+    </section>
   );
 }
 
