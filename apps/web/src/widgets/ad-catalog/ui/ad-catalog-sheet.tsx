@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { FilterIcon } from 'lucide-react';
+import { PanelLeftIcon } from 'lucide-react';
 
 import { buttonVariants } from '@/shared/ui/button';
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/shared/ui/sheet';
@@ -7,16 +7,16 @@ import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTr
 export function AdCatalogSheet({ children }: { children: ReactNode }) {
   return (
     <Sheet>
-      <SheetTrigger aria-label="toggle navigation menu" className={buttonVariants({ className: 'xl:hidden' })}>
-        <FilterIcon data-icon="inline-start" /> Filters
+      <SheetTrigger aria-label="toggle ad filters menu" className={buttonVariants({ size: 'lg' })}>
+        <PanelLeftIcon data-icon="inline-start" /> Filters
       </SheetTrigger>
-      <SheetContent side="left" className="px-4 xl:hidden">
+      <SheetContent side="left" className="px-4">
         <SheetHeader className="flex flex-col items-center">
-          <SheetTitle>Ad Filter</SheetTitle>
+          <SheetTitle>Ad Filters</SheetTitle>
           <SheetDescription className="sr-only">Ad filters</SheetDescription>
         </SheetHeader>
 
-        <div className="mt-12 flex flex-col gap-2 *:w-full">{children}</div>
+        <div>{children}</div>
       </SheetContent>
     </Sheet>
   );

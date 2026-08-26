@@ -1,40 +1,64 @@
 'use client';
+
 import type { ReactNode } from 'react';
-import { XIcon } from 'lucide-react';
+import { animalBreeds, animalTypes } from '@purrfect_match/shared/entities/animal/constants';
+import type { AnimalTypes } from '@purrfect_match/shared/entities/animal/types';
 import { parseAsString, useQueryStates } from 'nuqs';
 
-import { Field, FieldLabel, FieldSet } from '@/shared/ui/field';
-import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@/shared/ui/input-group';
+import { useAppForm } from '@/shared/lib/form';
+import { Button } from '@/shared/ui/button';
+
+const ALL = 'all';
 
 export function AdCatalogFilters({ children }: { children?: ReactNode }) {
   const [filter, setFilter] = useQueryStates({
     search: parseAsString
       .withDefault('')
       .withOptions({ limitUrlUpdates: { method: 'debounce', timeMs: 700 }, shallow: false }),
+
+    type: parseAsString.withDefault(ALL).withOptions({ clearOnDefault: true, shallow: false }),
+    breed: parseAsString.withDefault(ALL).withOptions({ clearOnDefault: true, shallow: false }),
   });
 
-  return (
-    <FieldSet>
-      <Field>
-        <FieldLabel>Search</FieldLabel>
-        <InputGroup>
-          <InputGroupInput
-            onChange={e => setFilter({ search: e.target.value })}
-            value={filter.search}
-            placeholder="Enter search term..."
-          />
-          <InputGroupAddon align="inline-end">
-            <InputGroupButton
-              aria-label="clear search"
-              onClick={() => setFilter({ search: '' }, { limitUrlUpdates: { method: 'debounce', timeMs: 0 } })}
-            >
-              <XIcon />
-            </InputGroupButton>
-          </InputGroupAddon>
-        </InputGroup>
-      </Field>
+  const selectedAnimalBreeds = animalBreeds[filter.type as AnimalTypes] ?? Object.values(animalBreeds).flat();
 
-      {children}
-    </FieldSet>
+  const form = useAppForm({
+    defaultValues: filter,
+    listeners: {
+      onChange: ({ formApi }) => setFilter(formApi.state.values),
+    },
+  });
+
+  const animalTypesOptions = [ALL, ...animalTypes].map(i => ({ value: i, label: i }));
+  const animalBreedsOptions = [ALL, ...selectedAnimalBreeds].map(i => ({ value: i, label: i }));
+
+  function handleReset() {
+    form.setFieldValue('search', '');
+    form.setFieldValue('type', ALL);
+    form.setFieldValue('breed', ALL);
+  }
+
+  return (
+    <div className="flex flex-col gap-4 h-full">
+      <form.AppForm>
+        <form.AppField name="search">
+          {field => <field.FormInput label="Search" placeholder="Enter search term..." />}
+        </form.AppField>
+
+        <form.AppField name="type">
+          {field => <field.FormSelect className="capitalize" label="Types" items={animalTypesOptions} />}
+        </form.AppField>
+
+        <form.AppField name="breed">
+          {field => <field.FormSelect className="capitalize" label="Breeds" items={animalBreedsOptions} />}
+        </form.AppField>
+
+        {children}
+
+        <Button onClick={handleReset} className="mt-8">
+          Reset
+        </Button>
+      </form.AppForm>
+    </div>
   );
 }

@@ -4,22 +4,19 @@ import { AdCatalogSheet } from './ad-catalog-sheet';
 
 export function AdCatalog({ children, filtersSlot }: { children: ReactNode; filtersSlot: ReactNode }) {
   return (
-    <div className="mx-auto w-full max-w-7xl p-6">
-      <div className="flex flex-col gap-8 xl:flex-row">
-        <div className="shrink-0 xl:w-64 hidden xl:block">
-          <div className="flex flex-col gap-2">
+    <div className="flex gap-4">
+      <div className="shrink-0 w-64 hidden xl:block">
+        <Suspense>{filtersSlot}</Suspense>
+      </div>
+
+      <div className="flex-1 flex flex-col gap-4">
+        <div className="self-end xl:hidden">
+          <AdCatalogSheet>
             <Suspense>{filtersSlot}</Suspense>
-          </div>
+          </AdCatalogSheet>
         </div>
 
-        <div className="flex-1">
-          <div className="mb-6 flex items-center justify-end">
-            <AdCatalogSheet>
-              <Suspense>{filtersSlot}</Suspense>
-            </AdCatalogSheet>
-          </div>
-          <div>{children}</div>
-        </div>
+        <div>{children}</div>
       </div>
     </div>
   );
