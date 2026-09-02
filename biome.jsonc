@@ -192,7 +192,8 @@
         "rules": {
           "performance": { "noAwaitInLoops": "off", "noDelete": "off" },
           "style": { "noNonNullAssertion": "off" },
-          "complexity": { "noExcessiveLinesPerFunction": "off" }
+          "complexity": { "noExcessiveLinesPerFunction": "off" },
+          "suspicious": { "noUnnecessaryConditions": "off" }
         }
       }
     }

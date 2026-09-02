@@ -1,17 +1,24 @@
 import type { z } from 'zod/v4-mini';
 
-import type { AdCreateSchema, AdFilterSchema } from './schemas';
+import type { AdStatus } from './constants';
+import type { AdDraftSchema, AdFilterSchema } from './schemas';
 import type { ContactType } from '../contact/types';
 
-export type AdCreateType = z.infer<typeof AdCreateSchema>;
+export type AdDraftType = z.infer<typeof AdDraftSchema>;
 export type AdFilterType = z.infer<typeof AdFilterSchema>;
+
+export interface AdImageType {
+  id: string;
+  url: string;
+  blurDataUrl: string;
+}
 
 export interface AdPreviewType {
   name: string;
   type: string;
   price: number;
   breed: string;
-  isPublished: boolean | null;
+  status: AdStatus;
   createdAt: string;
   id: string;
   images: {
@@ -19,7 +26,6 @@ export interface AdPreviewType {
     blurDataUrl: string;
   }[];
 }
-
 export interface AdType {
   contacts: ContactType[] | null;
   name: string;
@@ -27,15 +33,11 @@ export interface AdType {
   price: number;
   description: string;
   breed: string;
-  isPublished: boolean | null;
+  status: AdStatus;
   userId: string;
   createdAt: string;
   id: string;
-  images: {
-    id: string;
-    url: string;
-    blurDataUrl: string;
-  }[];
+  images: AdImageType[];
   user: {
     name: string;
   };

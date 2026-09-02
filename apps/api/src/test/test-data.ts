@@ -32,7 +32,8 @@ export function createTestAdData(userId: User['id'], data: Partial<AdInsertType>
     price: faker.number.float({ min: 10, max: 1000, multipleOf: 0.02 }),
     userId,
     createdAt: faker.date.past({ years: 7 }).toISOString(),
-    isPublished: faker.datatype.boolean(),
+    status: 'PUBLISHED',
+    contacts: [{ type: 'phone', number: '7 (555) 555 55 55' }],
     ...data,
   };
 }

@@ -20,14 +20,14 @@ export default async function Page() {
   const { data: ads, error } = await getMyAds({ userId: user.id });
   if (error) return <ErrorComponent {...error} />;
 
-  if (ads.data.length === 0) return <MyAdsListEmpty />;
+  if (ads.items.length === 0) return <MyAdsListEmpty />;
   return (
     <MyAdsList>
-      {ads.data.map(ad => (
+      {ads.items.map(ad => (
         <AdItem
           actionsSlot={
             <>
-              <AdPublishButton id={ad.id} isPublished={ad.isPublished} onPublish={revalidateAds} />
+              <AdPublishButton id={ad.id} status={ad.status} onPublish={revalidateAds} />
               <AdDeleteButton id={ad.id} onDelete={revalidateAds} />
             </>
           }

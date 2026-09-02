@@ -1,61 +1,63 @@
 'use client';
 
-import type { ProfileType } from '@purrfect_match/shared/entities/auth/types';
+import { useTransition } from 'react';
+import type { AdDraftType } from '@purrfect_match/shared/entities/ad/types';
+import { SaveCheckIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 
-import { createAd } from '@/shared/api/ads';
+import { publishDraftAd, updateDraftAd } from '@/shared/api/ads';
 import { useAppForm } from '@/shared/lib/form';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/shared/ui/card';
+import { Spinner } from '@/shared/ui/spinner';
 import { AdCreateForm } from './ad-create-form';
 import { adCreateFormOptions } from '../models/form-options';
 
-export function AdCreateCard({ profile }: { profile: ProfileType }) {
+export function AdCreateCard({ ad }: { ad: AdDraftType }) {
+  const [isSaving, startSaving] = useTransition();
+
   const router = useRouter();
   const form = useAppForm({
     ...adCreateFormOptions,
-    defaultValues: {
-      ...adCreateFormOptions.defaultValues,
-      contacts: profile.contacts || adCreateFormOptions.defaultValues.contacts,
+    defaultValues: { ...adCreateFormOptions.defaultValues, ...ad },
+    listeners: {
+      onChange({ formApi }) {
+        startSaving(async () => {
+          const { error } = await updateDraftAd({ json: formApi.state.values });
+          if (error) toast.error(error.message);
+        });
+      },
+      onChangeDebounceMs: 700,
     },
-    async onSubmit({ value, formApi }) {
+    async onSubmit({ formApi }) {
       toast.loading('Creating new ad...', { id: formApi.formId });
 
-      const { images, ...input } = value;
-      const { data, error } = await createAd({ input, images });
+      const { error: updateError } = await updateDraftAd({ json: form.state.values });
+      if (updateError) {
+        return toast.error(updateError.message);
+      }
+
+      const { data, error } = await publishDraftAd();
       if (error) return toast.error(error.message, { id: formApi.formId });
 
-      formApi.reset(value);
       toast.success('Ad created successfully', { id: formApi.formId });
 
-      router.replace(`/ad/${data.id}`);
+      router.replace(`/ad/${data.id}/publish`);
     },
   });
 
   return (
     <form.AppForm>
       <Card>
-        <CardHeader>
+        <CardHeader className="flex justify-between">
           <CardTitle className="text-2xl font-bold">Create new ad</CardTitle>
+          {isSaving ? <Spinner /> : <SaveCheckIcon />}
         </CardHeader>
         <CardContent>
           <AdCreateForm />
         </CardContent>
         <CardFooter className="justify-end">
-          <form.FormSubmitButton
-            variant="outline"
-            onClick={() => form.setFieldValue('isPublished', true)}
-            className="grow"
-          >
-            Create And Publish
-          </form.FormSubmitButton>
-          <form.FormSubmitButton
-            variant="default"
-            onClick={() => form.setFieldValue('isPublished', false)}
-            className="grow"
-          >
-            Create
-          </form.FormSubmitButton>
+          <form.FormSubmitButton className=" w-1/2">Publish</form.FormSubmitButton>
         </CardFooter>
       </Card>
     </form.AppForm>

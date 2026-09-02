@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
 import { Field, FieldGroup, FieldLabel } from '@/shared/ui/field';
 import { Skeleton } from '@/shared/ui/skeleton';
 
-export function AdCreateFallback() {
+export function AdCreateCardFallback() {
   return (
     <Card>
       <CardHeader>

@@ -5,7 +5,6 @@ import { z } from 'zod/v4-mini';
 
 import { Button } from './button';
 import { Field, FieldError, FieldLabel, FieldSet } from './field';
-import { FileUpload } from './file-upload';
 import type { Input } from './input';
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput, InputGroupTextarea } from './input-group';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './select';
@@ -40,31 +39,6 @@ export function FormInput({
           </InputGroupAddon>
         )}
       </InputGroup>
-      <FieldError errors={errors} />
-    </Field>
-  );
-}
-
-export function FormFileInput({
-  label,
-  errors,
-  ...props
-}: ComponentProps<'input'> & { label?: string; errors?: Array<{ message?: string } | undefined> }) {
-  const field = useFieldContext<File[]>();
-
-  return (
-    <Field data-invalid={!field.state.meta.isValid}>
-      {label && <FieldLabel htmlFor={field.name + field.form.formId}>{label}</FieldLabel>}
-
-      <FileUpload
-        files={field.state.value}
-        onFilesChange={files => field.handleChange(files)}
-        onFileRemove={(_, index) => field.removeValue(index)}
-        aria-invalid={!field.state.meta.isValid}
-        id={field.name + field.form.formId}
-        {...props}
-      />
-
       <FieldError errors={errors} />
     </Field>
   );

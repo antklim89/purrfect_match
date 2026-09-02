@@ -6,7 +6,7 @@ import type { AdType } from '@purrfect_match/shared/entities/ad/types';
 import { EyeIcon, EyeOffIcon } from 'lucide-react';
 import { toast } from 'sonner';
 
-import { publishAd } from '@/shared/api/ads';
+import { togglePublishAd } from '@/shared/api/ads';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -21,18 +21,16 @@ import { Spinner } from '@/shared/ui/spinner';
 
 export function AdPublishButton({
   id,
-  isPublished,
+  status,
   onPublish,
   ...props
-}: { id: AdType['id']; isPublished: AdType['isPublished']; onPublish?: () => void } & ComponentProps<
-  typeof AlertDialogTrigger
->) {
+}: { id: AdType['id']; status: AdType['status']; onPublish?: () => void } & ComponentProps<typeof AlertDialogTrigger>) {
   const actionsRef = useRef<DialogRootActions | null>(null);
   const [isPending, startTransition] = useTransition();
 
   function handleAdPublish() {
     startTransition(async () => {
-      const { error } = await publishAd({ adId: id });
+      const { error } = await togglePublishAd({ adId: id });
 
       if (error) {
         toast.error('Failed to publish ad');
@@ -48,7 +46,7 @@ export function AdPublishButton({
     <AlertDialog actionsRef={actionsRef}>
       <AlertDialogTrigger
         render={
-          isPublished ? (
+          status === 'PUBLISHED' ? (
             <Button title="Ad is published" aria-label="open publish unpublish this ad dialog">
               {isPending ? <Spinner /> : <EyeIcon />}
             </Button>
@@ -61,16 +59,24 @@ export function AdPublishButton({
         {...props}
       />
       <AlertDialogContent size="sm">
-        <AlertDialogHeader>Are you sure you want to {isPublished ? 'unpublish' : 'publish'} this ad?</AlertDialogHeader>
+        <AlertDialogHeader>
+          Are you sure you want to {status === 'PUBLISHED' ? 'unpublish' : 'publish'} this ad?
+        </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel variant="outline">Cancel</AlertDialogCancel>
           <AlertDialogAction
             variant="destructive"
             disabled={isPending}
             onClick={handleAdPublish}
-            aria-label={isPublished ? 'unpublish ad' : 'publish ad'}
+            aria-label={status === 'PUBLISHED' ? 'unpublish ad' : 'publish ad'}
           >
-            {isPending ? (isPublished ? 'Unblushing...' : 'Publishing...') : isPublished ? 'Unpublish' : 'Publish'}
+            {isPending
+              ? status === 'PUBLISHED'
+                ? 'Unblushing...'
+                : 'Publishing...'
+              : status === 'PUBLISHED'
+                ? 'Unpublish'
+                : 'Publish'}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

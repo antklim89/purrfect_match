@@ -31,29 +31,35 @@ export function getAdMediaPath({
   return join(getAdMediaDir({ root, adId, userId }), fileName);
 }
 
-export async function uploadImages({ images, userId, adId }: { images: File[]; userId: string; adId: string }) {
-  try {
-    return await Promise.all(images.map(image => uploadImage({ userId, adId, image })));
-  } catch (error) {
-    await fs.rm(getAdMediaDir({ userId, adId }), { force: true, recursive: true });
-    throw new Error('Failed to upload images.', { cause: error });
-  }
-}
+// export async function uploadImages({ images, userId, adId }: { images: File[]; userId: string; adId: string }) {
+//   try {
+//     return await Promise.all(images.map(image => uploadImage({ userId, adId, image })));
+//   } catch (error) {
+//     await fs.rm(getAdMediaDir({ userId, adId }), { force: true, recursive: true });
+//     throw new Error('Failed to upload images.', { cause: error });
+//   }
+// }
 
-async function uploadImage({ image, adId, userId }: { userId: string; adId: string; image: File }) {
+export async function uploadImage({ image, adId, userId }: { userId: string; adId: string; image: File }) {
   const fileName = Bun.randomUUIDv7();
-  const adMediaDir = getAdMediaDir({ root: MEDIA_ROOT_FOLDER, userId, adId });
-  const adMediaPath = getAdMediaPath({ root: MEDIA_ROOT_FOLDER, userId, adId, fileName });
-  const adMediaUrlPath = getAdMediaPath({ root: MEDIA_ROOT_URL, userId, adId, fileName });
 
-  await fs.mkdir(adMediaDir, { recursive: true });
+  try {
+    const adMediaDir = getAdMediaDir({ root: MEDIA_ROOT_FOLDER, userId, adId });
+    const adMediaPath = getAdMediaPath({ root: MEDIA_ROOT_FOLDER, userId, adId, fileName });
+    const adMediaUrlPath = getAdMediaPath({ root: MEDIA_ROOT_URL, userId, adId, fileName });
 
-  const [blurDataUrl] = await Promise.all([
-    transformImageToBlurDataUrl({ image }),
-    transformImageToFile({ filePath: adMediaPath, image }),
-  ]);
+    await fs.mkdir(adMediaDir, { recursive: true });
 
-  return { id: fileName, adId, url: adMediaUrlPath, blurDataUrl };
+    const [blurDataUrl] = await Promise.all([
+      transformImageToBlurDataUrl({ image }),
+      transformImageToFile({ filePath: adMediaPath, image }),
+    ]);
+
+    return { data: { id: fileName, adId, url: adMediaUrlPath, blurDataUrl }, error: null };
+  } catch {
+    await fs.rm(getAdMediaPath({ userId, adId, fileName }), { force: true, recursive: true });
+    return { data: null, error: { message: 'Failed to upload image.' } };
+  }
 }
 
 async function transformImageToFile({ image, filePath }: { image: File; filePath: string }) {

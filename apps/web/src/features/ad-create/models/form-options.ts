@@ -1,20 +1,25 @@
-import { AdCreateSchema } from '@purrfect_match/shared/entities/ad/schemas';
+import { AdDraftSchema, AdPublishSchema } from '@purrfect_match/shared/entities/ad/schemas';
+import type { AdImageType } from '@purrfect_match/shared/entities/ad/types';
 import type { ContactType } from '@purrfect_match/shared/entities/contact/types';
-import { ImagesSchema } from '@purrfect_match/shared/lib/schemas';
+import { formOptions, revalidateLogic } from '@tanstack/react-form';
 import { z } from 'zod/v4-mini';
 
-import { createFormOptions } from '@/shared/lib/form';
-
-export const adCreateFormOptions = createFormOptions({
-  schema: z.object({ ...AdCreateSchema.shape, images: ImagesSchema }),
+export const adCreateFormOptions = formOptions({
+  validators: {
+    onChange: z.required(AdDraftSchema),
+    onSubmit: AdPublishSchema,
+  },
   defaultValues: {
     name: '',
     type: '',
     breed: '',
     description: '',
-    images: [] as File[],
-    isPublished: false,
+    images: [] as AdImageType[],
     contacts: [] as ContactType[],
     price: 0,
+  },
+  validationLogic: revalidateLogic(),
+  onSubmitInvalid({ formApi }) {
+    console.error('Form Submit Error:\n', formApi.state.values, formApi.state.errors);
   },
 });

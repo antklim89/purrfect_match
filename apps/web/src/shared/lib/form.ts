@@ -9,7 +9,6 @@ import {
 import {
   Form,
   FormArray,
-  FormFileInput,
   FormInput,
   FormNumberInput,
   FormSelect,
@@ -27,7 +26,6 @@ export const { useAppForm, withForm, useTypedAppFormContext } = createFormHook({
     FormInput,
     FormTextarea,
     FormNumberInput,
-    FormFileInput,
     FormArray,
     FormSelect,
     FormSelectItem,

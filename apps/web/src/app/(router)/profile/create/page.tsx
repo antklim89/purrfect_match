@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { AdCreateCard } from '@/features/ad-create';
-import { getProfile } from '@/shared/api/profiles';
+import { getDraftAd } from '@/shared/api/ads';
 import { ErrorComponent } from '@/shared/ui/error-component';
 
 export const metadata: Metadata = {
@@ -10,8 +10,8 @@ export const metadata: Metadata = {
 };
 
 export default async function Page() {
-  const { data, error } = await getProfile();
+  const { data, error } = await getDraftAd();
   if (error?.status === 404) notFound();
   if (error) return <ErrorComponent {...error} />;
-  return <AdCreateCard profile={data} />;
+  return <AdCreateCard ad={data} />;
 }

@@ -1,17 +1,35 @@
 import { z } from 'zod/v4-mini';
 
 import { ADS_SORT_BY, MAX_ADS_LIMIT } from './constants';
-import { ContactArraySchema } from '../contact/schemas';
+import { ContactDraftSchema, ContactSchema } from '../contact/schemas';
 
-export const AdCreateSchema = z.object({
+export const AdImageSchema = z.object({
+  id: z.uuid(),
+  url: z.string(),
+  blurDataUrl: z.string(),
+});
+
+export const AdPublishSchema = z.object({
   name: z.string().check(z.minLength(2), z.maxLength(500)),
   type: z.string().check(z.minLength(2), z.maxLength(500)),
   price: z.number().check(z.minimum(0), z.maximum(9000000)),
   description: z.string().check(z.minLength(10), z.maxLength(40000)),
   breed: z.string().check(z.minLength(2), z.maxLength(500)),
-  contacts: ContactArraySchema,
-  isPublished: z.boolean(),
+  contacts: z.array(ContactSchema).check(z.minLength(1), z.maxLength(20)),
+  images: z.array(AdImageSchema).check(z.minLength(1), z.maxLength(20)),
 });
+
+export const AdDraftSchema = z.partial(
+  z.object({
+    name: z.string(),
+    type: z.string(),
+    price: z.number(),
+    description: z.string(),
+    breed: z.string(),
+    contacts: z.array(ContactDraftSchema),
+    images: z.array(AdImageSchema).check(z.maxLength(20)),
+  }),
+);
 
 export const AdFilterSchema = z.object({
   search: z.optional(z.string().check(z.maxLength(500))),

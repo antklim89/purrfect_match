@@ -12,7 +12,7 @@ import { profileRoute } from './profile/routes';
 const app = new Hono()
   .use(corsMiddleware)
   .use('/media/*', serveStatic())
-  .use(logger())
+  // .use(logger())
   .get('/', async c => c.json({ message: 'ok' }))
   .route('/api/ad', adRoute)
   .route('/api/auth', authRoute)

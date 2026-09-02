@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { AdStatus } from '@purrfect_match/shared/entities/ad/constants';
 import { AlertCircleIcon } from 'lucide-react';
 
 import { Alert, AlertAction, AlertDescription, AlertTitle } from '@/shared/ui/alert';
@@ -22,17 +23,17 @@ export function AdSectionDescription({ children }: { children: ReactNode }) {
 
 export function AdSectionPublishAlert({
   children,
-  isPublished,
+  status,
   description,
 }: {
   children: ReactNode;
-  isPublished?: boolean | null;
+  status?: AdStatus | null;
   description?: string;
 }) {
   return (
     <Alert className="my-4 ">
       <AlertCircleIcon />
-      <AlertTitle>{isPublished ? 'Ad is published' : 'Ad is not published'}</AlertTitle>
+      <AlertTitle>{status === AdStatus.PUBLISHED ? 'Ad is published' : 'Ad is not published'}</AlertTitle>
       <AlertDescription>{description}</AlertDescription>
 
       {children}

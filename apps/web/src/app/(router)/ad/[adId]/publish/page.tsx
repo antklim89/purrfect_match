@@ -31,8 +31,8 @@ export default async function Page({ params }: PageProps<'/ad/[adId]'>) {
   return (
     <AdSection>
       <AdSectionPublishAlert
-        isPublished={ad.isPublished}
-        description={`This is your ad. You can ${ad.isPublished ? 'unpublish' : 'publish'} it.`}
+        status={ad.status}
+        description={`This is your ad. You can ${ad.status ? 'unpublish' : 'publish'} it.`}
       >
         <AdSectionPublishAlertActions>
           <Link
@@ -49,7 +49,7 @@ export default async function Page({ params }: PageProps<'/ad/[adId]'>) {
               revalidatePath(`/ad/${ad.id}/publish` satisfies Route<`/ad/${string}/publish`>, 'page');
             }}
             id={ad.id}
-            isPublished={ad.isPublished}
+            status={ad.status}
           />
         </AdSectionPublishAlertActions>
       </AdSectionPublishAlert>
