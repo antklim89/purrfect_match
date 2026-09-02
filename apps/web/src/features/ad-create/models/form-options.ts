@@ -2,6 +2,7 @@ import { AdDraftSchema, AdPublishSchema } from '@purrfect_match/shared/entities/
 import type { AdImageType } from '@purrfect_match/shared/entities/ad/types';
 import type { ContactType } from '@purrfect_match/shared/entities/contact/types';
 import { formOptions, revalidateLogic } from '@tanstack/react-form';
+import { toast } from 'sonner';
 import { z } from 'zod/v4-mini';
 
 export const adCreateFormOptions = formOptions({
@@ -21,5 +22,6 @@ export const adCreateFormOptions = formOptions({
   validationLogic: revalidateLogic(),
   onSubmitInvalid({ formApi }) {
     console.error('Form Submit Error:\n', formApi.state.values, formApi.state.errors);
+    toast.error('Failed to create ad. Try again late.', { id: formApi.formId });
   },
 });
