@@ -79,7 +79,7 @@ export async function adFindOneService({ id }: { id: AdSelectType['id'] }) {
       eq(adTable.id, id),
       or(eq(adTable.status, AdStatus.PUBLISHED), eq(adTable.status, AdStatus.UNPUBLISHED)),
     ),
-    with: { images: { columns: { id: true, blurDataUrl: true, url: true } }, user: true },
+    with: { images: true, user: { columns: { name: true } }, profile: true },
   });
   if (!ad) throw new HTTPException(StatusCode.NOT_FOUND, { message: 'Ad not found.' });
 
@@ -122,12 +122,11 @@ export async function adGetDraftService({ userId }: { userId: User['id'] }) {
 
   const [createdAd] = await db
     .insert(adTable)
-    .values({ breed: '', description: '', name: '', price: 0, type: '', userId, contacts: [], status: AdStatus.DRAFT })
+    .values({ breed: '', description: '', name: '', price: 0, type: '', userId, status: AdStatus.DRAFT })
     .returning({
       id: adTable.id,
       status: adTable.status,
       breed: adTable.breed,
-      contacts: adTable.contacts,
       description: adTable.description,
       name: adTable.name,
       price: adTable.price,
@@ -158,7 +157,6 @@ export async function adUpdateDraftService({ userId, input }: { userId: User['id
       description: input.description,
       price: input.price,
       type: input.type,
-      contacts: input.contacts,
     })
     .where(and(eq(adTable.status, AdStatus.DRAFT), eq(adTable.userId, userId)))
     .returning({ id: adTable.id });

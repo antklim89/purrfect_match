@@ -31,15 +31,6 @@ export function getAdMediaPath({
   return join(getAdMediaDir({ root, adId, userId }), fileName);
 }
 
-// export async function uploadImages({ images, userId, adId }: { images: File[]; userId: string; adId: string }) {
-//   try {
-//     return await Promise.all(images.map(image => uploadImage({ userId, adId, image })));
-//   } catch (error) {
-//     await fs.rm(getAdMediaDir({ userId, adId }), { force: true, recursive: true });
-//     throw new Error('Failed to upload images.', { cause: error });
-//   }
-// }
-
 export async function uploadImage({ image, adId, userId }: { userId: string; adId: string; image: File }) {
   const fileName = Bun.randomUUIDv7();
 

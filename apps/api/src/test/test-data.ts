@@ -33,7 +33,6 @@ export function createTestAdData(userId: User['id'], data: Partial<AdInsertType>
     userId,
     createdAt: faker.date.past({ years: 7 }).toISOString(),
     status: 'PUBLISHED',
-    contacts: [{ type: 'phone', number: '7 (555) 555 55 55' }],
     ...data,
   };
 }

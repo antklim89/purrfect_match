@@ -1,5 +1,5 @@
 import { cache } from 'react';
-import type { ProfileUpdateType } from '@purrfect_match/shared/entities/auth/types';
+import type { ProfileUpdateType } from '@purrfect_match/shared/entities/profile/types';
 
 import { apiCall, apiClient, apiSessionClient } from '@/shared/lib/api-client';
 

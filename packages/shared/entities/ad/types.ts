@@ -2,7 +2,7 @@ import type { z } from 'zod/v4-mini';
 
 import type { AdStatus } from './constants';
 import type { AdDraftSchema, AdFilterSchema } from './schemas';
-import type { ContactType } from '../contact/types';
+import type { ProfileType } from '../profile/types';
 
 export type AdDraftType = z.infer<typeof AdDraftSchema>;
 export type AdFilterType = z.infer<typeof AdFilterSchema>;
@@ -26,8 +26,8 @@ export interface AdPreviewType {
     blurDataUrl: string;
   }[];
 }
+
 export interface AdType {
-  contacts: ContactType[] | null;
   name: string;
   type: string;
   price: number;
@@ -38,6 +38,7 @@ export interface AdType {
   createdAt: string;
   id: string;
   images: AdImageType[];
+  profile: ProfileType;
   user: {
     name: string;
   };

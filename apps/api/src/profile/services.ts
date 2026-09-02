@@ -1,4 +1,4 @@
-import type { ProfileUpdateType } from '@purrfect_match/shared/entities/auth/types';
+import type { ProfileUpdateType } from '@purrfect_match/shared/entities/profile/types';
 import { StatusCode } from '@purrfect_match/shared/lib/status-codes';
 import { HTTPException } from 'hono/http-exception';
 

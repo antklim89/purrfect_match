@@ -1,4 +1,4 @@
-import { contacts } from '@purrfect_match/shared/entities/contact/constants';
+import { profileContacts } from '@purrfect_match/shared/entities/profile/constants';
 import { Trash2Icon } from 'lucide-react';
 
 import { useTypedAppFormContext } from '@/shared/lib/form';
@@ -61,7 +61,7 @@ export function ProfileUpdateForm() {
                     <form.AppField name={`contacts[${index}].type`}>
                       {subfield => (
                         <subfield.FormSelect>
-                          {contacts.map(contact => (
+                          {profileContacts.map(contact => (
                             <subfield.FormSelectItem value={contact.value} key={contact.value}>
                               {contact.label}
                             </subfield.FormSelectItem>

@@ -1,7 +1,6 @@
 import { z } from 'zod/v4-mini';
 
 import { ADS_SORT_BY, MAX_ADS_LIMIT } from './constants';
-import { ContactDraftSchema, ContactSchema } from '../contact/schemas';
 
 export const AdImageSchema = z.object({
   id: z.uuid(),
@@ -15,7 +14,6 @@ export const AdPublishSchema = z.object({
   price: z.number().check(z.minimum(0), z.maximum(9000000)),
   description: z.string().check(z.minLength(10), z.maxLength(40000)),
   breed: z.string().check(z.minLength(2), z.maxLength(500)),
-  contacts: z.array(ContactSchema).check(z.minLength(1), z.maxLength(20)),
   images: z.array(AdImageSchema).check(z.minLength(1), z.maxLength(20)),
 });
 
@@ -26,7 +24,6 @@ export const AdDraftSchema = z.partial(
     price: z.number(),
     description: z.string(),
     breed: z.string(),
-    contacts: z.array(ContactDraftSchema),
     images: z.array(AdImageSchema).check(z.maxLength(20)),
   }),
 );

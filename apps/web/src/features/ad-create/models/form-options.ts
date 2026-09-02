@@ -1,6 +1,5 @@
 import { AdDraftSchema, AdPublishSchema } from '@purrfect_match/shared/entities/ad/schemas';
 import type { AdImageType } from '@purrfect_match/shared/entities/ad/types';
-import type { ContactType } from '@purrfect_match/shared/entities/contact/types';
 import { formOptions, revalidateLogic } from '@tanstack/react-form';
 import { toast } from 'sonner';
 import { z } from 'zod/v4-mini';
@@ -16,7 +15,6 @@ export const adCreateFormOptions = formOptions({
     breed: '',
     description: '',
     images: [] as AdImageType[],
-    contacts: [] as ContactType[],
     price: 0,
   },
   validationLogic: revalidateLogic(),

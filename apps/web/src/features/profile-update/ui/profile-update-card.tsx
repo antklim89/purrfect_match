@@ -1,5 +1,5 @@
 'use client';
-import type { ProfileType, ProfileUpdateType } from '@purrfect_match/shared/entities/auth/types';
+import type { ProfileType, ProfileUpdateType } from '@purrfect_match/shared/entities/profile/types';
 import { toast } from 'sonner';
 
 import { updateProfile } from '@/shared/api/profiles';

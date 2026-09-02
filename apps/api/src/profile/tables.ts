@@ -1,4 +1,4 @@
-import type { ContactType } from '@purrfect_match/shared/entities/contact/types';
+import type { ProfileContactType } from '@purrfect_match/shared/entities/profile/types';
 import { jsonb, pgTable, text, timestamp } from 'drizzle-orm/pg-core';
 
 import { userTable } from '../auth/tables';
@@ -9,8 +9,7 @@ export const profileTable = pgTable('profile', {
     .references(() => userTable.id, { onDelete: 'cascade' }),
 
   fullName: text('full_name'),
-  tel: text('tel').array(),
-  contacts: jsonb('contacts').$type<ContactType[]>(),
+  contacts: jsonb('contacts').$type<ProfileContactType[]>(),
   address: text('address'),
   description: text('description'),
 

@@ -1,8 +1,8 @@
-import type { ContactType } from '@purrfect_match/shared/entities/contact/types';
 import { relations, sql } from 'drizzle-orm';
-import { jsonb, numeric, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
+import { numeric, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
 
 import { userTable } from '@/auth/tables';
+import { profileTable } from '@/profile/tables';
 
 export const adTable = pgTable('ad', {
   id: uuid().default(sql`uuidv7()`).primaryKey(),
@@ -12,7 +12,6 @@ export const adTable = pgTable('ad', {
   breed: text().notNull(),
   type: text().notNull(),
   price: numeric({ precision: 10, scale: 2, mode: 'number' }).notNull(),
-  contacts: jsonb().$type<ContactType[]>().notNull(),
 
   status: text('status', { enum: ['DRAFT', 'PUBLISHED', 'UNPUBLISHED'] })
     .notNull()
@@ -42,6 +41,10 @@ export const adRelations = relations(adTable, ({ many, one }) => ({
   user: one(userTable, {
     fields: [adTable.userId],
     references: [userTable.id],
+  }),
+  profile: one(profileTable, {
+    fields: [adTable.userId],
+    references: [profileTable.id],
   }),
 }));
 

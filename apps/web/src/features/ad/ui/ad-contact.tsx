@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import type { ContactType } from '@purrfect_match/shared/entities/contact/types';
+import type { ProfileContactType } from '@purrfect_match/shared/entities/profile/types';
 import { FaViber } from 'react-icons/fa6';
 import { RiKakaoTalkLine, RiPhoneLine, RiTelegram2Line, RiWechatLine, RiWhatsappLine } from 'react-icons/ri';
 
@@ -15,7 +15,7 @@ const contactsMap: Record<string, { icon: ReactNode; hrefPrefix: string }> = {
   kakaotalk: { icon: <RiKakaoTalkLine />, hrefPrefix: 'kakaotalk://chat?chat_id=' },
 };
 
-export function AdContact({ contact }: { contact: ContactType }) {
+export function AdContact({ contact }: { contact: ProfileContactType }) {
   const contactData = contactsMap[contact.type];
 
   return (

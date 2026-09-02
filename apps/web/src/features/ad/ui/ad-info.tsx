@@ -22,7 +22,7 @@ export function AdInfo({ ad }: { ad: AdType }) {
       </CardHeader>
       <CardContent className="h-full">
         <ItemGroup>
-          {ad.contacts?.map(contact => (
+          {ad.profile.contacts?.map(contact => (
             <AdContact contact={contact} key={contact.type + contact.number} />
           ))}
         </ItemGroup>

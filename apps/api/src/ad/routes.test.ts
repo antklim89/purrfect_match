@@ -248,7 +248,6 @@ describe('[PATCH] /api/ad/update-draft', () => {
         {
           json: {
             breed: 'UPDATED',
-            contacts: [{ type: 'phone', number: '7 555 55 55' }, {} as { type: string; number: string }],
             description: 'UPDATED',
             name: 'UPDATED',
             price: 1000,
@@ -262,10 +261,6 @@ describe('[PATCH] /api/ad/update-draft', () => {
     const [updatedAd] = await db.select().from(adTable).where(eq(adTable.id, insertedAd.id));
 
     expect(updatedAd).toHaveProperty('breed', 'UPDATED');
-    expect(updatedAd).toHaveProperty('contacts', [
-      { type: 'phone', number: '7 555 55 55' },
-      { type: '', number: '' },
-    ]);
     expect(updatedAd).toHaveProperty('description', 'UPDATED');
     expect(updatedAd).toHaveProperty('name', 'UPDATED');
     expect(updatedAd).toHaveProperty('breed', 'UPDATED');
@@ -378,7 +373,6 @@ describe('[PATCH] /api/ad/publish-draft', () => {
       adTable,
       createTestAdData(user.id, {
         status: AdStatus.DRAFT,
-        contacts: [],
         price: -1,
         description: 'A',
         name: 'X',
