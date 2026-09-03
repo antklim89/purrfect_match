@@ -1,5 +1,5 @@
 import * as fs from 'node:fs/promises';
-import { ADS_SORT_BY, AdStatus } from '@purrfect_match/shared/entities/ad/constants';
+import { ADS_SORT_BY, AdStatus, MAX_IMAGES_PER_AD } from '@purrfect_match/shared/entities/ad/constants';
 import type { User } from 'better-auth';
 import { eq } from 'drizzle-orm';
 import { testClient } from 'hono/testing';
@@ -162,7 +162,7 @@ describe('[GET] /api/ad', () => {
     );
   });
 
-  it.each((['desc', 'asc'] as const).flatMap(orderBy => ADS_SORT_BY.flatMap(sortBy => ({ orderBy, sortBy }))))(
+  it.each((['desc', 'asc'] as const).flatMap((orderBy) => ADS_SORT_BY.flatMap((sortBy) => ({ orderBy, sortBy }))))(
     'should find all ads with sort $sortBy and order $orderBy',
     async ({ orderBy, sortBy }) => {
       const insertedAds = await insertListData(adTable, () => createTestAdData(user.id), 35);
@@ -183,7 +183,7 @@ describe('[GET] /api/ad', () => {
       }
 
       const allAds = insertedAds
-        .map(i => i[sortBy])
+        .map((i) => i[sortBy])
         .sort((a, b) => {
           if (typeof a === 'number' && typeof b === 'number') return a - b;
           if (typeof a === 'string' && typeof b === 'string') return a.localeCompare(b);
@@ -312,6 +312,34 @@ describe('[PATCH] /api/ad/upload-image-draft', () => {
     expect(uploadedImageExists).toBeTruthy();
     expect(updatedAd?.images).toHaveLength(1);
   });
+
+  it('should not upload too many images', async () => {
+    const { user, headers } = await registerTestUser();
+    const draftAd = await insertData(adTable, createTestAdData(user.id, { status: 'DRAFT' }));
+
+    await Promise.all(
+      Array.from({ length: MAX_IMAGES_PER_AD }, () =>
+        testApiCall(client.api.ad['upload-image-draft'].$patch({ form: { image } }, { headers })),
+      ),
+    );
+
+    const { error } = await testApiCall(client.api.ad['upload-image-draft'].$patch({ form: { image } }, { headers }));
+    expect(error).not.toBeNullable();
+    const updatedAd = await db.query.adTable.findFirst({
+      where: eq(adTable.id, draftAd.id),
+      with: { images: true },
+    });
+
+    const imagesDir = getAdMediaDir({
+      root: MEDIA_ROOT_FOLDER,
+      adId: updatedAd!.id,
+      userId: user.id,
+    });
+    const dir = await Array.fromAsync(fs.glob(`${imagesDir}/**/*`));
+
+    expect(dir).toHaveLength(MAX_IMAGES_PER_AD);
+    expect(updatedAd?.images).toHaveLength(MAX_IMAGES_PER_AD);
+  });
 });
 
 describe('[PATCH] /api/ad/:id/delete-image-draft', () => {
@@ -391,7 +419,7 @@ describe('[PATCH] /api/ad/publish-draft', () => {
 });
 
 describe('[PATCH] /api/ad/:id/toggle-publish', () => {
-  it('should publish draft', async () => {
+  it('should toggle publish status', async () => {
     const { user, headers } = await registerTestUser();
     const draftAd = await insertData(adTable, createTestAdData(user.id, { status: AdStatus.PUBLISHED }));
 

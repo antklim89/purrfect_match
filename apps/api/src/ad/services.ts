@@ -1,10 +1,10 @@
 import * as fs from 'node:fs/promises';
-import { AdStatus } from '@purrfect_match/shared/entities/ad/constants';
+import { AdStatus, MAX_IMAGES_PER_AD } from '@purrfect_match/shared/entities/ad/constants';
 import { AdPublishSchema } from '@purrfect_match/shared/entities/ad/schemas';
 import type { AdDraftType, AdFilterType } from '@purrfect_match/shared/entities/ad/types';
 import { StatusCode } from '@purrfect_match/shared/lib/status-codes';
 import type { User } from 'better-auth';
-import { and, asc, desc, eq, exists, gt, like, lt, or, sql } from 'drizzle-orm';
+import { and, asc, count, desc, eq, exists, gt, like, lt, or, sql } from 'drizzle-orm';
 import { HTTPException } from 'hono/http-exception';
 import { z } from 'zod/v4-mini';
 
@@ -45,7 +45,7 @@ export async function adFindManyService({
       const orderFn = orderBy === 'desc' ? desc : asc;
       return [orderFn(fields[sortBy]), orderFn(fields.id)];
     },
-    where: fields => {
+    where: (fields) => {
       const orderFn = orderBy === 'desc' ? lt : gt;
 
       function cursorPagination() {
@@ -87,7 +87,7 @@ export async function adFindOneService({ id }: { id: AdSelectType['id'] }) {
 }
 
 export async function adDeleteService({ userId, id }: { userId: User['id']; id: AdSelectType['id'] }) {
-  return await db.transaction(async tx => {
+  return await db.transaction(async (tx) => {
     await tx.delete(adTable).where(and(eq(adTable.id, id), eq(adTable.userId, userId)));
 
     const mediaDir = getAdMediaDir({ root: MEDIA_ROOT_FOLDER, adId: id, userId });
@@ -110,7 +110,6 @@ export async function adGetDraftService({ userId }: { userId: User['id'] }) {
       id: true,
       status: true,
       breed: true,
-      contacts: true,
       description: true,
       name: true,
       price: true,
@@ -135,7 +134,7 @@ export async function adGetDraftService({ userId }: { userId: User['id'] }) {
 
   if (!createdAd) {
     throw new HTTPException(StatusCode.SERVER_ERROR, {
-      message: 'Failed to create draft ad. Try again later.',
+      message: 'Failed to create the draft of an ad. Try again later.',
     });
   }
 
@@ -163,7 +162,7 @@ export async function adUpdateDraftService({ userId, input }: { userId: User['id
 
   if (!updatedAd) {
     throw new HTTPException(StatusCode.NOT_FOUND, {
-      message: 'Failed to update draft ad. Ad not found. Try again later.',
+      message: 'Failed to update the draft of an ad. Ad not found. Try again later.',
     });
   }
 
@@ -171,39 +170,56 @@ export async function adUpdateDraftService({ userId, input }: { userId: User['id
 }
 
 export async function adUploadImageDraftService({ userId, image }: { userId: User['id']; image: File }) {
-  const [selectedAd] = await db
-    .select()
-    .from(adTable)
-    .where(and(eq(adTable.status, AdStatus.DRAFT), eq(adTable.userId, userId)));
+  return db.transaction(async (tx) => {
+    const [selectedAd] = await tx
+      .select()
+      .from(adTable)
+      .where(and(eq(adTable.status, AdStatus.DRAFT), eq(adTable.userId, userId)));
 
-  if (!selectedAd) {
-    throw new HTTPException(StatusCode.NOT_FOUND, {
-      message: 'Failed to update draft ad. Ad not found. Try again later.',
-    });
-  }
+    if (!selectedAd) {
+      throw new HTTPException(StatusCode.NOT_FOUND, {
+        message: 'Failed to upload image. The draft of an ad not found. Try again later.',
+      });
+    }
 
-  const { data: uploadedImage, error: uploadError } = await uploadImage({ image, userId, adId: selectedAd.id });
-  if (uploadError) {
-    throw new HTTPException(StatusCode.NOT_FOUND, {
-      message: uploadError.message,
-    });
-  }
+    const { data: uploadedImage, error: uploadError } = await uploadImage({ image, userId, adId: selectedAd.id });
+    if (uploadError) {
+      throw new HTTPException(StatusCode.SERVER_ERROR, {
+        message: uploadError.message,
+      });
+    }
 
-  const [insertedAdImage] = await db.insert(adImageTable).values(uploadedImage).returning({ id: adTable.id });
-  if (!insertedAdImage) {
     const deletePath = getAdMediaPath({
       root: MEDIA_ROOT_FOLDER,
       userId,
       adId: selectedAd.id,
       fileName: uploadedImage.id,
     });
-    await fs.rm(deletePath, { force: true, recursive: true });
-    throw new HTTPException(StatusCode.NOT_FOUND, {
-      message: 'Failed to update draft ad. Try again later.',
-    });
-  }
 
-  return uploadedImage;
+    const [insertedAdImage] = await tx.insert(adImageTable).values(uploadedImage).returning({ id: adTable.id });
+
+    if (!insertedAdImage) {
+      await fs.rm(deletePath, { force: true, recursive: true });
+      throw new HTTPException(StatusCode.SERVER_ERROR, {
+        message: 'Failed to upload image. Try again later.',
+      });
+    }
+
+    const imageCountSelect = await tx
+      .select({ count: count() })
+      .from(adImageTable)
+      .where(eq(adImageTable.adId, selectedAd.id));
+    const imageCount = imageCountSelect[0]?.count || 0;
+
+    if (imageCount > MAX_IMAGES_PER_AD) {
+      await fs.rm(deletePath, { force: true, recursive: true });
+      throw new HTTPException(StatusCode.CLIENT_ERROR, {
+        message: `Uploaded too many images. Max allowed is ${MAX_IMAGES_PER_AD}`,
+      });
+    }
+
+    return uploadedImage;
+  });
 }
 
 export async function adDeleteImageDraftService({
@@ -213,7 +229,7 @@ export async function adDeleteImageDraftService({
   userId: User['id'];
   adImageId: AdImageSelectType['id'];
 }) {
-  return db.transaction(async tx => {
+  return db.transaction(async (tx) => {
     const toDeleteAd = tx
       .select()
       .from(adTable)
@@ -226,7 +242,7 @@ export async function adDeleteImageDraftService({
 
     if (!deletedAd) {
       throw new HTTPException(StatusCode.NOT_FOUND, {
-        message: 'Failed to delete draft image. Image not found. Try again later.',
+        message: 'Failed to delete image. The image not found. Try again later.',
       });
     }
 
@@ -255,7 +271,7 @@ export async function adPublishDraftService({ userId }: { userId: User['id'] }) 
   });
 
   if (!toPublishAd) {
-    throw new HTTPException(StatusCode.NOT_FOUND, { message: 'Failed to publish draft ad. Ad not found.' });
+    throw new HTTPException(StatusCode.NOT_FOUND, { message: 'Failed to publish. The draft of an ad not found.' });
   }
 
   const { success, error } = await AdPublishSchema.safeParseAsync(toPublishAd);
@@ -271,7 +287,9 @@ export async function adPublishDraftService({ userId }: { userId: User['id'] }) 
     .returning({ id: adTable.id });
 
   if (!publishedAd) {
-    throw new HTTPException(StatusCode.SERVER_ERROR, { message: 'Failed to publish draft ad. Try again later.' });
+    throw new HTTPException(StatusCode.SERVER_ERROR, {
+      message: 'Failed to publish the draft of an ad. Try again later.',
+    });
   }
 
   return publishedAd;
