@@ -4,6 +4,7 @@ export const IMAGE_EXT = 'webp';
 
 export const AD_IMAGE_HEIGHT = 1024;
 export const AD_IMAGE_WIDTH = 1280;
+export const MAX_IMAGES_PER_AD = 20;
 
 export const AdStatus = {
   DRAFT: 'DRAFT',

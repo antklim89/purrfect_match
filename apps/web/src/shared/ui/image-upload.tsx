@@ -1,6 +1,7 @@
 import { type ChangeEvent, type ComponentProps, useRef, useState, useTransition } from 'react';
 import { ImageIcon, XIcon } from 'lucide-react';
 import Image from 'next/image';
+import { toast } from 'sonner';
 
 import {
   Attachment,
@@ -15,34 +16,41 @@ import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from './
 import { Input } from './input';
 import { Spinner } from './spinner';
 
-export interface FileUploadFileType {
+export interface UploadImageType {
   id: string;
   url: string;
   blurDataUrl?: string;
 }
 
-export function FileUpload({
+export function ImageUpload({
   placeholder,
-  onFileChange,
-  onFileRemove,
+  onImageChange,
+  onImageRemove,
   images,
+  maxImages,
   ...props
 }: ComponentProps<'input'> & {
-  images: FileUploadFileType[];
-  onFileChange: (files: File) => Promise<void>;
-  onFileRemove: (file: FileUploadFileType, index: number) => void;
+  maxImages: number;
+  images: UploadImageType[];
+  onImageChange: (images: File) => Promise<void>;
+  onImageRemove: (image: UploadImageType, index: number) => void;
 }) {
-  const [uploadingFiles, setUploadingFiles] = useState<File[]>([]);
+  const [uploadingImages, setUploadingImages] = useState<File[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  function handleFileChange(e: ChangeEvent<HTMLInputElement>): void {
+  function handleImageChange(e: ChangeEvent<HTMLInputElement>): void {
     if (!e.target.files) return;
 
-    setUploadingFiles([...e.target.files]);
-    Array.from(e.target.files, async file => {
-      await onFileChange(file);
-      setUploadingFiles(prev => prev.filter(i => i.name !== file.name));
-      return file;
+    if (e.target.files.length + images.length > maxImages) {
+      toast.warning(`Too many images. Max allowed is ${maxImages}`);
+    }
+    const imagesToUpload = [...e.target.files].slice(0, maxImages - images.length);
+
+    setUploadingImages(imagesToUpload);
+    imagesToUpload.map(async (image) => {
+      await onImageChange(image);
+      setUploadingImages((prev) => prev.filter((i) => i.name !== image.name));
+      return image;
     });
 
     e.target.value = '';
@@ -51,26 +59,26 @@ export function FileUpload({
   return (
     <div className="flex flex-1 flex-col gap-0.5 leading-snug border rounded-lg">
       <Button className="-m-0.25" onClick={() => inputRef.current?.click()} variant="outline">
-        {placeholder}
+        {placeholder} ({images.length}/{maxImages})
       </Button>
 
-      <div className="grid grid-col-1 md:grid-cols-2 p-2 gap-2">
-        {images.length === 0 && <FileUploadEmpty />}
-        {images.map((file, index) => (
-          <FileUploadedAttachment image={file} index={index} onFileRemove={onFileRemove} key={file.id} />
+      <div className="grid grid-cols-[repeat(auto-fill,minmax(min(12rem,100%),1fr))] gap-2 p-2">
+        {images.length === 0 && uploadingImages.length === 0 && <ImageUploadEmpty />}
+        {images.map((image, index) => (
+          <ImageUploadedAttachment image={image} index={index} onImageRemove={onImageRemove} key={image.id} />
         ))}
-        {uploadingFiles.map(file => (
-          <FileUploadingAttachment file={file} key={file.name} />
+        {uploadingImages.map((image) => (
+          <ImageUploadingAttachment image={image} key={image.name} />
         ))}
       </div>
-      <Input {...props} ref={inputRef} className="hidden" type="file" onChange={handleFileChange} {...props} />
+      <Input {...props} ref={inputRef} className="hidden" type="file" onChange={handleImageChange} {...props} />
     </div>
   );
 }
 
-function FileUploadEmpty() {
+function ImageUploadEmpty() {
   return (
-    <Empty className="col-span-2">
+    <Empty className="col-span-full">
       <EmptyHeader>
         <EmptyMedia variant="icon">
           <ImageIcon />
@@ -82,19 +90,21 @@ function FileUploadEmpty() {
   );
 }
 
-function FileUploadedAttachment({
+function ImageUploadedAttachment({
   image,
   index,
-  onFileRemove,
+  onImageRemove,
 }: {
-  image: FileUploadFileType;
+  image: UploadImageType;
   index: number;
-  onFileRemove: (file: FileUploadFileType, index: number) => void;
+  onImageRemove: (image: UploadImageType, index: number) => void;
 }) {
   const [isRemoving, startRemoving] = useTransition();
-  function handleFileRemove() {
-    startRemoving(() => onFileRemove(image, index));
+
+  function handleImageRemove() {
+    startRemoving(() => onImageRemove(image, index));
   }
+
   return (
     <Attachment state="done" className="w-full" key={image.id}>
       {isRemoving ? (
@@ -120,7 +130,7 @@ function FileUploadedAttachment({
       </AttachmentContent>
       <AttachmentActions>
         {!isRemoving && (
-          <AttachmentAction aria-label="Remove uploaded image" onClick={handleFileRemove}>
+          <AttachmentAction aria-label="Remove uploaded image" onClick={handleImageRemove}>
             <XIcon />
           </AttachmentAction>
         )}
@@ -129,9 +139,9 @@ function FileUploadedAttachment({
   );
 }
 
-function FileUploadingAttachment({ file }: { file: File }) {
+function ImageUploadingAttachment({ image }: { image: File }) {
   return (
-    <Attachment state="processing" className="w-full" key={file.name}>
+    <Attachment state="processing" className="w-full" key={image.name}>
       <AttachmentMedia variant="icon">
         <Spinner />
       </AttachmentMedia>
