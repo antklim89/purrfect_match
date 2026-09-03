@@ -12,7 +12,7 @@ export const authClient = createAuthClient({
   fetchOptions: {
     async onRequest(context) {
       if (typeof window === 'undefined') {
-        context.headers = await import('next/headers').then(m => m.headers());
+        context.headers = await import('next/headers').then((m) => m.headers());
       }
     },
   },

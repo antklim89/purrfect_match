@@ -11,7 +11,7 @@ function Toaster({ ...props }: ToasterProps) {
     <Sonner
       position="top-center"
       theme={theme as ToasterProps['theme']}
-      className="toaster group select-none"
+      className="toaster group select-none whitespace-pre-wrap"
       icons={{
         success: <CircleCheckIcon className="size-6 stroke-green-600" />,
         info: <InfoIcon className="size-6" />,

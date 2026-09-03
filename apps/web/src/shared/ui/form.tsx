@@ -28,7 +28,7 @@ export function FormInput({
           aria-invalid={!field.state.meta.isValid}
           id={field.name + field.form.formId}
           value={field.state.value}
-          onChange={e => field.handleChange(e.target.value)}
+          onChange={(e) => field.handleChange(e.target.value)}
           {...props}
         />
         {field.state.value.length > 0 && (
@@ -60,7 +60,7 @@ export function FormNumberInput({
           inputMode="numeric"
           id={field.name + field.form.formId}
           value={field.state.value}
-          onChange={e => field.handleChange(z.catch(z.coerce.number(), 0).parse(e.target.value))}
+          onChange={(e) => field.handleChange(z.catch(z.coerce.number(), 0).parse(e.target.value))}
           {...props}
         />
         {field.state.value > 0 && (
@@ -92,7 +92,7 @@ export function FormTextarea({
           id={field.name + field.form.formId}
           {...props}
           value={field.state.value}
-          onChange={e => field.handleChange(e.target.value)}
+          onChange={(e) => field.handleChange(e.target.value)}
         />
         {field.state.value.length > 0 && (
           <InputGroupAddon align="inline-end" className="self-start">
@@ -115,7 +115,7 @@ export function Form({ children, className, ...props }: ComponentProps<'form'>) 
       className={cn('flex w-full flex-col gap-2', className)}
       id={form.formId}
       {...props}
-      onSubmit={e => {
+      onSubmit={(e) => {
         e.preventDefault();
         e.stopPropagation();
         form.handleSubmit();
@@ -135,8 +135,8 @@ export function FormSubmitButton({
   const form = useFormContext();
 
   return (
-    <form.Subscribe selector={state => state.isSubmitting}>
-      {isSubmitting => (
+    <form.Subscribe selector={(state) => state.isSubmitting}>
+      {(isSubmitting) => (
         <Button type="submit" form={form.formId} disabled={isSubmitting} {...props}>
           {isSubmitting ? <Spinner data-icon="inline-start" /> : null}
           {isSubmitting ? (submittingText ? submittingText : children) : children}
@@ -158,24 +158,31 @@ export function FormArray({ label, children }: { label?: string; children: React
   );
 }
 
+// TODO: update placeholders props from other components
+// TODO: check errors prop
 export function FormSelect<T>({
   children,
   label,
+  errors,
+  placeholder,
   ...props
 }: ComponentProps<typeof SelectTrigger> & {
   label?: string;
+  placeholder?: string;
+  errors?: Array<{ message?: string } | undefined>;
 }) {
   const field = useFieldContext<T>();
 
   return (
     <Field>
       {label ? <FieldLabel htmlFor={field.name + field.form.formId}>{label}</FieldLabel> : null}
-      <Select onValueChange={v => v && field.handleChange(v)} value={field.state.value}>
+      <Select onValueChange={(v) => v && field.handleChange(v)} value={field.state.value}>
         <SelectTrigger {...props}>
-          <SelectValue placeholder="Messenger" />
+          <SelectValue placeholder={placeholder} />
         </SelectTrigger>
         <SelectContent alignItemWithTrigger>{children}</SelectContent>
       </Select>
+      <FieldError errors={errors} />
     </Field>
   );
 }

@@ -16,7 +16,7 @@ export const userTable = pgTable(
       .$onUpdate(() => new Date())
       .notNull(),
   },
-  table => [index('user_id_idx').on(table.id)],
+  (table) => [index('user_id_idx').on(table.id)],
 );
 
 export const sessionTable = pgTable(
@@ -38,7 +38,7 @@ export const sessionTable = pgTable(
       .$onUpdate(() => new Date())
       .notNull(),
   },
-  table => [index('session_userId_idx').on(table.userId), index('session_token_idx').on(table.token)],
+  (table) => [index('session_userId_idx').on(table.userId), index('session_token_idx').on(table.token)],
 );
 
 export const accountTable = pgTable(
@@ -65,7 +65,7 @@ export const accountTable = pgTable(
       .$onUpdate(() => new Date())
       .notNull(),
   },
-  table => [index('account_userId_idx').on(table.userId)],
+  (table) => [index('account_userId_idx').on(table.userId)],
 );
 
 export const verificationTable = pgTable(
@@ -82,7 +82,7 @@ export const verificationTable = pgTable(
       .$onUpdate(() => new Date())
       .notNull(),
   },
-  table => [index('verification_identifier_idx').on(table.identifier)],
+  (table) => [index('verification_identifier_idx').on(table.identifier)],
 );
 
 export const userRelations = relations(userTable, ({ many }) => ({

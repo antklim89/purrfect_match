@@ -73,7 +73,7 @@
       "quoteStyle": "single",
       "semicolons": "always",
       "trailingCommas": "all",
-      "arrowParentheses": "asNeeded"
+      "arrowParentheses": "always"
     }
   },
 
@@ -98,7 +98,10 @@
 
       "complexity": {
         "preset": "all",
-        "noExcessiveLinesPerFunction": { "level": "error", "options": { "skipBlankLines": true, "skipIifes": true } },
+        "noExcessiveLinesPerFunction": {
+          "level": "error",
+          "options": { "maxLines": 60, "skipBlankLines": true, "skipIifes": true }
+        },
         "useOptionalChain": { "fix": "safe", "level": "error" }
       },
 

@@ -25,7 +25,7 @@ export const schemaMiddleware = <Schema extends ZodObject | ZodMiniObject, Targe
   schema: Schema,
 ) => {
   return createMiddleware(
-    zValidator(target, schema, result => {
+    zValidator(target, schema, (result) => {
       if (result.success === false)
         throw new HTTPException(StatusCode.CLIENT_ERROR, { message: prettifyError(result.error) });
     }),

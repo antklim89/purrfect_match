@@ -41,7 +41,7 @@ export const PLACEHOLDER_BLUR_DATA =
 
 async function resetDb() {
   await Promise.all(
-    Object.values(schema).map(async table => {
+    Object.values(schema).map(async (table) => {
       if (table instanceof PgTable) {
         await db.execute(sql`TRUNCATE TABLE ${table} CASCADE`);
       }
@@ -84,8 +84,8 @@ async function createAdImages() {
   const ads = await db.query.adTable.findMany({ columns: { id: true } });
   const adImages = await Array.fromAsync(new Bun.Glob('*').scan({ onlyFiles: true, cwd: 'media/development/ads' }));
 
-  const adsImages: AdImageInsertType[] = ads.flatMap(ad =>
-    faker.helpers.arrayElements(adImages, { min: 2, max: 6 }).flatMap(adImageSrc => {
+  const adsImages: AdImageInsertType[] = ads.flatMap((ad) =>
+    faker.helpers.arrayElements(adImages, { min: 2, max: 6 }).flatMap((adImageSrc) => {
       return {
         url: `/media/development/ads/${adImageSrc}`,
         adId: ad.id,

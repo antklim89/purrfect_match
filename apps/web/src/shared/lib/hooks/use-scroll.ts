@@ -7,7 +7,7 @@ export function useScroll(downThreshold: number, upThreshold?: number) {
   useEffect(() => {
     const handleScroll = () => {
       const y = window.scrollY;
-      setScrolled(prev => {
+      setScrolled((prev) => {
         if (prev) return y > scrollUpThreshold;
         return y > downThreshold;
       });

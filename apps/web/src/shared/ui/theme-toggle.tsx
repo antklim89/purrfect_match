@@ -23,7 +23,7 @@ export function ThemeToggle(props: ComponentProps<typeof Button>) {
       />
 
       <DropdownMenuContent>
-        {themes.map(theme => (
+        {themes.map((theme) => (
           <DropdownMenuItem className="capitalize" key={theme} onClick={() => setTheme(theme)}>
             {theme}
           </DropdownMenuItem>

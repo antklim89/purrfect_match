@@ -19,32 +19,32 @@ import {
 } from './services';
 
 export const adRoute = new Hono()
-  .get('/', schemaMiddleware('query', AdFilterSchema), async c => {
+  .get('/', schemaMiddleware('query', AdFilterSchema), async (c) => {
     const query = c.req.valid('query');
 
     const result = await adFindManyService(query);
     return c.json(result);
   })
-  .get('/:id', schemaMiddleware('param', uuidv7Schema), async c => {
+  .get('/:id', schemaMiddleware('param', uuidv7Schema), async (c) => {
     const { id } = c.req.valid('param');
 
     const result = await adFindOneService({ id });
     return c.json(result);
   })
-  .delete('/:id', schemaMiddleware('param', uuidv7Schema), authMiddleware, async c => {
+  .delete('/:id', schemaMiddleware('param', uuidv7Schema), authMiddleware, async (c) => {
     const user = c.get('user');
     const { id } = c.req.valid('param');
 
     await adDeleteService({ userId: user.id, id });
     return c.body(null, StatusCode.NO_CONTENT);
   })
-  .post('/get-draft', authMiddleware, async c => {
+  .post('/get-draft', authMiddleware, async (c) => {
     const user = c.get('user');
 
     const result = await adGetDraftService({ userId: user.id });
     return c.json(result);
   })
-  .patch('/update-draft', authMiddleware, schemaMiddleware('json', AdDraftSchema), async c => {
+  .patch('/update-draft', authMiddleware, schemaMiddleware('json', AdDraftSchema), async (c) => {
     const user = c.get('user');
     const input = c.req.valid('json');
 
@@ -56,7 +56,7 @@ export const adRoute = new Hono()
     bodyLimit({ maxSize: 4 * 1024 * 1024 }),
     authMiddleware,
     schemaMiddleware('form', z.object({ image: z.file() })),
-    async c => {
+    async (c) => {
       const user = c.get('user');
       const { image } = c.req.valid('form');
       const result = await adUploadImageDraftService({ userId: user.id, image });
@@ -64,20 +64,20 @@ export const adRoute = new Hono()
       return c.json(result);
     },
   )
-  .patch('/:id/delete-image-draft', schemaMiddleware('param', uuidv7Schema), authMiddleware, async c => {
+  .patch('/:id/delete-image-draft', schemaMiddleware('param', uuidv7Schema), authMiddleware, async (c) => {
     const user = c.get('user');
     const { id } = c.req.valid('param');
 
     const result = await adDeleteImageDraftService({ userId: user.id, adImageId: id });
     return c.json(result);
   })
-  .patch('/publish-draft', authMiddleware, async c => {
+  .patch('/publish-draft', authMiddleware, async (c) => {
     const user = c.get('user');
     const result = await adPublishDraftService({ userId: user.id });
 
     return c.json(result);
   })
-  .patch('/:id/toggle-publish', schemaMiddleware('param', uuidv7Schema), authMiddleware, async c => {
+  .patch('/:id/toggle-publish', schemaMiddleware('param', uuidv7Schema), authMiddleware, async (c) => {
     const user = c.get('user');
     const { id } = c.req.valid('param');
 

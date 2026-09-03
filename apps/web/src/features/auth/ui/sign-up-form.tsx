@@ -9,7 +9,7 @@ export function SignUpForm() {
   return (
     <form.Form>
       <form.AppField name="name">
-        {field => (
+        {(field) => (
           <field.FormInput
             autoComplete="name"
             placeholder="Enter your name"
@@ -19,7 +19,7 @@ export function SignUpForm() {
         )}
       </form.AppField>
       <form.AppField name="email">
-        {field => (
+        {(field) => (
           <field.FormInput
             autoComplete="email"
             placeholder="Enter your e-mail address"
@@ -29,7 +29,7 @@ export function SignUpForm() {
         )}
       </form.AppField>
       <form.AppField name="password">
-        {field => (
+        {(field) => (
           <field.FormInput
             autoComplete="new-password"
             type="password"
@@ -40,7 +40,7 @@ export function SignUpForm() {
         )}
       </form.AppField>
       <form.AppField name="confirm">
-        {field => (
+        {(field) => (
           <field.FormInput
             autoComplete="new-password"
             type="password"

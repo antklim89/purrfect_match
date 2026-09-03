@@ -27,7 +27,7 @@ async function AdsSection() {
 
   return (
     <AdList>
-      {ads.items.map(ad => (
+      {ads.items.map((ad) => (
         <AdCard key={ad.id} ad={ad} />
       ))}
     </AdList>

@@ -13,7 +13,7 @@ export function ProfileUpdateForm() {
   return (
     <form.Form>
       <form.AppField name="fullName">
-        {field => (
+        {(field) => (
           <field.FormInput
             autoComplete="family-name"
             placeholder="Enter your full name"
@@ -23,7 +23,7 @@ export function ProfileUpdateForm() {
         )}
       </form.AppField>
       <form.AppField name="address">
-        {field => (
+        {(field) => (
           <field.FormInput
             autoComplete="shipping street-address"
             placeholder="Enter your address"
@@ -33,7 +33,7 @@ export function ProfileUpdateForm() {
         )}
       </form.AppField>
       <form.AppField name="description">
-        {field => (
+        {(field) => (
           <field.FormTextarea
             placeholder="Enter something about you"
             label="Description"
@@ -43,25 +43,25 @@ export function ProfileUpdateForm() {
       </form.AppField>
 
       <form.AppField name="contacts" mode="array">
-        {field => (
+        {(field) => (
           <field.FormArray label="Phone or Messenger Numbers">
             {field.state.value.map((_, index) => (
               <Field key={index}>
                 <InputGroup>
                   <form.AppField name={`contacts[${index}].number`}>
-                    {subfield => (
+                    {(subfield) => (
                       <InputGroupInput
                         id={field.form.formId + index}
                         value={subfield.state.value}
-                        onChange={e => subfield.handleChange(e.target.value)}
+                        onChange={(e) => subfield.handleChange(e.target.value)}
                       />
                     )}
                   </form.AppField>
                   <InputGroupAddon align="inline-start">
                     <form.AppField name={`contacts[${index}].type`}>
-                      {subfield => (
+                      {(subfield) => (
                         <subfield.FormSelect>
-                          {profileContacts.map(contact => (
+                          {profileContacts.map((contact) => (
                             <subfield.FormSelectItem value={contact.value} key={contact.value}>
                               {contact.label}
                             </subfield.FormSelectItem>
@@ -77,7 +77,7 @@ export function ProfileUpdateForm() {
                   </InputGroupAddon>
                 </InputGroup>
                 <form.AppField name={`contacts[${index}].number`}>
-                  {subfield => <FieldError errors={subfield.state.meta.errors} />}
+                  {(subfield) => <FieldError errors={subfield.state.meta.errors} />}
                 </form.AppField>
               </Field>
             ))}

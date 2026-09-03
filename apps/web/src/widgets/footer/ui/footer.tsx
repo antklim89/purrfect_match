@@ -8,7 +8,7 @@ export function Footer() {
       <div className="flex flex-col gap-6 py-6">
         <nav>
           <ul className="flex flex-wrap gap-4 font-medium text-muted-foreground text-sm md:gap-6">
-            {navLinks.map(link => (
+            {navLinks.map((link) => (
               <li key={link.label}>
                 <Link className="hover:text-foreground" href={link.href}>
                   {link.label}

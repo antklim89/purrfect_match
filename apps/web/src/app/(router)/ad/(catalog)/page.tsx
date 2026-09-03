@@ -25,7 +25,7 @@ async function AdListSection({ searchParams }: PageProps<'/ad'>) {
 
   return (
     <AdList>
-      {ads.items.map(ad => (
+      {ads.items.map((ad) => (
         <AdCard ad={ad} key={ad.id} />
       ))}
     </AdList>

@@ -23,7 +23,7 @@ export default async function Page() {
   if (ads.items.length === 0) return <MyAdsListEmpty />;
   return (
     <MyAdsList>
-      {ads.items.map(ad => (
+      {ads.items.map((ad) => (
         <AdItem
           actionsSlot={
             <>

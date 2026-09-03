@@ -39,16 +39,16 @@ export function AdCatalogFilters({ children }: { children?: ReactNode }) {
     <div className="flex flex-col gap-4 h-full">
       <form.AppForm>
         <form.AppField name="search">
-          {field => <field.FormInput label="Search" placeholder="Enter search term..." />}
+          {(field) => <field.FormInput label="Search" placeholder="Enter search term..." />}
         </form.AppField>
 
         <form.AppField name="type">
-          {field => (
+          {(field) => (
             <field.FormSelect className="capitalize" label="Types">
               <field.FormSelectItem value={ALL} className="capitalize">
                 {ALL}
               </field.FormSelectItem>
-              {animalTypes.map(animalType => (
+              {animalTypes.map((animalType) => (
                 <field.FormSelectItem className="capitalize" value={animalType} key={animalType}>
                   {animalType}
                 </field.FormSelectItem>
@@ -58,12 +58,12 @@ export function AdCatalogFilters({ children }: { children?: ReactNode }) {
         </form.AppField>
 
         <form.AppField name="breed">
-          {field => (
+          {(field) => (
             <field.FormSelect className="capitalize" label="Breeds">
               <field.FormSelectItem value={ALL} className="capitalize">
                 {ALL}
               </field.FormSelectItem>
-              {selectedAnimalBreeds.map(animalBreed => (
+              {selectedAnimalBreeds.map((animalBreed) => (
                 <field.FormSelectItem className="capitalize" value={animalBreed} key={animalBreed}>
                   {animalBreed}
                 </field.FormSelectItem>

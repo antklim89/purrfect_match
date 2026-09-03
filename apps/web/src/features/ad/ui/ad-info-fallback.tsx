@@ -12,7 +12,7 @@ export function AdInfoFallback() {
       </CardHeader>
       <CardContent className="h-full">
         <ItemGroup>
-          {[1, 2, 3, 4].map(i => (
+          {[1, 2, 3, 4].map((i) => (
             <Item key={i} variant="outline">
               <SkeletonText className="w-full" />
             </Item>
