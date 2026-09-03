@@ -275,14 +275,13 @@ export async function adPublishDraftService({ userId }: { userId: User['id'] }) 
   }
 
   const { success, error } = await AdPublishSchema.safeParseAsync(toPublishAd);
-
   if (!success) {
     throw new HTTPException(StatusCode.CLIENT_ERROR, { message: z.prettifyError(error) });
   }
 
   const [publishedAd] = await db
     .update(adTable)
-    .set({ status: AdStatus.UNPUBLISHED })
+    .set({ status: AdStatus.UNPUBLISHED, publishedAt: new Date().toISOString() })
     .where(eq(adTable.id, toPublishAd.id))
     .returning({ id: adTable.id });
 

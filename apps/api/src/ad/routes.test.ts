@@ -380,6 +380,7 @@ describe('[PATCH] /api/ad/publish-draft', () => {
     const [selectedAd] = await db.select().from(adTable).where(eq(adTable.id, draftAd.id));
 
     expect(selectedAd).toHaveProperty('status', AdStatus.UNPUBLISHED);
+    expect(selectedAd).toHaveProperty('publishedAt');
     expect(publishedAd).toHaveProperty('id', draftAd.id);
   });
 
