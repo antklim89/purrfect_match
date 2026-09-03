@@ -1,4 +1,5 @@
 import { faker } from '@faker-js/faker';
+import { animalBreeds, animalTypes } from '@purrfect_match/shared/entities/animal/constants';
 import type { User } from 'better-auth';
 
 import type { AdInsertType } from '@/ad/types';
@@ -19,11 +20,14 @@ export function createTestUserData(): User {
 }
 
 export function createTestAdData(userId: User['id'], data: Partial<AdInsertType> = {}): AdInsertType {
+  const type = faker.helpers.arrayElement(animalTypes);
+  const breed = faker.helpers.arrayElement(animalBreeds[type]);
+
   return {
     id: faker.string.uuid({ version: 7 }),
-    name: faker.animal.petName(),
-    breed: faker.helpers.arrayElement(['red', 'blue', 'green']),
-    type: faker.helpers.arrayElement(['dog', 'cat', 'parrot']),
+    name: animalTypes[0] as string,
+    breed,
+    type,
     description: faker.helpers.arrayElement([
       'foo bar Lorem ipsum dolor',
       'bar baz Lorem ipsum dolor',
