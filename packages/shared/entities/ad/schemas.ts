@@ -23,7 +23,7 @@ export const AdPublishSchema = z
         z.maxLength(MAX_IMAGES_PER_AD, `Max allowed images is ${MAX_IMAGES_PER_AD}`),
       ),
   })
-  .check(z.refine(v => animalBreeds[v.type].includes(v.breed), { path: ['breed'], error: 'Unknown animal breed.' }));
+  .check(z.refine((v) => animalBreeds[v.type].includes(v.breed), { path: ['breed'], error: 'Unknown animal breed.' }));
 
 export const AdDraftSchema = z.partial(
   z.object({
@@ -47,4 +47,5 @@ export const AdFilterSchema = z.object({
   cursor: z.optional(z.union([z.string(), z.number()])),
   cursorId: z.optional(z.string()),
   limit: z.optional(z.coerce.number().check(z.positive(), z.maximum(MAX_ADS_LIMIT))),
+  showPublished: z.optional(z.coerce.boolean()),
 });

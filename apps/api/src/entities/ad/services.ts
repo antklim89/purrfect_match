@@ -25,6 +25,7 @@ export async function adFindManyService({
   cursorId,
   cursor,
   limit = 12,
+  showPublished = false,
 }: AdFilterType) {
   const ads = await db.query.adTable.findMany({
     limit: limit + 1,
@@ -59,7 +60,9 @@ export async function adFindManyService({
         breed ? eq(fields.breed, breed) : undefined,
         type ? eq(fields.type, type) : undefined,
         userId ? eq(fields.userId, userId) : undefined,
-        or(eq(fields.status, AdStatus.PUBLISHED), eq(fields.status, AdStatus.UNPUBLISHED)),
+        showPublished
+          ? or(eq(fields.status, AdStatus.PUBLISHED), eq(fields.status, AdStatus.UNPUBLISHED))
+          : eq(fields.status, AdStatus.PUBLISHED),
       );
     },
   });
