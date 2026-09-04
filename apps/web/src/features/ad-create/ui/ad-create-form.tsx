@@ -27,16 +27,11 @@ export function AdCreateForm() {
   return (
     <form.Form>
       <form.AppField name="name">
-        {(field) => <field.FormInput placeholder="Enter animal name" label="Name" errors={field.state.meta.errors} />}
+        {(field) => <field.FormInput placeholder="Enter animal name" label="Name" />}
       </form.AppField>
       <form.AppField name="type" listeners={{ onChange: ({ fieldApi }) => fieldApi.form.setFieldValue('breed', '') }}>
         {(field) => (
-          <field.FormSelect
-            className="capitalize"
-            placeholder="Select animal type"
-            label="Type"
-            errors={field.state.meta.errors}
-          >
+          <field.FormSelect className="capitalize" placeholder="Select animal type" label="Type">
             {animalTypes.map((animalType) => (
               <field.FormSelectItem className="capitalize" key={animalType} value={animalType}>
                 {animalType}
@@ -54,12 +49,7 @@ export function AdCreateForm() {
           >
             {(selectedAnimalBreeds) =>
               selectedAnimalBreeds && (
-                <field.FormSelect
-                  className="capitalize"
-                  placeholder="Select animal breed"
-                  label="Breed"
-                  errors={field.state.meta.errors}
-                >
+                <field.FormSelect className="capitalize" placeholder="Select animal breed" label="Breed">
                   {selectedAnimalBreeds.map((animalType) => (
                     <field.FormSelectItem className="capitalize" key={animalType} value={animalType}>
                       {animalType}
@@ -72,12 +62,10 @@ export function AdCreateForm() {
         )}
       </form.AppField>
       <form.AppField name="description">
-        {(field) => (
-          <field.FormTextarea placeholder="Enter description" label="Description" errors={field.state.meta.errors} />
-        )}
+        {(field) => <field.FormTextarea placeholder="Enter description" label="Description" />}
       </form.AppField>
       <form.AppField name="price">
-        {(field) => <field.FormNumberInput placeholder="Enter price" label="Price" errors={field.state.meta.errors} />}
+        {(field) => <field.FormNumberInput placeholder="Enter price" label="Price" />}
       </form.AppField>
 
       <form.AppField name="images">
@@ -100,7 +88,7 @@ export function AdCreateForm() {
               accept="image/*"
               multiple
             />
-            <FieldError errors={field.state.meta.errors}></FieldError>
+            <FieldError></FieldError>
           </Field>
         )}
       </form.AppField>

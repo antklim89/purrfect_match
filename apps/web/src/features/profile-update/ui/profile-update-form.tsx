@@ -13,33 +13,15 @@ export function ProfileUpdateForm() {
   return (
     <form.Form>
       <form.AppField name="fullName">
-        {(field) => (
-          <field.FormInput
-            autoComplete="family-name"
-            placeholder="Enter your full name"
-            label="Full Name"
-            errors={field.state.meta.errors}
-          />
-        )}
+        {(field) => <field.FormInput autoComplete="family-name" placeholder="Enter your full name" label="Full Name" />}
       </form.AppField>
       <form.AppField name="address">
         {(field) => (
-          <field.FormInput
-            autoComplete="shipping street-address"
-            placeholder="Enter your address"
-            label="Address"
-            errors={field.state.meta.errors}
-          />
+          <field.FormInput autoComplete="shipping street-address" placeholder="Enter your address" label="Address" />
         )}
       </form.AppField>
       <form.AppField name="description">
-        {(field) => (
-          <field.FormTextarea
-            placeholder="Enter something about you"
-            label="Description"
-            errors={field.state.meta.errors}
-          />
-        )}
+        {(field) => <field.FormTextarea placeholder="Enter something about you" label="Description" />}
       </form.AppField>
 
       <form.AppField name="contacts" mode="array">

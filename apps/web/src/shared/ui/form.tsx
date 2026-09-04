@@ -13,11 +13,7 @@ import { cn } from '../lib/utils';
 
 export const { fieldContext, formContext, useFieldContext, useFormContext } = createFormHookContexts();
 
-export function FormInput({
-  label,
-  errors,
-  ...props
-}: ComponentProps<'input'> & { label?: string; errors?: Array<{ message?: string } | undefined> }) {
+export function FormInput({ label, ...props }: ComponentProps<'input'> & { label?: string }) {
   const field = useFieldContext<string>();
 
   return (
@@ -39,16 +35,12 @@ export function FormInput({
           </InputGroupAddon>
         )}
       </InputGroup>
-      <FieldError errors={errors} />
+      <FieldError errors={field.state.meta.errors} />
     </Field>
   );
 }
 
-export function FormNumberInput({
-  label,
-  errors,
-  ...props
-}: ComponentProps<typeof Input> & { label?: string; errors?: Array<{ message?: string } | undefined> }) {
+export function FormNumberInput({ label, ...props }: ComponentProps<typeof Input> & { label?: string }) {
   const field = useFieldContext<number>();
 
   return (
@@ -71,16 +63,12 @@ export function FormNumberInput({
           </InputGroupAddon>
         )}
       </InputGroup>
-      <FieldError errors={errors} />
+      <FieldError errors={field.state.meta.errors} />
     </Field>
   );
 }
 
-export function FormTextarea({
-  label,
-  errors,
-  ...props
-}: ComponentProps<'textarea'> & { label?: string; errors?: Array<{ message?: string } | undefined> }) {
+export function FormTextarea({ label, ...props }: ComponentProps<'textarea'> & { label?: string }) {
   const field = useFieldContext<string>();
 
   return (
@@ -102,7 +90,7 @@ export function FormTextarea({
           </InputGroupAddon>
         )}
       </InputGroup>
-      <FieldError errors={errors} />
+      <FieldError errors={field.state.meta.errors} />
     </Field>
   );
 }
@@ -158,18 +146,14 @@ export function FormArray({ label, children }: { label?: string; children: React
   );
 }
 
-// TODO: update placeholders props from other components
-// TODO: check errors prop
 export function FormSelect<T>({
   children,
   label,
-  errors,
   placeholder,
   ...props
 }: ComponentProps<typeof SelectTrigger> & {
   label?: string;
   placeholder?: string;
-  errors?: Array<{ message?: string } | undefined>;
 }) {
   const field = useFieldContext<T>();
 
@@ -182,7 +166,7 @@ export function FormSelect<T>({
         </SelectTrigger>
         <SelectContent alignItemWithTrigger>{children}</SelectContent>
       </Select>
-      <FieldError errors={errors} />
+      <FieldError errors={field.state.meta.errors} />
     </Field>
   );
 }

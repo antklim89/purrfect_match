@@ -9,24 +9,11 @@ export function SignInForm() {
   return (
     <form.Form>
       <form.AppField name="email">
-        {(field) => (
-          <field.FormInput
-            autoComplete="email"
-            placeholder="Enter your e-mail address"
-            label="E-mail"
-            errors={field.state.meta.errors}
-          />
-        )}
+        {(field) => <field.FormInput autoComplete="email" placeholder="Enter your e-mail address" label="E-mail" />}
       </form.AppField>
       <form.AppField name="password">
         {(field) => (
-          <field.FormInput
-            autoComplete="current-password"
-            type="password"
-            placeholder="********"
-            label="Password"
-            errors={field.state.meta.errors}
-          />
+          <field.FormInput autoComplete="current-password" type="password" placeholder="********" label="Password" />
         )}
       </form.AppField>
     </form.Form>
