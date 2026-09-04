@@ -1,6 +1,6 @@
 import { AdDraftSchema, AdFilterSchema } from '@purrfect_match/shared/entities/ad/schemas';
-import { uuidv7Schema } from '@purrfect_match/shared/lib/schemas';
-import { StatusCode } from '@purrfect_match/shared/lib/status-codes';
+import { uuidv7Schema } from '@purrfect_match/shared/models/schemas';
+import { StatusCode } from '@purrfect_match/shared/models/status-codes';
 import { Hono } from 'hono';
 import { bodyLimit } from 'hono/body-limit';
 import { z } from 'zod/v4-mini';

@@ -1,4 +1,4 @@
-import { StatusCode } from '@purrfect_match/shared/lib/status-codes';
+import { StatusCode } from '@purrfect_match/shared/models/status-codes';
 import type { Context } from 'hono';
 
 export const notFoundMiddleware = (c: Context): Response => {

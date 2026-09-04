@@ -1,5 +1,5 @@
 import type { ProfileUpdateType } from '@purrfect_match/shared/entities/profile/types';
-import { StatusCode } from '@purrfect_match/shared/lib/status-codes';
+import { StatusCode } from '@purrfect_match/shared/models/status-codes';
 import { HTTPException } from 'hono/http-exception';
 
 import { db } from '@/lib/db';

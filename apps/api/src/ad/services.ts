@@ -2,7 +2,7 @@ import * as fs from 'node:fs/promises';
 import { AdStatus, MAX_IMAGES_PER_AD } from '@purrfect_match/shared/entities/ad/constants';
 import { AdPublishSchema } from '@purrfect_match/shared/entities/ad/schemas';
 import type { AdDraftType, AdFilterType } from '@purrfect_match/shared/entities/ad/types';
-import { StatusCode } from '@purrfect_match/shared/lib/status-codes';
+import { StatusCode } from '@purrfect_match/shared/models/status-codes';
 import type { User } from 'better-auth';
 import { and, asc, count, desc, eq, exists, gt, like, lt, or, sql } from 'drizzle-orm';
 import { HTTPException } from 'hono/http-exception';

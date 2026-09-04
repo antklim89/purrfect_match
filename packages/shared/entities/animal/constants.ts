@@ -154,21 +154,6 @@ export const animals = {
 } as const satisfies AnimalCatalog;
 
 export const animalTypes = Object.keys(animals) as AnimalTypes[];
-export const animalBreeds = Object.entries(animals).reduce<Record<AnimalTypes, string[]>>(
-  (acc, [key, value]) => {
-    acc[key as AnimalTypes] = value.breeds.map(i => i.name);
-    return acc;
-  },
-  {
-    bird: [],
-    fish: [],
-    rabbit: [],
-    turtle: [],
-    cat: [],
-    dog: [],
-  },
-);
-
-export const x = Object.fromEntries(
-  Object.entries(animals).map(([key, value]) => [key, value.breeds.map(i => i.name)]),
+export const animalBreeds = Object.fromEntries(
+  Object.entries(animals).map(([key, value]) => [key, value.breeds.map((i) => i.name)]),
 ) as AnimalBreeds;

@@ -1,5 +1,5 @@
 import { ProfileUpdateSchema } from '@purrfect_match/shared/entities/profile/schemas';
-import { StatusCode } from '@purrfect_match/shared/lib/status-codes';
+import { StatusCode } from '@purrfect_match/shared/models/status-codes';
 import { Hono } from 'hono';
 
 import { authMiddleware, schemaMiddleware } from '@/lib/middlewares';

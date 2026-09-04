@@ -1,4 +1,4 @@
-import { StatusCode } from '@purrfect_match/shared/lib/status-codes';
+import { StatusCode } from '@purrfect_match/shared/models/status-codes';
 import type { User } from 'better-auth';
 import { createMiddleware } from 'hono/factory';
 import { HTTPException } from 'hono/http-exception';
