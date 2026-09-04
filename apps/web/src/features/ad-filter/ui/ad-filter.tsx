@@ -1,32 +1,31 @@
 'use client';
 
-import type { ReactNode } from 'react';
+import type { AdFilterType } from '@purrfect_match/shared/entities/ad/types';
 import { animalBreeds, animalTypes } from '@purrfect_match/shared/entities/animal/constants';
 import type { AnimalTypes } from '@purrfect_match/shared/entities/animal/types';
-import { parseAsString, useQueryStates } from 'nuqs';
+import { type Options, parseAsString, type UseQueryStatesKeysMap, useQueryStates } from 'nuqs';
 
 import { useAppForm } from '@/shared/lib/form';
 import { Button } from '@/shared/ui/button';
 
 const ALL = 'all';
 
-export function AdCatalogFilters({ children }: { children?: ReactNode }) {
-  const [filter, setFilter] = useQueryStates({
-    search: parseAsString
-      .withDefault('')
-      .withOptions({ limitUrlUpdates: { method: 'debounce', timeMs: 700 }, shallow: false }),
+const defaultOptions: Options = { clearOnDefault: true, shallow: false };
 
-    type: parseAsString.withDefault(ALL).withOptions({ clearOnDefault: true, shallow: false }),
-    breed: parseAsString.withDefault(ALL).withOptions({ clearOnDefault: true, shallow: false }),
-  });
+const keyMap: UseQueryStatesKeysMap<Required<Pick<AdFilterType, 'search' | 'type' | 'breed'>>> = {
+  search: parseAsString
+    .withDefault('')
+    .withOptions({ limitUrlUpdates: { method: 'debounce', timeMs: 700 }, ...defaultOptions }),
+  type: parseAsString.withDefault(ALL).withOptions(defaultOptions),
+  breed: parseAsString.withDefault(ALL).withOptions(defaultOptions),
+};
 
-  const selectedAnimalBreeds = animalBreeds[filter.type as AnimalTypes] ?? Object.values(animalBreeds).flat();
+export function AdFilter() {
+  const [filter, setFilter] = useQueryStates(keyMap);
 
   const form = useAppForm({
     defaultValues: filter,
-    listeners: {
-      onChange: ({ formApi }) => setFilter(formApi.state.values),
-    },
+    listeners: { onChange: ({ formApi }) => setFilter(formApi.state.values) },
   });
 
   function handleReset() {
@@ -34,6 +33,8 @@ export function AdCatalogFilters({ children }: { children?: ReactNode }) {
     form.setFieldValue('type', ALL);
     form.setFieldValue('breed', ALL);
   }
+
+  const selectedAnimalBreeds = animalBreeds[filter.type as AnimalTypes] ?? Object.values(animalBreeds).flat();
 
   return (
     <div className="flex flex-col gap-4 h-full">
@@ -71,8 +72,6 @@ export function AdCatalogFilters({ children }: { children?: ReactNode }) {
             </field.FormSelect>
           )}
         </form.AppField>
-
-        {children}
 
         <Button onClick={handleReset} className="mt-8">
           Reset

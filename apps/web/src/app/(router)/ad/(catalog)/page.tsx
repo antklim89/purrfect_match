@@ -1,14 +1,15 @@
 import { Suspense } from 'react';
 
 import { AdCard, AdList } from '@/features/ad';
+import { AdFilter } from '@/features/ad-filter';
 import { getAds } from '@/shared/api/ads';
 import { ErrorComponent } from '@/shared/ui/error-component';
-import { AdCatalog, AdCatalogFilters } from '@/widgets/ad-catalog';
+import { AdCatalog } from '@/widgets/ad-catalog';
 
 async function Page(props: PageProps<'/ad'>) {
   return (
     <section className="w-full max-w-[128rem] mx-auto px-3 my-8">
-      <AdCatalog filtersSlot={<AdCatalogFilters />}>
+      <AdCatalog filtersSlot={<AdFilter />}>
         <Suspense fallback={<div>LOADING</div>}>
           <AdListSection {...props} />
         </Suspense>
