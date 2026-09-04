@@ -1,19 +1,17 @@
-import { Hono } from 'hono';
 import './lib/env';
-
+import { Hono } from 'hono';
 import { serveStatic } from 'hono/bun';
-import { logger } from 'hono/logger';
 
 import { adRoute } from '@/ad/routes';
 import { authRoute } from '@/auth/routes';
-import { corsMiddleware, notFoundMiddleware, onErrorMiddleware } from '@/lib/middlewares';
+import { corsMiddleware, loggerMiddleware, notFoundMiddleware, onErrorMiddleware } from '@/lib/middlewares';
 import { profileRoute } from './profile/routes';
 
 const app = new Hono()
   .use(corsMiddleware)
   .use('/media/*', serveStatic())
-  // .use(logger())
-  .get('/', async c => c.json({ message: 'ok' }))
+  .use(loggerMiddleware)
+  .get('/', async (c) => c.json({ message: 'ok' }))
   .route('/api/ad', adRoute)
   .route('/api/auth', authRoute)
   .route('/api/profile', profileRoute)
