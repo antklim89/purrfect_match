@@ -5,7 +5,7 @@ import { Hono } from 'hono';
 import { bodyLimit } from 'hono/body-limit';
 import { z } from 'zod/v4-mini';
 
-import { authMiddleware, schemaMiddleware } from '@/lib/middlewares';
+import { authMiddleware, schemaMiddleware } from '@/models/middlewares';
 import {
   adDeleteImageDraftService,
   adDeleteService,

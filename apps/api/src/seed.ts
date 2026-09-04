@@ -3,7 +3,7 @@ import { faker } from '@faker-js/faker';
 import { sql } from 'drizzle-orm';
 import { PgTable } from 'drizzle-orm/pg-core';
 
-import type { AdImageInsertType, AdInsertType } from '@/ad/types';
+import type { AdImageInsertType, AdInsertType } from '@/entities/ad/types';
 import { auth } from '@/lib/auth';
 import { db } from '@/lib/db';
 import * as schema from '@/schema';

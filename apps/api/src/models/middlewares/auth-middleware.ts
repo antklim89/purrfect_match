@@ -3,7 +3,7 @@ import type { User } from 'better-auth';
 import { createMiddleware } from 'hono/factory';
 import { HTTPException } from 'hono/http-exception';
 
-import { auth } from '../auth';
+import { auth } from '@/lib/auth';
 
 export const authMiddleware = createMiddleware<
   { Variables: { user: User } },

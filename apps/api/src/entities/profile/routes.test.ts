@@ -2,8 +2,8 @@ import { testClient } from 'hono/testing';
 import { describe, expect, it } from 'vitest';
 
 import app from '@/app';
+import { profileTable } from '@/entities/profile/tables';
 import { db } from '@/lib/db';
-import { profileTable } from '@/profile/tables';
 import { testApiCall } from '@/test/api-call';
 import { registerTestUser } from '@/test/insert-data';
 

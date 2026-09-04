@@ -7,7 +7,7 @@ import { pipeline } from 'node:stream/promises';
 import { AD_IMAGE_HEIGHT, AD_IMAGE_WIDTH, IMAGE_EXT } from '@purrfect_match/shared/entities/ad/constants';
 import sharp from 'sharp';
 
-import { MEDIA_ROOT_FOLDER, MEDIA_ROOT_URL } from '@/lib/constants';
+import { MEDIA_ROOT_FOLDER, MEDIA_ROOT_URL } from '@/models/constants';
 
 export function getUserMediaDir({ root = '/', userId }: { root?: string; userId: string }) {
   return resolve(root, userId);

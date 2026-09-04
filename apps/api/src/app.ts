@@ -2,10 +2,10 @@ import './lib/env';
 import { Hono } from 'hono';
 import { serveStatic } from 'hono/bun';
 
-import { adRoute } from '@/ad/routes';
-import { authRoute } from '@/auth/routes';
-import { corsMiddleware, loggerMiddleware, notFoundMiddleware, onErrorMiddleware } from '@/lib/middlewares';
-import { profileRoute } from './profile/routes';
+import { adRoute } from '@/entities/ad/routes';
+import { authRoute } from '@/entities/auth/routes';
+import { profileRoute } from '@/entities/profile/routes';
+import { corsMiddleware, loggerMiddleware, notFoundMiddleware, onErrorMiddleware } from '@/models/middlewares';
 
 const app = new Hono()
   .use(corsMiddleware)

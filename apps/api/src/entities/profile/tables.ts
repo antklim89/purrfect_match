@@ -1,7 +1,7 @@
 import type { ProfileContactType } from '@purrfect_match/shared/entities/profile/types';
 import { jsonb, pgTable, text, timestamp } from 'drizzle-orm/pg-core';
 
-import { userTable } from '../auth/tables';
+import { userTable } from '@/entities/auth/tables';
 
 export const profileTable = pgTable('profile', {
   id: text('id')

@@ -1,8 +1,8 @@
 import { relations, sql } from 'drizzle-orm';
 import { numeric, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
 
-import { userTable } from '@/auth/tables';
-import { profileTable } from '@/profile/tables';
+import { userTable } from '@/entities/auth/tables';
+import { profileTable } from '@/entities/profile/tables';
 
 export const adTable = pgTable('ad', {
   id: uuid().default(sql`uuidv7()`).primaryKey(),

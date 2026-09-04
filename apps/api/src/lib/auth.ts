@@ -3,7 +3,7 @@ import { betterAuth } from 'better-auth';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 import { testUtils } from 'better-auth/plugins';
 
-import { accountTable, sessionTable, userTable, verificationTable } from '@/auth/tables';
+import { accountTable, sessionTable, userTable, verificationTable } from '@/entities/auth/tables';
 import { db } from './db';
 import { env } from './env';
 

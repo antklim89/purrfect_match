@@ -2,7 +2,7 @@ import { ProfileUpdateSchema } from '@purrfect_match/shared/entities/profile/sch
 import { StatusCode } from '@purrfect_match/shared/models/status-codes';
 import { Hono } from 'hono';
 
-import { authMiddleware, schemaMiddleware } from '@/lib/middlewares';
+import { authMiddleware, schemaMiddleware } from '@/models/middlewares';
 import { profileGetService, profileUpdateService } from './services';
 
 export const profileRoute = new Hono()

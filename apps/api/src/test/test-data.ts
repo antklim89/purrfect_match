@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker';
 import { animalBreeds, animalTypes } from '@purrfect_match/shared/entities/animal/constants';
 import type { User } from 'better-auth';
 
-import type { AdInsertType } from '@/ad/types';
+import type { AdInsertType } from '@/entities/ad/types';
 
 export function createTestUserData(): User {
   const createdAt = faker.date.between({ from: '2001-01-01T00:00:00.000Z', to: '2010-01-01T00:00:00.000Z' });

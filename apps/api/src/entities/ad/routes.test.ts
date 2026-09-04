@@ -6,14 +6,14 @@ import { testClient } from 'hono/testing';
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
 
 import app from '@/app';
-import { MEDIA_ROOT_FOLDER } from '@/lib/constants';
+import { MEDIA_ROOT_FOLDER } from '@/models/constants';
 import { testApiCall } from '@/test/api-call';
 import { adTable } from './tables';
 import type { AdSelectType } from './types';
 import { getAdMediaDir, getAdMediaPath } from './utils';
-import { db } from '../lib/db';
-import { insertData, insertListData, registerTestUser } from '../test/insert-data';
-import { createTestAdData } from '../test/test-data';
+import { db } from '../../lib/db';
+import { insertData, insertListData, registerTestUser } from '../../test/insert-data';
+import { createTestAdData } from '../../test/test-data';
 
 const client = testClient(app);
 

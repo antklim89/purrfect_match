@@ -8,8 +8,8 @@ import { and, asc, count, desc, eq, exists, gt, like, lt, or, sql } from 'drizzl
 import { HTTPException } from 'hono/http-exception';
 import { z } from 'zod/v4-mini';
 
-import { MEDIA_ROOT_FOLDER } from '@/lib/constants';
 import { db } from '@/lib/db';
+import { MEDIA_ROOT_FOLDER } from '@/models/constants';
 import { adImageTable, adTable } from './tables';
 import type { AdImageSelectType, AdSelectType } from './types';
 import { getAdMediaDir, getAdMediaPath, uploadImage } from './utils';

@@ -13,7 +13,7 @@ beforeEach(() => faker.seed(1));
 faker.seed(1);
 
 vi.mock('../lib/constants', async (getOrigExport) => {
-  const origExport = (await getOrigExport()) as typeof import('../lib/constants');
+  const origExport = (await getOrigExport()) as typeof import('../models/constants');
   return { ...origExport, ...SERVER_GLOBAL };
 });
 
