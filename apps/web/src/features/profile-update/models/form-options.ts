@@ -1,15 +1,20 @@
 import { ProfileUpdateSchema } from '@purrfect_match/shared/entities/profile/schemas';
 import type { ProfileContactType } from '@purrfect_match/shared/entities/profile/types';
+import { formOptions, revalidateLogic } from '@tanstack/react-form';
 import { z } from 'zod/v4-mini';
 
-import { createFormOptions } from '@/shared/lib/form';
-
-export const profileUpdateFormOptions = createFormOptions({
-  schema: z.required(ProfileUpdateSchema),
+export const profileUpdateFormOptions = formOptions({
+  validators: {
+    onDynamic: z.required(ProfileUpdateSchema),
+  },
   defaultValues: {
     address: '',
     description: '',
     fullName: '',
     contacts: [] as ProfileContactType[],
+  },
+  validationLogic: revalidateLogic(),
+  onSubmitInvalid({ formApi }) {
+    console.error('Form Submit Error:\n', formApi.state.values, formApi.state.errors);
   },
 });
