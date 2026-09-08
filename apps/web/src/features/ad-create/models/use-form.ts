@@ -2,7 +2,7 @@ import type { AdDraftType } from '@purrfect_match/shared/entities/ad/types';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 
-import { publishDraftAd, updateDraftAd } from '@/shared/api/ads';
+import { adPublishDraftMutation, adUpdateDraftMutation } from '@/shared/api/mutations/ad-mutations';
 import { useAppForm } from '@/shared/lib/form';
 import { adCreateFormOptions } from './form-options';
 
@@ -13,7 +13,7 @@ export function useAdCreate({ defaultValues }: { defaultValues: AdDraftType }) {
     defaultValues: { ...adCreateFormOptions.defaultValues, ...defaultValues },
     listeners: {
       async onChange({ formApi }) {
-        const { error } = await updateDraftAd({ json: formApi.state.values });
+        const { error } = await adUpdateDraftMutation({ json: formApi.state.values });
         if (error) toast.error(error.message);
       },
       onChangeDebounceMs: 700,
@@ -21,12 +21,12 @@ export function useAdCreate({ defaultValues }: { defaultValues: AdDraftType }) {
     async onSubmit({ formApi }) {
       toast.loading('Creating new ad...', { id: formApi.formId });
 
-      const { error: updateError } = await updateDraftAd({ json: form.state.values });
+      const { error: updateError } = await adUpdateDraftMutation({ json: form.state.values });
       if (updateError) {
         return toast.error(updateError.message);
       }
 
-      const { data, error } = await publishDraftAd();
+      const { data, error } = await adPublishDraftMutation();
       if (error) return toast.error(error.message, { id: formApi.formId });
 
       toast.success('Ad created successfully', { id: formApi.formId });

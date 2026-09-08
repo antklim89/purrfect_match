@@ -3,7 +3,7 @@ import { animalBreeds, animalTypes } from '@purrfect_match/shared/entities/anima
 import type { AnimalTypes } from '@purrfect_match/shared/entities/animal/types';
 import { toast } from 'sonner';
 
-import { deleteImageDraftAd, uploadImageDraftAd } from '@/shared/api/ads';
+import { apiCall, apiSessionClient } from '@/shared/lib/api-client';
 import { useTypedAppFormContext } from '@/shared/lib/form';
 import { Field, FieldError, FieldLabel } from '@/shared/ui/field';
 import { ImageUpload, type UploadImageType } from '@/shared/ui/image-upload';
@@ -13,13 +13,16 @@ export function AdCreateForm() {
   const form = useTypedAppFormContext(adCreateFormOptions);
 
   async function handleImageUpload(image: File) {
-    const result = await uploadImageDraftAd({ image });
+    const result = await apiCall(apiSessionClient.api.ad['upload-image-draft'].$patch({ form: { image } }));
     if (result.error) toast.error(result.error.message);
+
     return result;
   }
 
   async function handleImageRemove(image: UploadImageType) {
-    const result = await deleteImageDraftAd({ adId: image.id });
+    const result = await apiCall(
+      apiSessionClient.api.ad[':id']['delete-image-draft'].$patch({ param: { id: image.id } }),
+    );
     if (result.error) toast.error(result.error.message);
     return result;
   }

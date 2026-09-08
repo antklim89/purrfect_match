@@ -2,7 +2,7 @@
 import type { ProfileType, ProfileUpdateType } from '@purrfect_match/shared/entities/profile/types';
 import { toast } from 'sonner';
 
-import { updateProfile } from '@/shared/api/profiles';
+import { profileUpdateMutation } from '@/shared/api/mutations/profile-mutations';
 import { useAppForm } from '@/shared/lib/form';
 import { Button } from '@/shared/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/shared/ui/card';
@@ -25,7 +25,7 @@ export function ProfileUpdateCard({ user }: { user: ProfileType }) {
 
       if (formApi.state.isPristine) return;
       toast.loading('Updating user data...', { id: formApi.formId });
-      const { error } = await updateProfile({ values: changedValues });
+      const { error } = await profileUpdateMutation({ values: changedValues });
 
       formApi.reset(value);
       if (error) toast.success('User data update failed', { id: formApi.formId });

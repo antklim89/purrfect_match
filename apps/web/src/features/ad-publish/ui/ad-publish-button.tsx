@@ -4,9 +4,10 @@ import { type ComponentProps, useRef, useTransition } from 'react';
 import type { DialogRootActions } from '@base-ui/react';
 import type { AdType } from '@purrfect_match/shared/entities/ad/types';
 import { EyeIcon, EyeOffIcon } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 
-import { togglePublishAd } from '@/shared/api/ads';
+import { adTogglePublishMutation } from '@/shared/api/mutations/ad-mutations';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -27,16 +28,17 @@ export function AdPublishButton({
 }: { id: AdType['id']; status: AdType['status']; onPublish?: () => void } & ComponentProps<typeof AlertDialogTrigger>) {
   const actionsRef = useRef<DialogRootActions | null>(null);
   const [isPending, startTransition] = useTransition();
+  const router = useRouter();
 
   function handleAdPublish() {
     startTransition(async () => {
-      const { error } = await togglePublishAd({ adId: id });
+      const { error } = await adTogglePublishMutation({ adId: id });
 
       if (error) {
         toast.error('Failed to publish ad');
         return;
       }
-
+      router.refresh();
       onPublish?.();
       actionsRef.current?.close();
     });

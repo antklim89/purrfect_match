@@ -1,11 +1,10 @@
-import type { Metadata, Route } from 'next';
-import { revalidatePath } from 'next/cache';
+import type { Metadata } from 'next';
 
 import { AdItem } from '@/features/ad';
 import { AdDeleteButton } from '@/features/ad-delete';
 import { AdPublishButton } from '@/features/ad-publish';
-import { getMyAds } from '@/shared/api/ads';
-import { getSession } from '@/shared/api/auth';
+import { adFindMyListQuery } from '@/shared/api/queries/ad-queries';
+import { getSession } from '@/shared/api/queries/auth-queries';
 import { ErrorComponent } from '@/shared/ui/error-component';
 import { MyAdsList, MyAdsListEmpty } from '@/widgets/my-ads-list';
 
@@ -17,7 +16,7 @@ export default async function Page() {
   const { user } = await getSession();
   if (!user) return <ErrorComponent status={401} message="Authenticate to see this page." />;
 
-  const { data: ads, error } = await getMyAds({ userId: user.id });
+  const { data: ads, error } = await adFindMyListQuery({ userId: user.id });
   if (error) return <ErrorComponent {...error} />;
 
   if (ads.items.length === 0) return <MyAdsListEmpty />;
@@ -27,8 +26,8 @@ export default async function Page() {
         <AdItem
           actionsSlot={
             <>
-              <AdPublishButton id={ad.id} status={ad.status} onPublish={revalidateAds} />
-              <AdDeleteButton id={ad.id} onDelete={revalidateAds} />
+              <AdPublishButton id={ad.id} status={ad.status} />
+              <AdDeleteButton id={ad.id} />
             </>
           }
           key={ad.id}
@@ -37,9 +36,4 @@ export default async function Page() {
       ))}
     </MyAdsList>
   );
-}
-
-async function revalidateAds() {
-  'use server';
-  revalidatePath('/profile/my-ads' satisfies Route, 'page');
 }

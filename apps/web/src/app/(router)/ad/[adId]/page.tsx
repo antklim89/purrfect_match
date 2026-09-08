@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { AdDescription, AdImages, AdInfo } from '@/features/ad';
-import { getAd } from '@/shared/api/ads';
+import { adFindOneQuery } from '@/shared/api/queries/ad-queries';
 import notFoundFallback from '@/shared/assets/not-found.png';
 import { ErrorComponent } from '@/shared/ui/error-component';
 import { AdSection, AdSectionContent, AdSectionDescription } from '@/widgets/ad-section';
@@ -11,7 +11,7 @@ export async function generateMetadata({ params }: PageProps<'/ad/[adId]'>): Pro
   'use cache';
 
   const { adId } = await params;
-  const { error, data: ad } = await getAd({ id: adId });
+  const { error, data: ad } = await adFindOneQuery({ id: adId });
   if (error) return { title: 'Error', description: error.message };
 
   const image = ad.images[0] ? ad.images[0].url : notFoundFallback.src;
@@ -36,7 +36,7 @@ export default async function Page({ params }: PageProps<'/ad/[adId]'>) {
   'use cache';
 
   const { adId } = await params;
-  const { error, data: ad } = await getAd({ id: adId });
+  const { error, data: ad } = await adFindOneQuery({ id: adId });
   if (error?.status === 404) notFound();
   if (error) return <ErrorComponent {...error} />;
 

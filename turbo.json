@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/turbo/schema.json",
-  "ui": "stream",
+  "ui": "tui",
   "globalEnv": ["API_URL", "WEB_URL"],
   "tasks": {
     "build": {
