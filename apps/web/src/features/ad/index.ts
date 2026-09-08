@@ -1,4 +1,5 @@
 export { AdCard } from './ui/ad-card';
+export { AdCardFallback } from './ui/ad-card-fallback';
 export { AdDescription } from './ui/ad-description';
 export { AdDescriptionFallback } from './ui/ad-description-fallback';
 export { AdImages } from './ui/ad-images';

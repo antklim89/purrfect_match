@@ -1,5 +1,5 @@
 import { Hero } from '@/widgets/hero';
-import { NewAdsSection } from './sections/new-ads';
+import NewAdsSection from './_new-ads/page';
 
 function Page() {
   return (
