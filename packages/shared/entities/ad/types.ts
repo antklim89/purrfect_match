@@ -13,6 +13,14 @@ export interface AdImageType {
   blurDataUrl: string;
 }
 
+export interface AdPagination {
+  totalItems: number;
+  totalPages: number;
+  currentPage: number;
+  pageSize: number;
+  hasNext: boolean;
+}
+
 export interface AdPreviewType {
   name: string;
   type: string;

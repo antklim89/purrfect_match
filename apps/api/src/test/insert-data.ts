@@ -1,5 +1,6 @@
 import type { PgTable, TableConfig } from 'drizzle-orm/pg-core';
 
+import { profileTable } from '@/entities/profile/tables';
 import { auth } from '@/lib/auth';
 import { db } from '@/lib/db';
 import { createTestUserData } from './test-data';
@@ -30,6 +31,8 @@ export async function registerTestUser() {
   const user = await ctx.test.saveUser(createTestUserData());
   const loginResult = await ctx.test.login({ userId: user.id });
   const headers = Object.fromEntries(loginResult.headers);
+
+  await db.insert(profileTable).values({ id: loginResult.user.id }).returning();
 
   return { ...loginResult, headers };
 }

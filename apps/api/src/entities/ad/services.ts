@@ -1,10 +1,10 @@
 import * as fs from 'node:fs/promises';
 import { AdStatus, MAX_IMAGES_PER_AD } from '@purrfect_match/shared/entities/ad/constants';
 import { AdPublishSchema } from '@purrfect_match/shared/entities/ad/schemas';
-import type { AdDraftType, AdFilterType } from '@purrfect_match/shared/entities/ad/types';
+import type { AdDraftType, AdFilterType, AdPagination } from '@purrfect_match/shared/entities/ad/types';
 import { StatusCode } from '@purrfect_match/shared/models/status-codes';
 import type { User } from 'better-auth';
-import { and, asc, count, desc, eq, exists, gt, like, lt, or, sql } from 'drizzle-orm';
+import { and, asc, count, desc, eq, exists, like, or, sql } from 'drizzle-orm';
 import { HTTPException } from 'hono/http-exception';
 import { z } from 'zod/v4-mini';
 
@@ -22,13 +22,24 @@ export async function adFindManyService({
   page = 1,
   sortBy = 'publishedAt',
   orderBy = 'desc',
-  cursorId,
-  cursor,
   limit = 12,
   showPublished = false,
+  withoutPagination = false,
 }: AdFilterType) {
-  const ads = await db.query.adTable.findMany({
-    limit: limit + 1,
+  const orderByQuery =
+    orderBy === 'desc' ? [desc(adTable[sortBy]), desc(adTable.id)] : [asc(adTable[sortBy]), asc(adTable.id)];
+  const whereQuery = and(
+    search ? like(adTable.description, `%${search}%`) : undefined,
+    breed ? eq(adTable.breed, breed) : undefined,
+    type ? eq(adTable.type, type) : undefined,
+    userId ? eq(adTable.userId, userId) : undefined,
+    showPublished
+      ? or(eq(adTable.status, AdStatus.PUBLISHED), eq(adTable.status, AdStatus.UNPUBLISHED))
+      : eq(adTable.status, AdStatus.PUBLISHED),
+  );
+
+  const adsQuery = db.query.adTable.findMany({
+    limit,
     offset: (page - 1) * limit,
     with: {
       images: { columns: { blurDataUrl: true, url: true }, limit: 1 },
@@ -42,38 +53,25 @@ export async function adFindManyService({
       type: true,
       status: true,
     },
-    orderBy(fields) {
-      const orderFn = orderBy === 'desc' ? desc : asc;
-      return [orderFn(fields[sortBy]), orderFn(fields.id)];
-    },
-    where: (fields) => {
-      const orderFn = orderBy === 'desc' ? lt : gt;
-
-      function cursorPagination() {
-        if (!(cursor && cursorId)) return;
-        return or(orderFn(fields[sortBy], cursor), and(eq(fields[sortBy], cursor), orderFn(fields.id, cursorId)));
-      }
-
-      return and(
-        cursorPagination(),
-        search ? like(fields.description, `%${search}%`) : undefined,
-        breed ? eq(fields.breed, breed) : undefined,
-        type ? eq(fields.type, type) : undefined,
-        userId ? eq(fields.userId, userId) : undefined,
-        showPublished
-          ? or(eq(fields.status, AdStatus.PUBLISHED), eq(fields.status, AdStatus.UNPUBLISHED))
-          : eq(fields.status, AdStatus.PUBLISHED),
-      );
-    },
+    orderBy: orderByQuery,
+    where: whereQuery,
   });
 
-  if (ads.length > limit) {
-    ads.pop();
-    const lastAd = ads.at(-1) as (typeof ads)[number];
-    return { items: ads, nextCursor: { cursorId: lastAd.id, cursor: lastAd[sortBy] } };
-  }
+  const paginationQuery = withoutPagination ? [] : db.select({ total: count() }).from(adTable).where(whereQuery);
 
-  return { items: ads, nextCursor: null };
+  const [ads, [totalResult]] = await Promise.all([adsQuery, paginationQuery]);
+
+  const totalItems = totalResult?.total ?? 0;
+  const totalPages = Math.ceil(totalItems / limit);
+
+  const pagination: AdPagination = {
+    totalItems,
+    totalPages,
+    currentPage: page,
+    pageSize: limit,
+    hasNext: page < totalPages,
+  };
+  return { items: ads, pagination };
 }
 
 export async function adFindOneService({ id }: { id: AdSelectType['id'] }) {

@@ -170,20 +170,22 @@ describe('[GET] /api/ad', () => {
     'should find all ads with sort $sortBy and order $orderBy',
     async ({ orderBy, sortBy }) => {
       const insertedAds = await insertListData(adTable, () => createTestAdData(user.id), 35);
-      let nextCursor: { cursorId: string; cursor: string | number } | null | undefined;
+
+      let page: string | undefined;
+
       const totalAds: Partial<AdSelectType>[] = [];
 
       while (true) {
         const { data, error } = await testApiCall(
           client.api.ad.$get({
-            query: { sortBy, orderBy, limit: '10', cursor: nextCursor?.cursor, cursorId: nextCursor?.cursorId },
+            query: { sortBy, orderBy, limit: '10', page },
           }),
         );
         if (error) return expect(error).toBeNull();
 
-        nextCursor = data?.nextCursor;
         totalAds.push(...data.items);
-        if (!data?.nextCursor) break;
+        if (!data.pagination.hasNext) break;
+        page = String(data.pagination.currentPage + 1);
       }
 
       const allAds = insertedAds
@@ -199,6 +201,38 @@ describe('[GET] /api/ad', () => {
       expect(totalAds).toHaveLength(35);
     },
   );
+
+  it('should find search with pagination', async () => {
+    await Promise.all([
+      insertData(adTable, createTestAdData(user.id, { type: 'dog', description: 'foo bar baz' })),
+      insertData(adTable, createTestAdData(user.id, { type: 'dog', description: 'bar baz' })),
+      insertData(adTable, createTestAdData(user.id, { type: 'cat', description: 'foo bar baz' })),
+      insertData(adTable, createTestAdData(user.id, { type: 'cat', description: 'bar baz' })),
+      insertData(adTable, createTestAdData(user.id, { type: 'cat', description: 'foo bar baz' })),
+      insertData(adTable, createTestAdData(user.id, { type: 'cat', description: 'foo bar baz' })),
+    ]);
+
+    const result1 = await testApiCall(client.api.ad.$get({ query: { search: 'foo', sortBy: 'name', limit: '2' } }));
+    expect(result1.data?.pagination).toMatchObject({
+      totalItems: 4,
+      totalPages: 2,
+      currentPage: 1,
+      pageSize: 2,
+      hasNext: true,
+    });
+
+    const result2 = await testApiCall(
+      client.api.ad.$get({ query: { type: 'cat', sortBy: 'name', limit: '2', page: '2' } }),
+    );
+
+    expect(result2.data?.pagination).toMatchObject({
+      totalItems: 4,
+      totalPages: 2,
+      currentPage: 2,
+      pageSize: 2,
+      hasNext: false,
+    });
+  });
 });
 
 describe('[GET] /api/ad/:id', () => {

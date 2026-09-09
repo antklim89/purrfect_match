@@ -44,8 +44,7 @@ export const AdFilterSchema = z.object({
   page: z.optional(z.coerce.number().check(z.positive())),
   sortBy: z.optional(z.literal(ADS_SORT_BY)),
   orderBy: z.optional(z.enum(['asc', 'desc'])),
-  cursor: z.optional(z.union([z.string(), z.number()])),
-  cursorId: z.optional(z.string()),
   limit: z.optional(z.coerce.number().check(z.positive(), z.maximum(MAX_ADS_LIMIT))),
   showPublished: z.optional(z.coerce.boolean()),
+  withoutPagination: z.optional(z.coerce.boolean()),
 });
