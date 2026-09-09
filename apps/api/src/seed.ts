@@ -43,6 +43,26 @@ async function createUsers() {
   console.log('Users inserted');
 }
 
+async function createProfiles() {
+  const users = await db.query.userTable.findMany({ columns: { id: true } });
+
+  const profiles: (typeof schema.profileTable.$inferInsert)[] = users.map((user) => {
+    return {
+      id: user.id,
+      fullName: faker.person.fullName(),
+      address: `${faker.location.country()} ${faker.location.city()} ${faker.location.streetAddress()}`,
+      description: faker.lorem.text(),
+      contacts: faker.helpers.multiple(() => ({
+        number: faker.phone.number(),
+        type: faker.helpers.arrayElement(contacts.map((i) => i.type)),
+      })),
+    };
+  });
+
+  await db.insert(schema.profileTable).values(profiles);
+  console.log('Profiles inserted');
+}
+
 async function createAd() {
   const users = await db.query.userTable.findMany({ columns: { id: true } });
 
@@ -87,5 +107,6 @@ async function createAdImages() {
 
 await resetDb();
 await createUsers();
+await createProfiles();
 await createAd();
 await createAdImages();

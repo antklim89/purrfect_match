@@ -38,7 +38,7 @@ export interface AdType {
   publishedAt: string;
   id: string;
   images: AdImageType[];
-  profile: ProfileType | null;
+  profile: ProfileType;
   user: {
     name: string;
   };

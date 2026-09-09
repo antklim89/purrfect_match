@@ -19,7 +19,8 @@ export const adTable = pgTable('ad', {
 
   userId: text()
     .notNull()
-    .references(() => userTable.id, { onDelete: 'cascade' }),
+    .references(() => userTable.id, { onDelete: 'cascade' })
+    .references(() => profileTable.id, { onDelete: 'cascade' }),
 
   createdAt: timestamp('created_at', { mode: 'string', withTimezone: true }).defaultNow().notNull(),
   publishedAt: timestamp('published_at', { mode: 'string', withTimezone: true }).defaultNow().notNull(),
