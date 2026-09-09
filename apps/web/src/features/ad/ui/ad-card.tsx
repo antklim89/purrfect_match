@@ -25,7 +25,7 @@ export function AdCard({ ad }: { ad: AdPreviewType }) {
       />
       <CardHeader className="gap-0">
         <CardTitle className="text-lg">{ad.name}</CardTitle>
-        <span className="text-xs opacity-60">{formatDate(ad.createdAt)}</span>
+        <span className="text-xs opacity-60">{formatDate(ad.publishedAt)}</span>
       </CardHeader>
       <CardContent className="flex flex-col gap-2">
         <div className="flex gap-2">

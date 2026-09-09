@@ -22,7 +22,7 @@ export const adTable = pgTable('ad', {
     .references(() => userTable.id, { onDelete: 'cascade' }),
 
   createdAt: timestamp('created_at', { mode: 'string', withTimezone: true }).defaultNow().notNull(),
-  publishedAt: timestamp('published_at', { mode: 'string', withTimezone: true }),
+  publishedAt: timestamp('published_at', { mode: 'string', withTimezone: true }).defaultNow().notNull(),
 });
 
 export const adImageTable = pgTable('ad_image', {

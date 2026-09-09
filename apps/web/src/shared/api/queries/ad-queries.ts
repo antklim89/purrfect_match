@@ -14,7 +14,7 @@ export const adFindListQuery = cache(async ({ query }: InferRequestType<typeof a
 });
 
 export const adFindNewListQuery = cache(async () => {
-  return await apiCall(apiClient.api.ad.$get({ query: { limit: '6', sortBy: 'createdAt', orderBy: 'desc' } }));
+  return await apiCall(apiClient.api.ad.$get({ query: { limit: '6', sortBy: 'publishedAt', orderBy: 'desc' } }));
 });
 
 export const adFindDraftQuery = cache(async () => {
@@ -24,7 +24,7 @@ export const adFindDraftQuery = cache(async () => {
 export const adFindMyListQuery = cache(async ({ userId }: { userId: string }) => {
   return await apiCall(
     apiSessionClient.api.ad.$get({
-      query: { userId, limit: '50', sortBy: 'createdAt', orderBy: 'desc', showPublished: 'true' },
+      query: { userId, limit: '50', sortBy: 'publishedAt', orderBy: 'desc', showPublished: 'true' },
     }),
   );
 });

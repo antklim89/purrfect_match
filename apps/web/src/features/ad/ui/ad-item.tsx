@@ -33,7 +33,7 @@ export function AdItem({ ad, actionsSlot }: { ad: AdPreviewType; actionsSlot: Re
           </h3>
         </ItemTitle>
 
-        <ItemDescription>{formatDate(ad.createdAt)}</ItemDescription>
+        <ItemDescription>{formatDate(ad.publishedAt)}</ItemDescription>
       </ItemContent>
 
       <ItemActions className="z-1">{actionsSlot}</ItemActions>

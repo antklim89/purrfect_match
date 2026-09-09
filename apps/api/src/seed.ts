@@ -1,5 +1,7 @@
 /** biome-ignore-all lint/performance/noAwaitInLoops: ok */
+/** biome-ignore-all lint/suspicious/noConsole: ok */
 import { faker } from '@faker-js/faker';
+import { animalBreeds, animalTypes } from '@purrfect_match/shared/entities/animal/constants';
 import { sql } from 'drizzle-orm';
 import { PgTable } from 'drizzle-orm/pg-core';
 
@@ -15,25 +17,6 @@ const contacts = [
   { number: '1 (555) 555 33 55', type: 'whatsapp' },
   { number: '4 (999) 555 22 55', type: 'telegram' },
   { number: '71 (888) 555 11 55', type: 'viber' },
-];
-
-const types = ['dog', 'cat', 'bird', 'hamster', 'horse', 'rabbit', 'fish', 'turtle', 'duck', 'snake', 'lizard'];
-
-const breeds = [
-  'Bulldog',
-  'Poodle',
-  'Beagle',
-  'Dachshund',
-  'German Shepherd Dog',
-  'Golden Retriever',
-  'Bichon Frise',
-  'Labrador',
-  'Pug',
-  'Boxer',
-  'Rottweiler',
-  'Goldendoodle',
-  'Border Collie',
-  'Great Dane',
 ];
 
 export const PLACEHOLDER_BLUR_DATA =
@@ -57,27 +40,31 @@ async function createUsers() {
       body: { email: faker.internet.email(), name: faker.person.firstName(), password: 'qwer1234' },
     });
   }
+  console.log('Users inserted');
 }
 
 async function createAd() {
   const users = await db.query.userTable.findMany({ columns: { id: true } });
 
   const ads: AdInsertType[] = Array.from({ length: ADS_NUMBER }, () => {
+    const type = faker.helpers.arrayElement(animalTypes);
+    const breed = faker.helpers.arrayElement(animalBreeds[type]);
     return {
       id: faker.string.uuid({ version: 7 }),
       name: faker.animal.petName(),
-      breed: faker.helpers.arrayElement(breeds),
-      type: faker.helpers.arrayElement(types),
+      breed,
+      type,
       description: faker.lorem.sentence({ min: 20, max: 1000 }).slice(0, 38000),
       price: faker.number.float({ min: 0, max: 1000000, multipleOf: 0.02 }),
       userId: faker.helpers.arrayElement(users).id,
       createdAt: faker.date.past({ years: 7 }).toISOString(),
       contacts: faker.helpers.arrayElements(contacts),
-      isPublished: true,
+      status: 'PUBLISHED',
     };
   });
 
   await db.insert(schema.adTable).values(ads);
+  console.log('Ads inserted');
 }
 
 async function createAdImages() {
@@ -95,6 +82,7 @@ async function createAdImages() {
   );
 
   await db.insert(schema.adImageTable).values(adsImages);
+  console.log('Images inserted');
 }
 
 await resetDb();

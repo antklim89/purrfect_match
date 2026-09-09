@@ -17,12 +17,12 @@ export function AdInfo({ ad }: { ad: AdType }) {
           </span>
         </h1>
         <p className="text-sm text-muted-foreground">
-          by {ad.user.name} at {formatDate(ad.createdAt)}
+          by {ad.user.name} at {formatDate(ad.publishedAt)}
         </p>
       </CardHeader>
       <CardContent className="h-full">
         <ItemGroup>
-          {ad.profile.contacts?.map((contact) => (
+          {ad.profile?.contacts?.map((contact) => (
             <AdContact contact={contact} key={contact.type + contact.number} />
           ))}
         </ItemGroup>

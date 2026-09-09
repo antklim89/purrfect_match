@@ -20,7 +20,7 @@ export async function adFindManyService({
   type,
   userId,
   page = 1,
-  sortBy = 'createdAt',
+  sortBy = 'publishedAt',
   orderBy = 'desc',
   cursorId,
   cursor,
@@ -36,7 +36,7 @@ export async function adFindManyService({
     columns: {
       id: true,
       breed: true,
-      createdAt: true,
+      publishedAt: true,
       name: true,
       price: true,
       type: true,

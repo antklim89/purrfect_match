@@ -17,6 +17,7 @@
     "dev:app": "bun run --hot src/app.ts",
     "dev:typecheck": "bun typecheck -w --preserveWatchOutput",
     "lint": "biome check",
+    "seed": "bun --bun src/seed.ts",
     "start": "bun run src/app.ts",
     "studio": "drizzle-kit studio",
     "test": "bun run --bun vitest",

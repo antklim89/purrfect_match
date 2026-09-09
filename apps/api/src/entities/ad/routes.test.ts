@@ -98,9 +98,13 @@ describe('[GET] /api/ad', () => {
 
     const { data } = await testApiCall(client.api.ad.$get({ query: { limit: '50' } }));
 
-    expect(data!.items).toHaveLength(2);
+    expect(data!.items).toHaveLength(1);
+    expect(data!.items).toEqual(expect.arrayContaining([expect.objectContaining({ id: insertedAd[0].id })]));
 
-    expect(data!.items).toEqual(
+    const { data: data2 } = await testApiCall(client.api.ad.$get({ query: { limit: '50', showPublished: 'true' } }));
+
+    expect(data2!.items).toHaveLength(2);
+    expect(data2!.items).toEqual(
       expect.arrayContaining([
         expect.objectContaining({ id: insertedAd[0].id }),
         expect.objectContaining({ id: insertedAd[1].id }),

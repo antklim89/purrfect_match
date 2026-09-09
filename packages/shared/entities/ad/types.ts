@@ -19,7 +19,7 @@ export interface AdPreviewType {
   price: number;
   breed: string;
   status: AdStatus;
-  createdAt: string;
+  publishedAt: string;
   id: string;
   images: {
     url: string;
@@ -35,10 +35,10 @@ export interface AdType {
   breed: string;
   status: AdStatus;
   userId: string;
-  createdAt: string;
+  publishedAt: string;
   id: string;
   images: AdImageType[];
-  profile: ProfileType;
+  profile: ProfileType | null;
   user: {
     name: string;
   };
