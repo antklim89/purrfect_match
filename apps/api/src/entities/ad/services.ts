@@ -1,5 +1,10 @@
 import * as fs from 'node:fs/promises';
-import { AdStatus, MAX_IMAGES_PER_AD } from '@purrfect_match/shared/entities/ad/constants';
+import {
+  ADS_ORDER_BY_DEFAULT,
+  ADS_SORT_BY_DEFAULT,
+  AdStatus,
+  MAX_IMAGES_PER_AD,
+} from '@purrfect_match/shared/entities/ad/constants';
 import { AdPublishSchema } from '@purrfect_match/shared/entities/ad/schemas';
 import type { AdDraftType, AdFilterType, AdPagination } from '@purrfect_match/shared/entities/ad/types';
 import { StatusCode } from '@purrfect_match/shared/models/status-codes';
@@ -20,8 +25,8 @@ export async function adFindManyService({
   type,
   userId,
   page = 1,
-  sortBy = 'publishedAt',
-  orderBy = 'desc',
+  sortBy = ADS_SORT_BY_DEFAULT,
+  orderBy = ADS_ORDER_BY_DEFAULT,
   limit = 12,
   showPublished = false,
   withoutPagination = false,
