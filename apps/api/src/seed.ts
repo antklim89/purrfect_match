@@ -66,7 +66,8 @@ async function createAd() {
       description: faker.lorem.sentence({ min: 20, max: 1000 }).slice(0, 38000),
       price: faker.number.float({ min: 0, max: 1000000, multipleOf: 0.02 }),
       userId: faker.helpers.arrayElement(users).id,
-      createdAt: faker.date.past({ years: 7 }).toISOString(),
+      createdAt: new Date('2010-01-01T12:40:40.408Z').toISOString(),
+      publishedAt: faker.date.past({ years: 7 }).toISOString(),
       contacts: faker.helpers.arrayElements(contacts),
       status: 'PUBLISHED',
     };
