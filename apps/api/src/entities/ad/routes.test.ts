@@ -212,7 +212,9 @@ describe('[GET] /api/ad', () => {
       insertData(adTable, createTestAdData(user.id, { type: 'cat', description: 'foo bar baz' })),
     ]);
 
-    const result1 = await testApiCall(client.api.ad.$get({ query: { search: 'foo', sortBy: 'name', limit: '2' } }));
+    const result1 = await testApiCall(
+      client.api.ad.$get({ query: { search: 'foo', sortBy: 'publishedAt', limit: '2' } }),
+    );
     expect(result1.data?.pagination).toMatchObject({
       totalItems: 4,
       totalPages: 2,
@@ -222,7 +224,7 @@ describe('[GET] /api/ad', () => {
     });
 
     const result2 = await testApiCall(
-      client.api.ad.$get({ query: { type: 'cat', sortBy: 'name', limit: '2', page: '2' } }),
+      client.api.ad.$get({ query: { type: 'cat', sortBy: 'publishedAt', limit: '2', page: '2' } }),
     );
 
     expect(result2.data?.pagination).toMatchObject({

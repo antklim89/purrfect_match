@@ -1,4 +1,8 @@
-export const ADS_SORT_BY = ['publishedAt', 'name', 'type', 'breed', 'price', 'status'] as const;
+export const ADS_SORT_BY = ['publishedAt', 'price', 'status'] as const;
+export const ADS_SORT_BY_DEFAULT = ADS_SORT_BY[0];
+export const ADS_ORDER_BY = ['desc', 'asc'] as const;
+export const ADS_ORDER_BY_DEFAULT = ADS_ORDER_BY[0];
+
 export const MAX_ADS_LIMIT = 50;
 export const IMAGE_EXT = 'webp';
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { ADS_SORT_BY } from '@purrfect_match/shared/entities/ad/constants';
+import { type ADS_ORDER_BY, ADS_SORT_BY } from '@purrfect_match/shared/entities/ad/constants';
 import type { AdFilterType } from '@purrfect_match/shared/entities/ad/types';
 import { type Options, parseAsInteger, parseAsStringEnum, type UseQueryStatesKeysMap, useQueryStates } from 'nuqs';
 
@@ -22,24 +22,6 @@ const sortOptions = [
     orderBy: 'asc',
   },
   {
-    label: 'By name',
-    value: 'name',
-    sortBy: 'name',
-    orderBy: 'desc',
-  },
-  {
-    label: 'By type',
-    value: 'type',
-    sortBy: 'type',
-    orderBy: 'desc',
-  },
-  {
-    label: 'By breed',
-    value: 'breed',
-    sortBy: 'breed',
-    orderBy: 'desc',
-  },
-  {
     label: 'Cheaper',
     value: 'cheep',
     sortBy: 'price',
@@ -55,7 +37,7 @@ const sortOptions = [
   label: string;
   value: string;
   sortBy: (typeof ADS_SORT_BY)[number];
-  orderBy: 'asc' | 'desc';
+  orderBy: (typeof ADS_ORDER_BY)[number];
 }[];
 
 const keyMap: UseQueryStatesKeysMap<Required<Pick<AdFilterType, 'sortBy' | 'orderBy' | 'page'>>> = {
