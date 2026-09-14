@@ -5,10 +5,12 @@ import { AdCatalogSheet } from './ad-catalog-sheet';
 export function AdCatalog({
   children,
   filtersSlot,
+  sortSlot,
   paginationSlot,
 }: {
   children: ReactNode;
   filtersSlot: ReactNode;
+  sortSlot: ReactNode;
   paginationSlot?: ReactNode;
 }) {
   return (
@@ -18,15 +20,21 @@ export function AdCatalog({
       </div>
 
       <div className="flex-1 flex flex-col gap-4">
-        <div className="self-end xl:hidden">
-          <AdCatalogSheet>
-            <Suspense>{filtersSlot}</Suspense>
-          </AdCatalogSheet>
+        <div className="flex gap-4 items-center justify-end">
+          <div className="w-full">{paginationSlot}</div>
+
+          <Suspense>{sortSlot}</Suspense>
+
+          <div className="self-end xl:hidden">
+            <AdCatalogSheet>
+              <Suspense>{filtersSlot}</Suspense>
+            </AdCatalogSheet>
+          </div>
         </div>
 
-        {paginationSlot}
         <div>{children}</div>
-        {paginationSlot}
+
+        <div className="w-full">{paginationSlot}</div>
       </div>
     </div>
   );

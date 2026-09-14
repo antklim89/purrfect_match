@@ -11,12 +11,7 @@ import { Button } from '@/shared/ui/button';
 
 function PaginationRoot({ className, ...props }: React.ComponentProps<'nav'>) {
   return (
-    <nav
-      aria-label="pagination"
-      data-slot="pagination"
-      className={cn('mx-auto flex w-full justify-center', className)}
-      {...props}
-    />
+    <nav aria-label="pagination" data-slot="pagination" className={cn('flex justify-center', className)} {...props} />
   );
 }
 
@@ -80,7 +75,7 @@ export function Pagination({
   totalPages: number;
 }) {
   const searchParams = useSearchParams();
-  if (totalPages <= 1) return <div className={cn('mx-auto flex w-full justify-center', className)} />;
+  if (totalPages <= 1) return null;
 
   const hasNext = page < totalPages;
   const hasPrev = page > 1;
@@ -109,8 +104,8 @@ export function Pagination({
         </PaginationItem>
 
         {[page - 2, page - 1, page, page + 1, page + 2]
-          .filter(i => i > 0 && i <= totalPages)
-          .map(i => (
+          .filter((i) => i > 0 && i <= totalPages)
+          .map((i) => (
             <PaginationItem key={i}>
               <PaginationLink scroll={false} href={getSearchParamsLink(i) as Route} isActive={i === page}>
                 {i}

@@ -1,6 +1,7 @@
 import { Suspense } from 'react';
 
 import { AdFilter } from '@/features/ad-filter';
+import { AdSort } from '@/features/ad-sort';
 import { AdCatalog } from '@/widgets/ad-catalog';
 import AdsListSectionLoading from './_ads-list/loading';
 import AdsListSection from './_ads-list/page';
@@ -11,6 +12,7 @@ async function Page(props: PageProps<'/ad'>) {
   return (
     <section className="w-full max-w-[128rem] mx-auto px-3 my-8">
       <AdCatalog
+        sortSlot={<AdSort />}
         filtersSlot={<AdFilter />}
         paginationSlot={
           <Suspense>
