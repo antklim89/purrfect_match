@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import type { UserContactType } from '@purrfect_match/shared/entities/auth/types';
+import type { UserContactType } from '@purrfect_match/shared/entities/user/types';
 import { FaViber } from 'react-icons/fa6';
 import { RiKakaoTalkLine, RiPhoneLine, RiTelegram2Line, RiWechatLine, RiWhatsappLine } from 'react-icons/ri';
 

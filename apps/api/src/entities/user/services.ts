@@ -1,4 +1,4 @@
-import type { UserProfileUpdateType } from '@purrfect_match/shared/entities/auth/types';
+import type { UserUpdateType } from '@purrfect_match/shared/entities/user/types';
 import { StatusCode } from '@purrfect_match/shared/models/status-codes';
 import { eq } from 'drizzle-orm';
 import { HTTPException } from 'hono/http-exception';
@@ -7,13 +7,7 @@ import { auth } from '@/lib/auth';
 import { db } from '@/lib/db';
 import { userTable } from './tables';
 
-export async function userProfileUpdateService({
-  headers,
-  input,
-}: {
-  headers: HeadersInit;
-  input: UserProfileUpdateType;
-}) {
+export async function userProfileUpdateService({ headers, input }: { headers: HeadersInit; input: UserUpdateType }) {
   await auth.api.updateUser({
     body: {
       address: input.address,

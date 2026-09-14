@@ -49,10 +49,10 @@ describe('[AUTH] signUpEmail', () => {
   });
 });
 
-describe('[GET] /api/auth/:id/get-profile', () => {
+describe('[GET] /api/auth/:id/get-user', () => {
   it('should get profile', async () => {
     const { user } = await registerTestUser();
-    const { data } = await testApiCall(client.api.auth[':id']['get-profile'].$get({ param: { id: user.id } }));
+    const { data } = await testApiCall(client.api.user[':id']['get-user'].$get({ param: { id: user.id } }));
 
     expect(data).toStrictEqual({
       address: '',
@@ -68,9 +68,7 @@ describe('[GET] /api/auth/:id/get-profile', () => {
 describe('[POST] /api/auth/update-profile', () => {
   it('should update profile', async () => {
     const { headers, user } = await registerTestUser();
-    const { error, data } = await testApiCall(
-      client.api.auth['update-profile'].$post({ json: testProfile }, { headers }),
-    );
+    const { error, data } = await testApiCall(client.api.user['update-user'].$post({ json: testProfile }, { headers }));
     if (error) return expect(error).toBeNull();
 
     const updatedProfile = await db.query.userTable.findFirst({

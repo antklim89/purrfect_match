@@ -1,4 +1,4 @@
-import { userContacts } from '@purrfect_match/shared/entities/auth/constants';
+import { userContacts } from '@purrfect_match/shared/entities/user/constants';
 import { Trash2Icon } from 'lucide-react';
 
 import { useTypedAppFormContext } from '@/shared/lib/form';

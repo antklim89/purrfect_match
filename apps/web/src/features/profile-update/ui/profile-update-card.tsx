@@ -1,5 +1,5 @@
 'use client';
-import type { UserProfileType, UserProfileUpdateType } from '@purrfect_match/shared/entities/auth/types';
+import type { UserProfileType, UserUpdateType } from '@purrfect_match/shared/entities/user/types';
 import { toast } from 'sonner';
 
 import { profileUpdateMutation } from '@/shared/api/mutations/profile-mutations';
@@ -20,7 +20,7 @@ export function ProfileUpdateCard({ user }: { user: UserProfileType }) {
       name: user.name,
     },
     async onSubmit({ value, formApi }) {
-      const changedValues: Partial<UserProfileUpdateType> = Object.fromEntries(
+      const changedValues: Partial<UserUpdateType> = Object.fromEntries(
         Object.entries(value).filter(([key]) => !formApi.getFieldMeta(key as keyof typeof value)?.isDefaultValue),
       );
 
