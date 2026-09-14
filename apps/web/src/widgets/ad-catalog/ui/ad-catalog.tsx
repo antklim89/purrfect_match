@@ -2,7 +2,15 @@ import { type ReactNode, Suspense } from 'react';
 
 import { AdCatalogSheet } from './ad-catalog-sheet';
 
-export function AdCatalog({ children, filtersSlot }: { children: ReactNode; filtersSlot: ReactNode }) {
+export function AdCatalog({
+  children,
+  filtersSlot,
+  paginationSlot,
+}: {
+  children: ReactNode;
+  filtersSlot: ReactNode;
+  paginationSlot?: ReactNode;
+}) {
   return (
     <div className="flex gap-4">
       <div className="shrink-0 w-64 hidden xl:block">
@@ -16,7 +24,9 @@ export function AdCatalog({ children, filtersSlot }: { children: ReactNode; filt
           </AdCatalogSheet>
         </div>
 
+        {paginationSlot}
         <div>{children}</div>
+        {paginationSlot}
       </div>
     </div>
   );
