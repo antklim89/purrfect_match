@@ -28,19 +28,22 @@ export async function adFindManyService({
   sortBy = ADS_SORT_BY_DEFAULT,
   orderBy = ADS_ORDER_BY_DEFAULT,
   limit = 12,
-  showPublished = false,
+  status = 'published',
   withoutPagination = false,
 }: AdFilterType) {
   const orderByQuery =
     orderBy === 'desc' ? [desc(adTable[sortBy]), desc(adTable.id)] : [asc(adTable[sortBy]), asc(adTable.id)];
+
   const whereQuery = and(
     search ? like(adTable.description, `%${search}%`) : undefined,
     breed ? eq(adTable.breed, breed) : undefined,
     type ? eq(adTable.type, type) : undefined,
     userId ? eq(adTable.userId, userId) : undefined,
-    showPublished
+    status === 'all'
       ? or(eq(adTable.status, AdStatus.PUBLISHED), eq(adTable.status, AdStatus.UNPUBLISHED))
-      : eq(adTable.status, AdStatus.PUBLISHED),
+      : status === 'unpublished'
+        ? eq(adTable.status, AdStatus.UNPUBLISHED)
+        : eq(adTable.status, AdStatus.PUBLISHED),
   );
 
   const adsQuery = db.query.adTable.findMany({

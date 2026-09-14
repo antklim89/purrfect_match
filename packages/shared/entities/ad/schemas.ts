@@ -40,11 +40,11 @@ export const AdFilterSchema = z.object({
   search: z.optional(z.string().check(z.maxLength(500))),
   type: z.optional(z.string().check(z.maxLength(500))),
   breed: z.optional(z.string().check(z.maxLength(500))),
+  status: z.optional(z.enum(['all', 'published', 'unpublished'])),
   userId: z.optional(z.string()),
   page: z.optional(z.coerce.number().check(z.positive())),
   sortBy: z.optional(z.literal(ADS_SORT_BY)),
   orderBy: z.optional(z.enum(['asc', 'desc'])),
   limit: z.optional(z.coerce.number().check(z.positive(), z.maximum(MAX_ADS_LIMIT))),
-  showPublished: z.optional(z.coerce.boolean()),
   withoutPagination: z.optional(z.coerce.boolean()),
 });

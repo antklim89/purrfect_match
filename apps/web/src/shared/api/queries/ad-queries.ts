@@ -24,7 +24,7 @@ export const adFindDraftQuery = cache(async () => {
 export const adFindMyListQuery = cache(async ({ userId }: { userId: string }) => {
   return await apiCall(
     apiSessionClient.api.ad.$get({
-      query: { userId, limit: '50', sortBy: 'publishedAt', orderBy: 'desc', showPublished: 'true' },
+      query: { userId, limit: '50', sortBy: 'publishedAt', orderBy: 'desc', status: 'all' },
     }),
   );
 });
