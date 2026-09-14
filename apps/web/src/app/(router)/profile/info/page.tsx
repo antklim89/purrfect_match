@@ -2,11 +2,15 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { ProfileUpdateCard } from '@/features/profile-update';
+import { getSession } from '@/shared/api/queries/auth-queries';
 import { profileFindQuery } from '@/shared/api/queries/profile-queries';
 import { ErrorComponent } from '@/shared/ui/error-component';
 
 export async function generateMetadata(): Promise<Metadata> {
-  const { data, error } = await profileFindQuery();
+  const { user } = await getSession();
+  if (!user) return { title: 'You are not authenticated.' };
+
+  const { data, error } = await profileFindQuery({ userId: user.id });
   if (error) return { title: 'Error' };
 
   return {
@@ -16,7 +20,10 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Page() {
-  const { data, error } = await profileFindQuery();
+  const { user } = await getSession();
+  if (!user) return <ErrorComponent status={401} message="Authenticate to see this page." />;
+
+  const { data, error } = await profileFindQuery({ userId: user.id });
   if (error?.status === 404) notFound();
   if (error) return <ErrorComponent {...error} />;
   return <ProfileUpdateCard user={data} />;

@@ -1,4 +1,4 @@
-export const profileContacts = [
+export const userContacts = [
   { label: 'Phone', value: 'phone' },
   { label: 'WhatsApp', value: 'whatsapp' },
   { label: 'Telegram', value: 'telegram' },

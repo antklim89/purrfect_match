@@ -1,1 +1,0 @@
-ALTER TABLE "ad" DROP COLUMN "contacts";

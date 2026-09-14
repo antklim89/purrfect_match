@@ -2,7 +2,6 @@ import { relations, sql } from 'drizzle-orm';
 import { numeric, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
 
 import { userTable } from '@/entities/auth/tables';
-import { profileTable } from '@/entities/profile/tables';
 
 export const adTable = pgTable('ad', {
   id: uuid().default(sql`uuidv7()`).primaryKey(),
@@ -17,10 +16,9 @@ export const adTable = pgTable('ad', {
     .notNull()
     .default('DRAFT'),
 
-  userId: text()
+  userId: uuid()
     .notNull()
-    .references(() => userTable.id, { onDelete: 'cascade' })
-    .references(() => profileTable.id, { onDelete: 'cascade' }),
+    .references(() => userTable.id, { onDelete: 'cascade' }),
 
   createdAt: timestamp('created_at', { mode: 'string', withTimezone: true }).defaultNow().notNull(),
   publishedAt: timestamp('published_at', { mode: 'string', withTimezone: true }).defaultNow().notNull(),
@@ -42,10 +40,6 @@ export const adRelations = relations(adTable, ({ many, one }) => ({
   user: one(userTable, {
     fields: [adTable.userId],
     references: [userTable.id],
-  }),
-  profile: one(profileTable, {
-    fields: [adTable.userId],
-    references: [profileTable.id],
   }),
 }));
 

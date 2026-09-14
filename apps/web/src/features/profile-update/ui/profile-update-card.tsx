@@ -1,5 +1,5 @@
 'use client';
-import type { ProfileType, ProfileUpdateType } from '@purrfect_match/shared/entities/profile/types';
+import type { UserProfileType, UserProfileUpdateType } from '@purrfect_match/shared/entities/auth/types';
 import { toast } from 'sonner';
 
 import { profileUpdateMutation } from '@/shared/api/mutations/profile-mutations';
@@ -9,17 +9,18 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/shared/u
 import { ProfileUpdateForm } from './profile-update-form';
 import { profileUpdateFormOptions } from '../models/form-options';
 
-export function ProfileUpdateCard({ user }: { user: ProfileType }) {
+export function ProfileUpdateCard({ user }: { user: UserProfileType }) {
   const form = useAppForm({
     ...profileUpdateFormOptions,
     defaultValues: {
-      address: user.address ?? profileUpdateFormOptions.defaultValues.address,
-      description: user.description ?? profileUpdateFormOptions.defaultValues.description,
-      fullName: user.fullName ?? profileUpdateFormOptions.defaultValues.fullName,
-      contacts: user.contacts ?? profileUpdateFormOptions.defaultValues.contacts,
+      address: user.address,
+      description: user.description,
+      fullName: user.fullName,
+      contacts: user.contacts,
+      name: user.name,
     },
     async onSubmit({ value, formApi }) {
-      const changedValues: Partial<ProfileUpdateType> = Object.fromEntries(
+      const changedValues: Partial<UserProfileUpdateType> = Object.fromEntries(
         Object.entries(value).filter(([key]) => !formApi.getFieldMeta(key as keyof typeof value)?.isDefaultValue),
       );
 

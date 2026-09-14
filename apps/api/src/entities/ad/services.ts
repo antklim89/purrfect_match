@@ -80,7 +80,7 @@ export async function adFindOneService({ id }: { id: AdSelectType['id'] }) {
       eq(adTable.id, id),
       or(eq(adTable.status, AdStatus.PUBLISHED), eq(adTable.status, AdStatus.UNPUBLISHED)),
     ),
-    with: { images: true, user: { columns: { name: true } }, profile: true },
+    with: { images: true, user: { columns: { name: true, contacts: true } } },
   });
   if (!ad) throw new HTTPException(StatusCode.NOT_FOUND, { message: 'Ad not found.' });
 

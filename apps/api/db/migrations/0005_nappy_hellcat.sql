@@ -1,1 +1,0 @@
-ALTER TABLE "ad" ADD CONSTRAINT "ad_userId_profile_id_fk" FOREIGN KEY ("userId") REFERENCES "public"."profile"("id") ON DELETE cascade ON UPDATE no action;

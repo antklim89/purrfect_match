@@ -1,6 +1,21 @@
+import { testClient } from 'hono/testing';
 import { describe, expect, it } from 'vitest';
 
+import app from '@/app';
 import { auth } from '@/lib/auth';
+import { db } from '@/lib/db';
+import { testApiCall } from '@/test/api-call';
+import { registerTestUser } from '@/test/insert-data';
+
+const client = testClient(app);
+
+const testProfile = {
+  name: 'Updated',
+  address: 'Updated Address',
+  description: 'Updated Lorem ipsum',
+  fullName: 'Updated Full Name',
+  contacts: [{ type: 'phone', number: '7 (999) 555-55-55' }],
+};
 
 describe('[AUTH] signUpEmail', () => {
   it('should sign up with email', async () => {
@@ -31,5 +46,50 @@ describe('[AUTH] signUpEmail', () => {
       body: { email: 'mail@mail.ru', name: 'Name', password: 'x' },
     });
     await expect(data).rejects.toHaveProperty('message', 'Password too short');
+  });
+});
+
+describe('[GET] /api/auth/:id/get-profile', () => {
+  it('should get profile', async () => {
+    const { user } = await registerTestUser();
+    const { data } = await testApiCall(client.api.auth[':id']['get-profile'].$get({ param: { id: user.id } }));
+
+    expect(data).toStrictEqual({
+      address: '',
+      contacts: '',
+      fullName: '',
+      description: '',
+      name: 'Brielle',
+      image: null,
+    });
+  });
+});
+
+describe('[POST] /api/auth/update-profile', () => {
+  it('should update profile', async () => {
+    const { headers, user } = await registerTestUser();
+    const { error, data } = await testApiCall(
+      client.api.auth['update-profile'].$post({ json: testProfile }, { headers }),
+    );
+    if (error) return expect(error).toBeNull();
+
+    const updatedProfile = await db.query.userTable.findFirst({
+      where: (fields, operators) => operators.eq(fields.id, user.id),
+    });
+
+    expect(data).toBeNull();
+    expect(updatedProfile).toStrictEqual({
+      id: user.id,
+      name: testProfile.name,
+      email: user.email,
+      emailVerified: user.emailVerified,
+      image: null,
+      fullName: testProfile.fullName,
+      contacts: testProfile.contacts,
+      address: testProfile.address,
+      description: testProfile.description,
+      createdAt: expect.anything(),
+      updatedAt: expect.anything(),
+    });
   });
 });

@@ -1,4 +1,4 @@
-import { profileContacts } from '@purrfect_match/shared/entities/profile/constants';
+import { userContacts } from '@purrfect_match/shared/entities/auth/constants';
 import { Trash2Icon } from 'lucide-react';
 
 import { useTypedAppFormContext } from '@/shared/lib/form';
@@ -12,6 +12,9 @@ export function ProfileUpdateForm() {
 
   return (
     <form.Form>
+      <form.AppField name="name">
+        {(field) => <field.FormInput autoComplete="name" placeholder="Enter your user name" label="Username" />}
+      </form.AppField>
       <form.AppField name="fullName">
         {(field) => <field.FormInput autoComplete="family-name" placeholder="Enter your full name" label="Full Name" />}
       </form.AppField>
@@ -43,7 +46,7 @@ export function ProfileUpdateForm() {
                     <form.AppField name={`contacts[${index}].type`}>
                       {(subfield) => (
                         <subfield.FormSelect>
-                          {profileContacts.map((contact) => (
+                          {userContacts.map((contact) => (
                             <subfield.FormSelectItem value={contact.value} key={contact.value}>
                               {contact.label}
                             </subfield.FormSelectItem>

@@ -10,7 +10,7 @@ export function createTestUserData(): User {
   const name = faker.person.firstName();
 
   return {
-    id: faker.string.nanoid(),
+    id: faker.string.uuid({ version: 7 }),
     createdAt,
     updatedAt,
     name,

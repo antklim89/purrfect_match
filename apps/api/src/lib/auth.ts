@@ -1,5 +1,5 @@
 import { CreateUserSchema } from '@purrfect_match/shared/entities/auth/schemas';
-import { betterAuth } from 'better-auth';
+import { APIError, betterAuth } from 'better-auth';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 import { testUtils } from 'better-auth/plugins';
 
@@ -32,13 +32,26 @@ export const auth = betterAuth({
   databaseHooks: {
     user: {
       create: {
-        async before(user) {
+        before: async (user) => {
           const { success, error } = await CreateUserSchema.safeParseAsync(user);
-          if (success) return;
-          console.error('User Create Error:\n', error.message);
-          return false;
+          if (!success) {
+            throw new APIError('BAD_REQUEST', { message: error.issues[0]?.message ?? 'Failed to create user' });
+          }
         },
       },
+    },
+  },
+  user: {
+    additionalFields: {
+      fullName: { type: 'string', defaultValue: '', required: true, returned: false },
+      contacts: { type: 'json', defaultValue: '', required: true, returned: false },
+      address: { type: 'string', defaultValue: '', required: true, returned: false },
+      description: { type: 'string', defaultValue: '', required: true, returned: false },
+    },
+  },
+  advanced: {
+    database: {
+      generateId: () => Bun.randomUUIDv7(),
     },
   },
 });

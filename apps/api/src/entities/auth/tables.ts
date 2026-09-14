@@ -1,15 +1,21 @@
+import type { UserContactType } from '@purrfect_match/shared/entities/auth/types';
 import { relations } from 'drizzle-orm';
-import { boolean, index, pgTable, text, timestamp } from 'drizzle-orm/pg-core';
+import { boolean, index, jsonb, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
 
 export const userTable = pgTable(
   'user',
   {
-    id: text('id').primaryKey(),
+    id: uuid('id').primaryKey(),
 
     name: text('name').notNull(),
     email: text('email').notNull().unique(),
     emailVerified: boolean('email_verified').default(false).notNull(),
     image: text('image'),
+
+    fullName: text('full_name').notNull().default(''),
+    contacts: jsonb('contacts').$type<UserContactType[]>().notNull().default([]),
+    address: text('address').notNull().default(''),
+    description: text('description').notNull().default(''),
 
     createdAt: timestamp('created_at').notNull(),
     updatedAt: timestamp('updated_at')
@@ -22,14 +28,14 @@ export const userTable = pgTable(
 export const sessionTable = pgTable(
   'session',
   {
-    id: text('id').primaryKey(),
+    id: uuid('id').primaryKey(),
 
     expiresAt: timestamp('expires_at').notNull(),
     token: text('token').notNull().unique(),
     ipAddress: text('ip_address'),
     userAgent: text('user_agent'),
 
-    userId: text('user_id')
+    userId: uuid('user_id')
       .notNull()
       .references(() => userTable.id, { onDelete: 'cascade' }),
 
@@ -44,7 +50,7 @@ export const sessionTable = pgTable(
 export const accountTable = pgTable(
   'account',
   {
-    id: text('id').primaryKey(),
+    id: uuid('id').primaryKey(),
 
     accountId: text('account_id').notNull(),
     providerId: text('provider_id').notNull(),
@@ -56,7 +62,7 @@ export const accountTable = pgTable(
     scope: text('scope'),
     password: text('password'),
 
-    userId: text('user_id')
+    userId: uuid('user_id')
       .notNull()
       .references(() => userTable.id, { onDelete: 'cascade' }),
 
@@ -71,7 +77,7 @@ export const accountTable = pgTable(
 export const verificationTable = pgTable(
   'verification',
   {
-    id: text('id').primaryKey(),
+    id: uuid('id').primaryKey(),
 
     identifier: text('identifier').notNull(),
     value: text('value').notNull(),
