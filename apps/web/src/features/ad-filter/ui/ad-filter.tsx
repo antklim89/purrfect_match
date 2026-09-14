@@ -3,7 +3,7 @@
 import type { AdFilterType } from '@purrfect_match/shared/entities/ad/types';
 import { animalBreeds, animalTypes } from '@purrfect_match/shared/entities/animal/constants';
 import type { AnimalTypes } from '@purrfect_match/shared/entities/animal/types';
-import { type Options, parseAsString, type UseQueryStatesKeysMap, useQueryStates } from 'nuqs';
+import { type Options, parseAsInteger, parseAsString, type UseQueryStatesKeysMap, useQueryStates } from 'nuqs';
 
 import { useAppForm } from '@/shared/lib/form';
 import { Button } from '@/shared/ui/button';
@@ -12,7 +12,8 @@ const ALL = 'all';
 
 const defaultOptions: Options = { clearOnDefault: true, shallow: false };
 
-const keyMap: UseQueryStatesKeysMap<Required<Pick<AdFilterType, 'search' | 'type' | 'breed'>>> = {
+const keyMap: UseQueryStatesKeysMap<Required<Pick<AdFilterType, 'search' | 'type' | 'breed' | 'page'>>> = {
+  page: parseAsInteger.withDefault(1),
   search: parseAsString
     .withDefault('')
     .withOptions({ limitUrlUpdates: { method: 'debounce', timeMs: 700 }, ...defaultOptions }),
@@ -25,7 +26,7 @@ export function AdFilter() {
 
   const form = useAppForm({
     defaultValues: filter,
-    listeners: { onChange: ({ formApi }) => setFilter(formApi.state.values) },
+    listeners: { onChange: ({ formApi }) => setFilter({ ...formApi.state.values, page: 1 }) },
   });
 
   function handleReset() {
