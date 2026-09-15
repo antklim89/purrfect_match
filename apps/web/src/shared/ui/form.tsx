@@ -40,6 +40,37 @@ export function FormInput({ label, ...props }: ComponentProps<'input'> & { label
   );
 }
 
+export function FormInputNumber({ label, ...props }: ComponentProps<'input'> & { label?: string }) {
+  const field = useFieldContext<number>();
+
+  return (
+    <Field data-invalid={!field.state.meta.isValid}>
+      {label ? <FieldLabel htmlFor={field.name + field.form.formId}>{label}</FieldLabel> : null}
+      <InputGroup>
+        <InputGroupInput
+          aria-invalid={!field.state.meta.isValid}
+          id={field.name + field.form.formId}
+          value={field.state.value}
+          inputMode="numeric"
+          onChange={(e) => {
+            const newNumber = Number(e.target.value);
+            if (!Number.isNaN(newNumber)) field.handleChange(newNumber);
+          }}
+          {...props}
+        />
+        {field.state.value > 0 && (
+          <InputGroupAddon align="inline-end">
+            <InputGroupButton onClick={() => field.setValue(0)}>
+              <span className="sr-only">clear {field.name} input</span> <XIcon />
+            </InputGroupButton>
+          </InputGroupAddon>
+        )}
+      </InputGroup>
+      <FieldError errors={field.state.meta.errors} />
+    </Field>
+  );
+}
+
 export function FormNumberInput({ label, ...props }: ComponentProps<typeof Input> & { label?: string }) {
   const field = useFieldContext<number>();
 
