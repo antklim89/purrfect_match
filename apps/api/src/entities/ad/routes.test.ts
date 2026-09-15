@@ -166,6 +166,38 @@ describe('[GET] /api/ad', () => {
     );
   });
 
+  it.each([
+    { minPrice: '400', type: 'min' },
+    { maxPrice: '200', type: 'max' },
+    { minPrice: '200', maxPrice: '400', type: 'both' },
+  ])('should find ads with $type price filter', async ({ maxPrice, minPrice, type }) => {
+    const insertedAd = await Promise.all([
+      insertData(adTable, createTestAdData(user.id, { price: 100 })),
+      insertData(adTable, createTestAdData(user.id, { price: 200 })),
+      insertData(adTable, createTestAdData(user.id, { price: 300 })),
+      insertData(adTable, createTestAdData(user.id, { price: 400 })),
+      insertData(adTable, createTestAdData(user.id, { price: 500 })),
+    ]);
+
+    const { data } = await testApiCall(client.api.ad.$get({ query: { maxPrice, minPrice, limit: '50' } }));
+
+    expect(data!.items).toEqual(
+      expect.arrayContaining(
+        type === 'min'
+          ? [expect.objectContaining({ id: insertedAd[3].id }), expect.objectContaining({ id: insertedAd[4].id })]
+          : type === 'max'
+            ? [expect.objectContaining({ id: insertedAd[0].id }), expect.objectContaining({ id: insertedAd[1].id })]
+            : type === 'all'
+              ? [
+                  expect.objectContaining({ id: insertedAd[1].id }),
+                  expect.objectContaining({ id: insertedAd[2].id }),
+                  expect.objectContaining({ id: insertedAd[3].id }),
+                ]
+              : [],
+      ),
+    );
+  });
+
   it.each((['desc', 'asc'] as const).flatMap((orderBy) => ADS_SORT_BY.flatMap((sortBy) => ({ orderBy, sortBy }))))(
     'should find all ads with sort $sortBy and order $orderBy',
     async ({ orderBy, sortBy }) => {

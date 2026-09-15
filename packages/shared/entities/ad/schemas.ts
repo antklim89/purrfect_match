@@ -40,6 +40,8 @@ export const AdFilterSchema = z.object({
   search: z.optional(z.string().check(z.maxLength(500))),
   type: z.optional(z.string().check(z.maxLength(500))),
   breed: z.optional(z.string().check(z.maxLength(500))),
+  minPrice: z.optional(z.coerce.number().check(z.minimum(0))),
+  maxPrice: z.optional(z.coerce.number().check(z.minimum(0))),
   status: z.optional(z.enum(['all', 'published', 'unpublished'])),
   userId: z.optional(z.string()),
   page: z.optional(z.coerce.number().check(z.positive())),

@@ -9,7 +9,7 @@ import { AdPublishSchema } from '@purrfect_match/shared/entities/ad/schemas';
 import type { AdDraftType, AdFilterType, AdPagination } from '@purrfect_match/shared/entities/ad/types';
 import { StatusCode } from '@purrfect_match/shared/models/status-codes';
 import type { User } from 'better-auth';
-import { and, asc, count, desc, eq, exists, like, or, sql } from 'drizzle-orm';
+import { and, asc, count, desc, eq, exists, gte, like, lte, or, sql } from 'drizzle-orm';
 import { HTTPException } from 'hono/http-exception';
 import { z } from 'zod/v4-mini';
 
@@ -27,6 +27,8 @@ export async function adFindManyService({
   page = 1,
   sortBy = ADS_SORT_BY_DEFAULT,
   orderBy = ADS_ORDER_BY_DEFAULT,
+  maxPrice,
+  minPrice,
   limit = 12,
   status = 'published',
   withoutPagination = false,
@@ -35,6 +37,7 @@ export async function adFindManyService({
     orderBy === 'desc' ? [desc(adTable[sortBy]), desc(adTable.id)] : [asc(adTable[sortBy]), asc(adTable.id)];
 
   const whereQuery = and(
+    // TODO: add ts_vector search
     search ? like(adTable.description, `%${search}%`) : undefined,
     breed ? eq(adTable.breed, breed) : undefined,
     type ? eq(adTable.type, type) : undefined,
@@ -44,6 +47,9 @@ export async function adFindManyService({
       : status === 'unpublished'
         ? eq(adTable.status, AdStatus.UNPUBLISHED)
         : eq(adTable.status, AdStatus.PUBLISHED),
+
+    minPrice == null ? undefined : gte(adTable.price, minPrice),
+    maxPrice == null ? undefined : lte(adTable.price, maxPrice),
   );
 
   const adsQuery = db.query.adTable.findMany({
