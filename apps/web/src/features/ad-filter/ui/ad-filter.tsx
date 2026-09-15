@@ -3,26 +3,26 @@
 import type { AdFilterType } from '@purrfect_match/shared/entities/ad/types';
 import { animalBreeds, animalTypes } from '@purrfect_match/shared/entities/animal/constants';
 import type { AnimalTypes } from '@purrfect_match/shared/entities/animal/types';
-import { type Options, parseAsInteger, parseAsString, type UseQueryStatesKeysMap, useQueryStates } from 'nuqs';
+import { parseAsInteger, parseAsString, type UseQueryStatesKeysMap, useQueryStates } from 'nuqs';
 
 import { useAppForm } from '@/shared/lib/form';
 import { Button } from '@/shared/ui/button';
 
 const ALL = 'all';
 
-const defaultOptions: Options = { clearOnDefault: true, shallow: false };
-
-const keyMap: UseQueryStatesKeysMap<Required<Pick<AdFilterType, 'search' | 'type' | 'breed' | 'page'>>> = {
+const keyMap: UseQueryStatesKeysMap<
+  Required<Pick<AdFilterType, 'search' | 'type' | 'breed' | 'page' | 'minPrice' | 'maxPrice'>>
+> = {
   page: parseAsInteger.withDefault(1),
-  search: parseAsString
-    .withDefault('')
-    .withOptions({ limitUrlUpdates: { method: 'debounce', timeMs: 700 }, ...defaultOptions }),
-  type: parseAsString.withDefault(ALL).withOptions(defaultOptions),
-  breed: parseAsString.withDefault(ALL).withOptions(defaultOptions),
+  search: parseAsString.withDefault('').withOptions({ limitUrlUpdates: { method: 'debounce', timeMs: 700 } }),
+  type: parseAsString.withDefault(ALL),
+  breed: parseAsString.withDefault(ALL),
+  minPrice: parseAsInteger.withDefault(0),
+  maxPrice: parseAsInteger.withDefault(0),
 };
 
 export function AdFilter() {
-  const [filter, setFilter] = useQueryStates(keyMap);
+  const [filter, setFilter] = useQueryStates(keyMap, { clearOnDefault: true, shallow: false });
 
   const form = useAppForm({
     defaultValues: filter,
@@ -33,6 +33,8 @@ export function AdFilter() {
     form.setFieldValue('search', '');
     form.setFieldValue('type', ALL);
     form.setFieldValue('breed', ALL);
+    form.setFieldValue('minPrice', 0);
+    form.setFieldValue('maxPrice', 0);
   }
 
   const selectedAnimalBreeds = animalBreeds[filter.type as AnimalTypes] ?? Object.values(animalBreeds).flat();
@@ -42,6 +44,14 @@ export function AdFilter() {
       <form.AppForm>
         <form.AppField name="search">
           {(field) => <field.FormInput label="Search" placeholder="Enter search term..." />}
+        </form.AppField>
+
+        <form.AppField name="minPrice">
+          {(field) => <field.FormInputNumber label="Min Price" placeholder="Enter minimum price..." />}
+        </form.AppField>
+
+        <form.AppField name="maxPrice">
+          {(field) => <field.FormInputNumber label="Max Price" placeholder="Enter maximum price..." />}
         </form.AppField>
 
         <form.AppField name="type">
