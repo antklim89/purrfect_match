@@ -68,7 +68,7 @@ export function AdCreateForm() {
         {(field) => <field.FormTextarea placeholder="Enter description" label="Description" />}
       </form.AppField>
       <form.AppField name="price">
-        {(field) => <field.FormNumberInput placeholder="Enter price" label="Price" />}
+        {(field) => <field.FormInputNumber placeholder="Enter price" label="Price" />}
       </form.AppField>
 
       <form.AppField name="images">

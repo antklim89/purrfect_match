@@ -13,7 +13,11 @@ import { cn } from '../lib/utils';
 
 export const { fieldContext, formContext, useFieldContext, useFormContext } = createFormHookContexts();
 
-export function FormInput({ label, ...props }: ComponentProps<'input'> & { label?: string }) {
+export function FormInput({
+  label,
+  clear = false,
+  ...props
+}: ComponentProps<'input'> & { label?: string; clear?: boolean }) {
   const field = useFieldContext<string>();
 
   return (
@@ -27,7 +31,7 @@ export function FormInput({ label, ...props }: ComponentProps<'input'> & { label
           onChange={(e) => field.handleChange(e.target.value)}
           {...props}
         />
-        {field.state.value.length > 0 && (
+        {clear && field.state.value.length > 0 && (
           <InputGroupAddon align="inline-end">
             <InputGroupButton onClick={() => field.setValue('')}>
               <span className="sr-only">clear {field.name} input</span> <XIcon />
@@ -40,38 +44,11 @@ export function FormInput({ label, ...props }: ComponentProps<'input'> & { label
   );
 }
 
-export function FormInputNumber({ label, ...props }: ComponentProps<'input'> & { label?: string }) {
-  const field = useFieldContext<number>();
-
-  return (
-    <Field data-invalid={!field.state.meta.isValid}>
-      {label ? <FieldLabel htmlFor={field.name + field.form.formId}>{label}</FieldLabel> : null}
-      <InputGroup>
-        <InputGroupInput
-          aria-invalid={!field.state.meta.isValid}
-          id={field.name + field.form.formId}
-          value={field.state.value}
-          inputMode="numeric"
-          onChange={(e) => {
-            const newNumber = Number(e.target.value);
-            if (!Number.isNaN(newNumber)) field.handleChange(newNumber);
-          }}
-          {...props}
-        />
-        {field.state.value > 0 && (
-          <InputGroupAddon align="inline-end">
-            <InputGroupButton onClick={() => field.setValue(0)}>
-              <span className="sr-only">clear {field.name} input</span> <XIcon />
-            </InputGroupButton>
-          </InputGroupAddon>
-        )}
-      </InputGroup>
-      <FieldError errors={field.state.meta.errors} />
-    </Field>
-  );
-}
-
-export function FormNumberInput({ label, ...props }: ComponentProps<typeof Input> & { label?: string }) {
+export function FormInputNumber({
+  label,
+  clear = false,
+  ...props
+}: ComponentProps<typeof Input> & { label?: string; clear?: boolean }) {
   const field = useFieldContext<number>();
 
   return (
@@ -86,7 +63,7 @@ export function FormNumberInput({ label, ...props }: ComponentProps<typeof Input
           onChange={(e) => field.handleChange(z.catch(z.coerce.number(), 0).parse(e.target.value))}
           {...props}
         />
-        {field.state.value > 0 && (
+        {clear && field.state.value > 0 && (
           <InputGroupAddon align="inline-end">
             <InputGroupButton onClick={() => field.setValue(0)}>
               <span className="sr-only">clear {field.name} input</span> <XIcon />
@@ -99,7 +76,11 @@ export function FormNumberInput({ label, ...props }: ComponentProps<typeof Input
   );
 }
 
-export function FormTextarea({ label, ...props }: ComponentProps<'textarea'> & { label?: string }) {
+export function FormTextarea({
+  label,
+  clear = false,
+  ...props
+}: ComponentProps<'textarea'> & { label?: string; clear?: boolean }) {
   const field = useFieldContext<string>();
 
   return (
@@ -113,7 +94,7 @@ export function FormTextarea({ label, ...props }: ComponentProps<'textarea'> & {
           value={field.state.value}
           onChange={(e) => field.handleChange(e.target.value)}
         />
-        {field.state.value.length > 0 && (
+        {clear && field.state.value.length > 0 && (
           <InputGroupAddon align="inline-end" className="self-start">
             <InputGroupButton onClick={() => field.setValue('')}>
               <span className="sr-only">clear {field.name} input</span> <XIcon />
@@ -134,10 +115,10 @@ export function Form({ children, className, ...props }: ComponentProps<'form'>) 
       className={cn('flex w-full flex-col gap-2', className)}
       id={form.formId}
       {...props}
-      onSubmit={(e) => {
+      onSubmit={async (e) => {
         e.preventDefault();
         e.stopPropagation();
-        form.handleSubmit();
+        await form.handleSubmit();
       }}
     >
       {children}

@@ -43,15 +43,15 @@ export function AdFilter() {
     <div className="flex flex-col gap-4 h-full">
       <form.AppForm>
         <form.AppField name="search">
-          {(field) => <field.FormInput label="Search" placeholder="Enter search term..." />}
+          {(field) => <field.FormInput clear label="Search" placeholder="Enter search term..." />}
         </form.AppField>
 
         <form.AppField name="minPrice">
-          {(field) => <field.FormInputNumber label="Min Price" placeholder="Enter minimum price..." />}
+          {(field) => <field.FormInputNumber clear label="Min Price" placeholder="Enter minimum price..." />}
         </form.AppField>
 
         <form.AppField name="maxPrice">
-          {(field) => <field.FormInputNumber label="Max Price" placeholder="Enter maximum price..." />}
+          {(field) => <field.FormInputNumber clear label="Max Price" placeholder="Enter maximum price..." />}
         </form.AppField>
 
         <form.AppField name="type">
