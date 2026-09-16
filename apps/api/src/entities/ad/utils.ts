@@ -55,7 +55,7 @@ export async function uploadImage({ image, adId, userId }: { userId: string; adI
 
 async function transformImageToFile({ image, filePath }: { image: File; filePath: string }) {
   const readStream = Readable.from(image.stream());
-  const resizeStream = sharp().resize({ width: AD_IMAGE_WIDTH, height: AD_IMAGE_HEIGHT })[IMAGE_EXT]({ quality: 90 });
+  const resizeStream = sharp().resize({ width: AD_IMAGE_WIDTH, height: AD_IMAGE_HEIGHT, fit: 'cover' })[IMAGE_EXT]();
   const writeStream = createWriteStream(filePath);
   await pipeline(readStream, resizeStream, writeStream);
 }
@@ -63,8 +63,9 @@ async function transformImageToFile({ image, filePath }: { image: File; filePath
 async function transformImageToBlurDataUrl({ image }: { image: File }) {
   const readStream = Readable.from(image.stream());
   const resizeStream = sharp()
-    .resize({ width: AD_IMAGE_WIDTH / 16, height: AD_IMAGE_HEIGHT / 16 })
-    [IMAGE_EXT]({ quality: 10 });
+    .resize({ width: Math.round(AD_IMAGE_WIDTH / 16), height: Math.round(AD_IMAGE_HEIGHT / 16), fit: 'cover' })
+    .blur()
+    [IMAGE_EXT]({ quality: 5 });
   const resultBuffer = await buffer(readStream.pipe(resizeStream));
   return `data:image/${IMAGE_EXT};base64,${resultBuffer.toString('base64')}`;
 }
