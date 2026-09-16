@@ -2,14 +2,12 @@
   "name": "@purrfect_match/api",
   "private": true,
   "type": "module",
-
   "exports": {
     "./*": {
       "types": "./dist/*.d.ts"
     }
   },
   "module": "index.ts",
-
   "scripts": {
     "db:generate": "bun --bun drizzle-kit generate",
     "db:migrate": "bun --bun src/migrate.ts",
@@ -30,15 +28,17 @@
     "better-auth": "^1.6.22",
     "better-sqlite3": "^12.11.1",
     "drizzle-orm": "^0.45.2",
-    "hono": "^4.12.27",
+    "hono": "catalog:",
     "pg": "^8.22.0",
     "sharp": "^0.35.2",
-    "zod": "^4.4.3"
+    "typescript": "catalog:",
+    "zod": "catalog:"
   },
   "devDependencies": {
+    "@biomejs/biome": "2.5.14",
     "@testcontainers/postgresql": "^12.0.4",
-    "@types/bun": "latest",
+    "@types/bun": "catalog:",
     "drizzle-kit": "^0.31.10",
-    "npm-run-all2": "^9.0.3"
+    "npm-run-all2": "catalog:"
   }
 }
