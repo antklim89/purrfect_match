@@ -2,65 +2,46 @@
 
 import type * as React from 'react';
 import type { Route } from 'next';
-import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
+import { ChevronsLeftIcon } from 'lucide-react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
+import { createSerializer, parseAsInteger } from 'nuqs';
 
 import { cn } from '@/shared/lib/utils';
-import { Button } from '@/shared/ui/button';
+import { type Button, buttonVariants } from '@/shared/ui/button';
 
-function PaginationRoot({ className, ...props }: React.ComponentProps<'nav'>) {
-  return (
-    <nav aria-label="pagination" data-slot="pagination" className={cn('flex justify-center', className)} {...props} />
-  );
-}
+const serializeLink = createSerializer({ page: parseAsInteger.withDefault(1) }, { clearOnDefault: false });
 
-function PaginationContent({ className, ...props }: React.ComponentProps<'ul'>) {
-  return <ul data-slot="pagination-content" className={cn('flex items-center gap-1', className)} {...props} />;
-}
-
-function PaginationItem({ ...props }: React.ComponentProps<'li'>) {
-  return <li data-slot="pagination-item" {...props} />;
-}
-
-type PaginationLinkProps = {
+function PaginationLink({
+  className,
+  isActive,
+  size = 'icon',
+  ...props
+}: {
   isActive?: boolean;
 } & Pick<React.ComponentProps<typeof Button>, 'size'> &
-  React.ComponentProps<typeof Link>;
-
-function PaginationLink({ className, isActive, size = 'icon', ...props }: PaginationLinkProps) {
+  React.ComponentProps<typeof Link>) {
   return (
-    <Button
-      variant={isActive ? 'outline' : 'ghost'}
-      size={size}
-      className={cn(className)}
-      nativeButton={false}
-      render={
-        <Link
-          aria-current={isActive ? 'page' : undefined}
-          data-slot="pagination-link"
-          data-active={isActive}
-          {...props}
-        />
-      }
+    <Link
+      aria-current={isActive ? 'page' : undefined}
+      data-slot="pagination-link"
+      data-active={isActive}
+      scroll={false}
+      className={cn(
+        buttonVariants({ variant: isActive ? 'outline' : 'ghost' /*size*/ }),
+        'bg-transparent text-gray-200 hover:bg-transparent hover:text-gray-200',
+        className,
+      )}
+      {...props}
     />
   );
 }
 
-function PaginationPrevious({ className, ...props }: React.ComponentProps<typeof PaginationLink>) {
+function PaginationStart({ className, ...props }: React.ComponentProps<typeof PaginationLink>) {
   return (
-    <PaginationLink aria-label="Go to previous page" size="default" className={cn('pl-2!', className)} {...props}>
-      <ChevronLeftIcon data-icon="inline-start" />
-      <span className="hidden sm:block">Previous</span>
-    </PaginationLink>
-  );
-}
-
-function PaginationNext({ className, ...props }: React.ComponentProps<typeof PaginationLink>) {
-  return (
-    <PaginationLink aria-label="Go to next page" size="default" className={cn('pr-2!', className)} {...props}>
-      <span className="hidden sm:block">Next</span>
-      <ChevronRightIcon data-icon="inline-end" />
+    <PaginationLink aria-label="Go to first page" size="default" className={cn('pl-2!', className)} {...props}>
+      <ChevronsLeftIcon data-icon="inline-start" />
+      <span className="sr-only">Go to first page</span>
     </PaginationLink>
   );
 }
@@ -75,56 +56,38 @@ export function Pagination({
   totalPages: number;
 }) {
   const searchParams = useSearchParams();
+
   if (totalPages <= 1) return null;
 
-  const hasNext = page < totalPages;
   const hasPrev = page > 1;
 
-  function getSearchParamsLink(newPage?: number) {
-    const newSearchParams = new URLSearchParams(searchParams);
-    if (newPage == null) newSearchParams.delete('page');
-    else newSearchParams.set('page', newPage.toFixed(0));
-
-    return `?${newSearchParams.toString()}`;
-  }
-
   return (
-    <PaginationRoot className={className} {...props}>
-      <PaginationContent>
-        <PaginationItem>
-          <PaginationPrevious
+    <nav aria-label="pagination" data-slot="pagination" className={cn('flex justify-center', className)} {...props}>
+      <ul data-slot="pagination-content" className={cn('flex items-center gap-1', className)}>
+        <li data-slot="pagination-item">
+          <PaginationStart
             aria-disabled={!hasPrev}
-            className={cn({
-              'cursor-default bg-transparent text-gray-200 hover:bg-transparent hover:text-gray-200': !hasPrev,
-            })}
-            scroll={false}
-            href={hasPrev ? (getSearchParamsLink(Math.max(1, page - 1)) as Route) : ('' as Route)}
+            href={hasPrev ? (serializeLink(searchParams, { page: 1 }) as Route) : ('' as Route)}
             tabIndex={hasPrev ? 0 : -1}
           />
-        </PaginationItem>
+        </li>
 
         {[page - 2, page - 1, page, page + 1, page + 2]
           .filter((i) => i > 0 && i <= totalPages)
-          .map((i) => (
-            <PaginationItem key={i}>
-              <PaginationLink scroll={false} href={getSearchParamsLink(i) as Route} isActive={i === page}>
-                {i}
-              </PaginationLink>
-            </PaginationItem>
-          ))}
-
-        <PaginationItem>
-          <PaginationNext
-            scroll={false}
-            aria-disabled={!hasNext}
-            className={cn({
-              'cursor-default bg-transparent text-gray-200 hover:bg-transparent hover:text-gray-200': !hasNext,
-            })}
-            href={hasNext ? (getSearchParamsLink(Math.min(totalPages, page + 1)) as Route) : ('' as Route)}
-            tabIndex={hasNext ? 0 : -1}
-          />
-        </PaginationItem>
-      </PaginationContent>
-    </PaginationRoot>
+          .map((i) => {
+            return (
+              <li data-slot="pagination-item" key={i}>
+                <PaginationLink
+                  scroll={false}
+                  href={serializeLink(searchParams, { page: i }) as Route}
+                  isActive={i === page}
+                >
+                  {i}
+                </PaginationLink>
+              </li>
+            );
+          })}
+      </ul>
+    </nav>
   );
 }
