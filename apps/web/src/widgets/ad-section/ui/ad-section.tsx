@@ -9,7 +9,7 @@ export function AdSection({ children }: { children: ReactNode }) {
 }
 
 export function AdSectionContent({ children }: { children: ReactNode }) {
-  return <div className="grid grid-cols-1 md:grid-cols-2 gap-4">{children}</div>;
+  return <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">{children}</div>;
 }
 
 export function AdSectionDescription({ children }: { children: ReactNode }) {
