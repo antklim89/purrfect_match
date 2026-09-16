@@ -268,7 +268,8 @@ export async function adDeleteImageDraftService({
         adId: deletedAd.adId,
         fileName: deletedAd.id,
       });
-      await fs.rm(deletePath);
+      const isExists = await fs.exists(deletePath);
+      if (isExists) await fs.rm(deletePath);
     } catch (error) {
       throw new HTTPException(StatusCode.SERVER_ERROR, {
         message: 'Failed to delete draft image. Try again later.',
