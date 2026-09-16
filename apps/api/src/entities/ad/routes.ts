@@ -3,9 +3,9 @@ import { uuidv7Schema } from '@purrfect_match/shared/models/schemas';
 import { StatusCode } from '@purrfect_match/shared/models/status-codes';
 import { Hono } from 'hono';
 import { bodyLimit } from 'hono/body-limit';
-import { z } from 'zod/v4-mini';
 
 import { authMiddleware, schemaMiddleware } from '@/models/middlewares';
+import { uploadMiddleware } from '@/models/middlewares/upload-middleware';
 import {
   adDeleteImageDraftService,
   adDeleteService,
@@ -55,10 +55,11 @@ export const adRoute = new Hono()
     '/upload-image-draft',
     bodyLimit({ maxSize: 4 * 1024 * 1024 }),
     authMiddleware,
-    schemaMiddleware('form', z.object({ image: z.file() })),
+    uploadMiddleware('image'),
     async (c) => {
       const user = c.get('user');
-      const { image } = c.req.valid('form');
+      const image = c.get('image');
+
       const result = await adUploadImageDraftService({ userId: user.id, image });
 
       return c.json(result);
