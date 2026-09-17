@@ -12,7 +12,7 @@ export const adTable = pgTable('ad', {
   type: text().notNull(),
   price: numeric({ precision: 10, scale: 2, mode: 'number' }).notNull(),
 
-  status: text('status', { enum: ['DRAFT', 'PUBLISHED', 'UNPUBLISHED'] })
+  status: text({ enum: ['DRAFT', 'PUBLISHED', 'UNPUBLISHED'] })
     .notNull()
     .default('DRAFT'),
 

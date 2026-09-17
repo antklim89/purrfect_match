@@ -7,10 +7,10 @@ import { userTable } from '@/entities/user/tables';
 export const favoriteTable = pgTable(
   'favorite',
   {
-    userId: uuid('user_id')
+    userId: uuid()
       .notNull()
       .references(() => userTable.id, { onDelete: 'cascade' }),
-    adId: uuid('ad_id')
+    adId: uuid()
       .notNull()
       .references(() => adTable.id, { onDelete: 'cascade' }),
   },
