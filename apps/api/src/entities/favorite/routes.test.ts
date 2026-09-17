@@ -9,8 +9,8 @@ import { db } from '@/lib/db';
 import { MEDIA_ROOT_FOLDER } from '@/models/constants';
 import { adTable, favoriteTable } from '@/schema';
 import { testApiCall } from '@/test/api-call';
-import { insertData, registerTestUser } from '../../test/insert-data';
-import { createTestAdData } from '../../test/test-data';
+import { insertData, registerTestUser } from '@/test/insert-data';
+import { createTestAdData } from '@/test/test-data';
 
 const client = testClient(app);
 

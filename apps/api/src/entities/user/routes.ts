@@ -1,14 +1,15 @@
 import { UserUpdateSchema } from '@purrfect_match/shared/entities/user/schemas';
-import { uuidv7Schema } from '@purrfect_match/shared/models/schemas';
 import { StatusCode } from '@purrfect_match/shared/models/status-codes';
 import { Hono } from 'hono';
 
 import { authMiddleware, schemaMiddleware } from '@/models/middlewares';
+import { uuidParamsMiddleware } from '@/models/middlewares/uuid-params-middleware';
 import { userProfileGetService, userProfileUpdateService } from './services';
 
 export const userRoute = new Hono()
-  .get('/:id/get-user', schemaMiddleware('param', uuidv7Schema), async (c) => {
-    const { id: userId } = c.req.valid('param');
+  .basePath('user')
+  .get('/:userId/get-user', uuidParamsMiddleware('userId'), async (c) => {
+    const { userId } = c.req.valid('param');
 
     const result = await userProfileGetService({ userId });
 

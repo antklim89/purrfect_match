@@ -88,10 +88,10 @@ export async function adFindManyService({
   return { items: ads, pagination };
 }
 
-export async function adFindOneService({ id }: { id: AdSelectType['id'] }) {
+export async function adFindOneService({ adId }: { adId: AdSelectType['id'] }) {
   const ad = await db.query.adTable.findFirst({
     where: and(
-      eq(adTable.id, id),
+      eq(adTable.id, adId),
       or(eq(adTable.status, AdStatus.PUBLISHED), eq(adTable.status, AdStatus.UNPUBLISHED)),
     ),
     with: { images: true, user: { columns: { name: true, contacts: true } } },
@@ -101,11 +101,11 @@ export async function adFindOneService({ id }: { id: AdSelectType['id'] }) {
   return ad;
 }
 
-export async function adDeleteService({ userId, id }: { userId: User['id']; id: AdSelectType['id'] }) {
+export async function adDeleteService({ userId, adId }: { userId: User['id']; adId: AdSelectType['id'] }) {
   return await db.transaction(async (tx) => {
-    await tx.delete(adTable).where(and(eq(adTable.id, id), eq(adTable.userId, userId)));
+    await tx.delete(adTable).where(and(eq(adTable.id, adId), eq(adTable.userId, userId)));
 
-    const mediaDir = getAdMediaDir({ root: MEDIA_ROOT_FOLDER, adId: id, userId });
+    const mediaDir = getAdMediaDir({ root: MEDIA_ROOT_FOLDER, adId, userId });
 
     try {
       await fs.rm(mediaDir, { force: true, recursive: true });
@@ -310,7 +310,7 @@ export async function adPublishDraftService({ userId }: { userId: User['id'] }) 
   return publishedAd;
 }
 
-export async function adTogglePublishService({ userId, id }: { userId: User['id']; id: AdSelectType['id'] }) {
+export async function adTogglePublishService({ userId, adId }: { userId: User['id']; adId: AdSelectType['id'] }) {
   const [updatedAd] = await db
     .update(adTable)
     .set({
@@ -320,7 +320,7 @@ export async function adTogglePublishService({ userId, id }: { userId: User['id'
         ELSE ${adTable.status}
       END`,
     })
-    .where(and(eq(adTable.userId, userId), eq(adTable.id, id)))
+    .where(and(eq(adTable.userId, userId), eq(adTable.id, adId)))
     .returning({ id: adTable.id, status: adTable.status });
 
   if (!updatedAd) {

@@ -6,14 +6,14 @@ import { testClient } from 'hono/testing';
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
 
 import app from '@/app';
+import { db } from '@/lib/db';
 import { MEDIA_ROOT_FOLDER } from '@/models/constants';
 import { testApiCall } from '@/test/api-call';
+import { insertData, insertListData, registerTestUser } from '@/test/insert-data';
+import { createTestAdData } from '@/test/test-data';
 import { adTable } from './tables';
 import type { AdSelectType } from './types';
 import { getAdMediaDir, getAdMediaPath } from './utils';
-import { db } from '../../lib/db';
-import { insertData, insertListData, registerTestUser } from '../../test/insert-data';
-import { createTestAdData } from '../../test/test-data';
 
 const client = testClient(app);
 
@@ -34,7 +34,7 @@ describe('[DELETE] /api/ad/:id', () => {
 
     await Bun.write(mediaPath, image);
 
-    await testApiCall(client.api.ad[':id'].$delete({ param: { id: ad.id } }, { headers }));
+    await testApiCall(client.api.ad[':adId'].$delete({ param: { adId: ad.id } }, { headers }));
 
     const deletedAd = await db.query.adTable.findFirst({ where: eq(adTable.id, ad.id) });
 
@@ -46,7 +46,7 @@ describe('[DELETE] /api/ad/:id', () => {
   it('should not delete ad if not authenticated', async () => {
     const { user } = await registerTestUser();
     const ad = await insertData(adTable, createTestAdData(user.id));
-    const { data, error } = await testApiCall(client.api.ad[':id'].$delete({ param: { id: ad.id } }));
+    const { data, error } = await testApiCall(client.api.ad[':adId'].$delete({ param: { adId: ad.id } }));
 
     if (!error) return expect(data).toBeNull();
 
@@ -59,7 +59,7 @@ describe('[DELETE] /api/ad/:id', () => {
     const { headers, user } = await registerTestUser();
     const ad = await insertData(adTable, createTestAdData(user.id));
     const { data, error } = await testApiCall(
-      client.api.ad[':id'].$delete({ param: { id: 'invalid_id' } }, { headers }),
+      client.api.ad[':adId'].$delete({ param: { adId: 'invalid_id' } }, { headers }),
     );
 
     if (!error) return expect(data).toBeNull();
@@ -73,7 +73,7 @@ describe('[DELETE] /api/ad/:id', () => {
     const { user } = await registerTestUser();
     const { headers } = await registerTestUser();
     const ad = await insertData(adTable, createTestAdData(user.id));
-    const { data, error } = await testApiCall(client.api.ad[':id'].$delete({ param: { id: ad.id } }, { headers }));
+    const { data, error } = await testApiCall(client.api.ad[':adId'].$delete({ param: { adId: ad.id } }, { headers }));
 
     if (!error) return expect(data).toBeNull();
 
@@ -273,7 +273,7 @@ describe('[GET] /api/ad/:id', () => {
   it('should find ad', async () => {
     const { user } = await registerTestUser();
     const ad = await insertData(adTable, createTestAdData(user.id));
-    const { data, error } = await testApiCall(client.api.ad[':id'].$get({ param: { id: ad.id } }));
+    const { data, error } = await testApiCall(client.api.ad[':adId'].$get({ param: { adId: ad.id } }));
     if (error) return expect(error).toBeNull();
 
     expect(data.id).toEqual(ad.id);
@@ -282,7 +282,7 @@ describe('[GET] /api/ad/:id', () => {
   it('should not find draft ad', async () => {
     const { user, headers } = await registerTestUser();
     const ad = await insertData(adTable, createTestAdData(user.id, { status: AdStatus.DRAFT }));
-    const { error } = await testApiCall(client.api.ad[':id'].$get({ param: { id: ad.id } }, { headers }));
+    const { error } = await testApiCall(client.api.ad[':adId'].$get({ param: { adId: ad.id } }, { headers }));
 
     expect(error).toHaveProperty('status', 404);
   });
@@ -424,7 +424,10 @@ describe('[PATCH] /api/ad/:id/delete-image-draft', () => {
     );
 
     const { data: deletedImage } = await testApiCall(
-      client.api.ad[':id']['delete-image-draft'].$patch({ param: { id: uploadedImage!.id } }, { headers }),
+      client.api.ad[':adImageId']['delete-image-draft'].$patch(
+        { param: { adImageId: uploadedImage!.id } },
+        { headers },
+      ),
     );
 
     const deletedImageExists = await fs.exists(
@@ -497,7 +500,7 @@ describe('[PATCH] /api/ad/:id/toggle-publish', () => {
     const draftAd = await insertData(adTable, createTestAdData(user.id, { status: AdStatus.PUBLISHED }));
 
     const { data: ad1, error: error1 } = await testApiCall(
-      client.api.ad[':id']['toggle-publish'].$patch({ param: { id: draftAd.id } }, { headers }),
+      client.api.ad[':adId']['toggle-publish'].$patch({ param: { adId: draftAd.id } }, { headers }),
     );
 
     expect(error1).toBeNullable();
@@ -505,7 +508,7 @@ describe('[PATCH] /api/ad/:id/toggle-publish', () => {
     expect(ad1).toHaveProperty('status', AdStatus.UNPUBLISHED);
 
     const { data: ad2, error: error2 } = await testApiCall(
-      client.api.ad[':id']['toggle-publish'].$patch({ param: { id: draftAd.id } }, { headers }),
+      client.api.ad[':adId']['toggle-publish'].$patch({ param: { adId: draftAd.id } }, { headers }),
     );
 
     expect(error2).toBeNullable();

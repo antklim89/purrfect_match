@@ -52,7 +52,7 @@ describe('[AUTH] signUpEmail', () => {
 describe('[GET] /api/auth/:id/get-user', () => {
   it('should get profile', async () => {
     const { user } = await registerTestUser();
-    const { data } = await testApiCall(client.api.user[':id']['get-user'].$get({ param: { id: user.id } }));
+    const { data } = await testApiCall(client.api.user[':userId']['get-user'].$get({ param: { userId: user.id } }));
 
     expect(data).toStrictEqual({
       address: '',
