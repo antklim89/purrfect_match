@@ -1,4 +1,4 @@
-import { relations, sql } from 'drizzle-orm';
+import { sql } from 'drizzle-orm';
 import { numeric, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
 
 import { userTable } from '@/entities/user/tables';
@@ -34,18 +34,3 @@ export const adImageTable = pgTable('ad_image', {
     .notNull()
     .references(() => adTable.id, { onDelete: 'cascade' }),
 });
-
-export const adRelations = relations(adTable, ({ many, one }) => ({
-  images: many(adImageTable),
-  user: one(userTable, {
-    fields: [adTable.userId],
-    references: [userTable.id],
-  }),
-}));
-
-export const adImageRelations = relations(adImageTable, ({ one }) => ({
-  ad: one(adTable, {
-    fields: [adImageTable.adId],
-    references: [adTable.id],
-  }),
-}));

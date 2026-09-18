@@ -36,7 +36,7 @@ describe('[DELETE] /api/ad/:id', () => {
 
     await testApiCall(client.api.ad[':adId'].$delete({ param: { adId: ad.id } }, { headers }));
 
-    const deletedAd = await db.query.adTable.findFirst({ where: eq(adTable.id, ad.id) });
+    const deletedAd = await db.query.adTable.findFirst({ where: { id: ad.id } });
 
     expect(deletedAd).toBeUndefined();
     expect(await fs.exists(mediaDir)).toBeFalsy();
@@ -50,7 +50,7 @@ describe('[DELETE] /api/ad/:id', () => {
 
     if (!error) return expect(data).toBeNull();
 
-    const deletedAd = await db.query.adTable.findFirst({ where: eq(adTable.id, ad.id) });
+    const deletedAd = await db.query.adTable.findFirst({ where: { id: ad.id } });
     expect(deletedAd).not.toBeUndefined();
     expect(error.status).toEqual(401);
   });
@@ -64,7 +64,7 @@ describe('[DELETE] /api/ad/:id', () => {
 
     if (!error) return expect(data).toBeNull();
 
-    const deletedAd = await db.query.adTable.findFirst({ where: eq(adTable.id, ad.id) });
+    const deletedAd = await db.query.adTable.findFirst({ where: { id: ad.id } });
     expect(deletedAd).not.toBeUndefined();
     expect(error.status).toEqual(400);
   });
@@ -77,7 +77,7 @@ describe('[DELETE] /api/ad/:id', () => {
 
     if (!error) return expect(data).toBeNull();
 
-    const deletedAd = await db.query.adTable.findFirst({ where: eq(adTable.id, ad.id) });
+    const deletedAd = await db.query.adTable.findFirst({ where: { id: ad.id } });
     expect(deletedAd).not.toBeUndefined();
   });
 });
@@ -369,7 +369,7 @@ describe('[PATCH] /api/ad/upload-image-draft', () => {
     await testApiCall(client.api.ad['upload-image-draft'].$patch({ form: { image } }, { headers }));
 
     const updatedAd = await db.query.adTable.findFirst({
-      where: eq(adTable.id, draftAd.id),
+      where: { id: draftAd.id },
       with: { images: true },
     });
 
@@ -398,7 +398,7 @@ describe('[PATCH] /api/ad/upload-image-draft', () => {
     const { error } = await testApiCall(client.api.ad['upload-image-draft'].$patch({ form: { image } }, { headers }));
     expect(error).not.toBeNullable();
     const updatedAd = await db.query.adTable.findFirst({
-      where: eq(adTable.id, draftAd.id),
+      where: { id: draftAd.id },
       with: { images: true },
     });
 

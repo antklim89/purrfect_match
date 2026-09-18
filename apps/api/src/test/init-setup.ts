@@ -1,11 +1,10 @@
 import { resolve } from 'node:path';
 import { faker } from '@faker-js/faker';
 import { sql } from 'drizzle-orm';
-import { PgTable } from 'drizzle-orm/pg-core';
 import { migrate } from 'drizzle-orm/pglite/migrator';
 import { beforeEach, vi } from 'vitest';
 
-import * as schema from '@/schema';
+import { relations } from '@/schema';
 import { ENTITY_AD, SERVER_GLOBAL } from './mock-constants';
 import { testDb } from './test-db';
 
@@ -30,10 +29,8 @@ vi.mock('../lib/db', () => {
 
 beforeEach(async () => {
   await Promise.all(
-    Object.values(schema).map(async (table) => {
-      if (table instanceof PgTable) {
-        await testDb.execute(sql`TRUNCATE TABLE ${table} CASCADE`);
-      }
+    Object.values(relations).map(async ({ table }) => {
+      await testDb.execute(sql`TRUNCATE TABLE ${table} CASCADE`);
     }),
   );
 });

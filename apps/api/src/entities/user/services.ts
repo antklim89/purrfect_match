@@ -1,11 +1,9 @@
 import type { UserUpdateType } from '@purrfect_match/shared/entities/user/types';
 import { StatusCode } from '@purrfect_match/shared/models/status-codes';
-import { eq } from 'drizzle-orm';
 import { HTTPException } from 'hono/http-exception';
 
 import { auth } from '@/lib/auth';
 import { db } from '@/lib/db';
-import { userTable } from './tables';
 
 export async function userProfileUpdateService({ headers, input }: { headers: HeadersInit; input: UserUpdateType }) {
   await auth.api.updateUser({
@@ -24,7 +22,7 @@ export async function userProfileUpdateService({ headers, input }: { headers: He
 
 export async function userProfileGetService({ userId }: { userId: string }) {
   const profile = await db.query.userTable.findFirst({
-    where: eq(userTable.id, userId),
+    where: { id: userId },
     columns: {
       address: true,
       contacts: true,

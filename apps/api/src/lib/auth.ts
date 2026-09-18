@@ -1,6 +1,6 @@
+import { drizzleAdapter } from '@better-auth/drizzle-adapter/relations-v2';
 import { CreateUserSchema } from '@purrfect_match/shared/entities/auth/schemas';
 import { APIError, betterAuth } from 'better-auth';
-import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 import { testUtils } from 'better-auth/plugins';
 
 import { accountTable, sessionTable, verificationTable } from '@/entities/auth/tables';
@@ -9,9 +9,6 @@ import { db } from './db';
 import { env } from './env';
 
 export const auth = betterAuth({
-  experimental: {
-    joins: true,
-  },
   trustedOrigins() {
     return [env.WEB_URL];
   },

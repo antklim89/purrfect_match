@@ -9,12 +9,14 @@ import { AdPublishSchema } from '@purrfect_match/shared/entities/ad/schemas';
 import type { AdDraftType, AdFilterType, AdPagination } from '@purrfect_match/shared/entities/ad/types';
 import { StatusCode } from '@purrfect_match/shared/models/status-codes';
 import type { User } from 'better-auth';
-import { and, asc, count, desc, eq, exists, gte, like, lte, or, sql } from 'drizzle-orm';
+import { and, count, eq, exists, type RelationsFilter, sql } from 'drizzle-orm';
 import { HTTPException } from 'hono/http-exception';
 import { z } from 'zod/v4-mini';
 
+import { favoriteTable } from '@/entities/favorite/tables';
 import { db } from '@/lib/db';
 import { MEDIA_ROOT_FOLDER } from '@/models/constants';
+import type { relations } from '@/schema';
 import { adImageTable, adTable } from './tables';
 import type { AdImageSelectType, AdSelectType } from './types';
 import { getAdMediaDir, getAdMediaPath, uploadImage } from './utils';
@@ -33,28 +35,27 @@ export async function adFindManyService({
   status = 'published',
   withoutPagination = false,
 }: AdFilterType) {
-  const orderByQuery =
-    orderBy === 'desc' ? [desc(adTable[sortBy]), desc(adTable.id)] : [asc(adTable[sortBy]), asc(adTable.id)];
+  const whereQuery: RelationsFilter<(typeof relations)['adTable'], typeof relations> = {};
+  if (search) whereQuery.description = { ilike: `%${search}%` };
+  if (breed) whereQuery.breed = { eq: breed };
+  if (type) whereQuery.type = { eq: type };
+  if (userId) whereQuery.userId = { eq: userId };
 
-  const whereQuery = and(
-    // TODO: add ts_vector search
-    search ? like(adTable.description, `%${search}%`) : undefined,
-    breed ? eq(adTable.breed, breed) : undefined,
-    type ? eq(adTable.type, type) : undefined,
-    userId ? eq(adTable.userId, userId) : undefined,
-    status === 'all'
-      ? or(eq(adTable.status, AdStatus.PUBLISHED), eq(adTable.status, AdStatus.UNPUBLISHED))
-      : status === 'unpublished'
-        ? eq(adTable.status, AdStatus.UNPUBLISHED)
-        : eq(adTable.status, AdStatus.PUBLISHED),
+  if (status === 'all') whereQuery.status = { OR: [{ eq: AdStatus.PUBLISHED }, { eq: AdStatus.UNPUBLISHED }] };
+  else if (status === 'unpublished') whereQuery.status = { eq: AdStatus.UNPUBLISHED };
+  else whereQuery.status = { eq: AdStatus.PUBLISHED };
 
-    minPrice == null ? undefined : gte(adTable.price, minPrice),
-    maxPrice == null ? undefined : lte(adTable.price, maxPrice),
-  );
+  if (minPrice != null && maxPrice != null) whereQuery.price = { lte: maxPrice, gte: minPrice };
+  else if (minPrice != null) whereQuery.price = { gte: minPrice };
+  else if (maxPrice != null) whereQuery.price = { lte: maxPrice };
 
   const adsQuery = db.query.adTable.findMany({
     limit,
     offset: (page - 1) * limit,
+    extras: {
+      favoriteCount: (t) => db.$count(favoriteTable, eq(t.id, favoriteTable.adId)).as('favorite_count'),
+    },
+
     with: {
       images: { columns: { blurDataUrl: true, url: true }, limit: 1 },
     },
@@ -67,11 +68,14 @@ export async function adFindManyService({
       type: true,
       status: true,
     },
-    orderBy: orderByQuery,
+    orderBy: (table, o) =>
+      orderBy === 'desc' ? [o.desc(table[sortBy]), o.desc(table.id)] : [o.asc(table[sortBy]), o.asc(table.id)],
     where: whereQuery,
   });
 
-  const paginationQuery = withoutPagination ? [] : db.select({ total: count() }).from(adTable).where(whereQuery);
+  const paginationQuery = withoutPagination
+    ? []
+    : db.query.adTable.findMany({ columns: {}, where: whereQuery, extras: { total: count() } });
 
   const [ads, [totalResult]] = await Promise.all([adsQuery, paginationQuery]);
 
@@ -90,10 +94,10 @@ export async function adFindManyService({
 
 export async function adFindOneService({ adId }: { adId: AdSelectType['id'] }) {
   const ad = await db.query.adTable.findFirst({
-    where: and(
-      eq(adTable.id, adId),
-      or(eq(adTable.status, AdStatus.PUBLISHED), eq(adTable.status, AdStatus.UNPUBLISHED)),
-    ),
+    where: {
+      id: { eq: adId },
+      status: { OR: [{ eq: AdStatus.PUBLISHED }, { eq: AdStatus.UNPUBLISHED }] },
+    },
     with: { images: true, user: { columns: { name: true, contacts: true } } },
   });
   if (!ad) throw new HTTPException(StatusCode.NOT_FOUND, { message: 'Ad not found.' });
@@ -119,7 +123,10 @@ export async function adDeleteService({ userId, adId }: { userId: User['id']; ad
 
 export async function adGetDraftService({ userId }: { userId: User['id'] }) {
   const selectedAd = await db.query.adTable.findFirst({
-    where: and(eq(adTable.status, AdStatus.DRAFT), eq(adTable.userId, userId)),
+    where: {
+      status: AdStatus.DRAFT,
+      userId,
+    },
     with: { images: true },
     columns: {
       id: true,
@@ -282,7 +289,10 @@ export async function adDeleteImageDraftService({
 
 export async function adPublishDraftService({ userId }: { userId: User['id'] }) {
   const toPublishAd = await db.query.adTable.findFirst({
-    where: and(eq(adTable.status, AdStatus.DRAFT), eq(adTable.userId, userId)),
+    where: {
+      status: AdStatus.DRAFT,
+      userId,
+    },
     with: { images: true },
   });
 

@@ -50,7 +50,7 @@ describe('[AUTH] signUpEmail', () => {
 });
 
 describe('[GET] /api/auth/:id/get-user', () => {
-  it('should get profile', async () => {
+  it('should get user', async () => {
     const { user } = await registerTestUser();
     const { data } = await testApiCall(client.api.user[':userId']['get-user'].$get({ param: { userId: user.id } }));
 
@@ -65,14 +65,14 @@ describe('[GET] /api/auth/:id/get-user', () => {
   });
 });
 
-describe('[POST] /api/auth/update-profile', () => {
-  it('should update profile', async () => {
+describe('[POST] /api/auth/update-user', () => {
+  it('should update user', async () => {
     const { headers, user } = await registerTestUser();
     const { error, data } = await testApiCall(client.api.user['update-user'].$post({ json: testProfile }, { headers }));
     if (error) return expect(error).toBeNull();
 
     const updatedProfile = await db.query.userTable.findFirst({
-      where: (fields, operators) => operators.eq(fields.id, user.id),
+      where: { id: user.id },
     });
 
     expect(data).toBeNull();
