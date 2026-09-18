@@ -13,6 +13,8 @@ import { and, asc, count, desc, eq, exists, gte, like, lte, or, sql } from 'driz
 import { HTTPException } from 'hono/http-exception';
 import { z } from 'zod/v4-mini';
 
+import { favoriteTable } from '@/entities/favorite/tables';
+import { userTable } from '@/entities/user/tables';
 import { db } from '@/lib/db';
 import { MEDIA_ROOT_FOLDER } from '@/models/constants';
 import { adImageTable, adTable } from './tables';
@@ -36,25 +38,28 @@ export async function adFindManyService({
   const orderByQuery =
     orderBy === 'desc' ? [desc(adTable[sortBy]), desc(adTable.id)] : [asc(adTable[sortBy]), asc(adTable.id)];
 
-  const whereQuery = and(
-    // TODO: add ts_vector search
-    search ? like(adTable.description, `%${search}%`) : undefined,
-    breed ? eq(adTable.breed, breed) : undefined,
-    type ? eq(adTable.type, type) : undefined,
-    userId ? eq(adTable.userId, userId) : undefined,
-    status === 'all'
-      ? or(eq(adTable.status, AdStatus.PUBLISHED), eq(adTable.status, AdStatus.UNPUBLISHED))
-      : status === 'unpublished'
-        ? eq(adTable.status, AdStatus.UNPUBLISHED)
-        : eq(adTable.status, AdStatus.PUBLISHED),
+  const whereQuery = {
+    description: search ? { ilike: `%${search}%` } : undefined,
+    breed: breed ? { eq: breed } : undefined,
+    type: type ? { eq: type } : undefined,
+    userId: userId ? { eq: userId } : undefined,
+    status:
+      status === 'all'
+        ? { OR: [{ eq: AdStatus.PUBLISHED }, { eq: AdStatus.UNPUBLISHED }] }
+        : status === 'unpublished'
+          ? { eq: AdStatus.UNPUBLISHED }
+          : { eq: AdStatus.PUBLISHED },
 
-    minPrice == null ? undefined : gte(adTable.price, minPrice),
-    maxPrice == null ? undefined : lte(adTable.price, maxPrice),
-  );
-
+    minPrice: minPrice == null ? undefined : { gte: minPrice },
+    maxPrice: maxPrice == null ? undefined : { lte: maxPrice },
+  } as const;
   const adsQuery = db.query.adTable.findMany({
     limit,
     offset: (page - 1) * limit,
+    extras: {
+      favoriteCount: (t) => db.$count(favoriteTable, eq(t.id, favoriteTable.adId)).as('favorite_count'),
+    },
+
     with: {
       images: { columns: { blurDataUrl: true, url: true }, limit: 1 },
     },
@@ -67,13 +72,42 @@ export async function adFindManyService({
       type: true,
       status: true,
     },
-    orderBy: orderByQuery,
+    orderBy: () => orderByQuery,
     where: whereQuery,
   });
 
-  const paginationQuery = withoutPagination ? [] : db.select({ total: count() }).from(adTable).where(whereQuery);
+  console.log(adsQuery.toSQL());
+
+  //.where(eq(favoriteTable.adId, adTable.id))
+  // const f = db
+  //   .select({ count: count().as('f') })
+  //   .from(favoriteTable)
+  //   .where(eq(favoriteTable.adId, adTable.id))
+  //   .groupBy()
+  //   .as('f');
+  // const adsQuery = db
+  //   .select({
+  //     id: adTable.id,
+  //     favorites: f,
+  //     // favoriteCount: sql`select 1 from ${favoriteTable.adId} where ${favoriteTable.adId} = ${adTable.id}`.as('x'),
+  //     // user: { id: userTable.id },
+  //   })
+  //   .from(adTable)
+  //   .limit(limit)
+  //   .offset((page - 1) * limit)
+  //   .leftJoin(userTable, eq(userTable.id, adTable.userId))
+  //   // .leftJoin(f, eq(adTable.id, f.adId))
+  //   // .groupBy(adTable.id, userTable.id, favoriteTable.userId, favoriteTable.adId)
+  //   .orderBy(...orderByQuery)
+  //   .where(whereQuery);
+
+  const paginationQuery = withoutPagination
+    ? []
+    : db.query.adTable.findMany({ columns: {}, where: whereQuery, extras: { total: count() } }); // db.select({ total: count() }).from(adTable).where();
 
   const [ads, [totalResult]] = await Promise.all([adsQuery, paginationQuery]);
+  console.log('🚀 ~ ads: \n%o\n', ads);
+  // console.log(ads[0]?.ad);
 
   const totalItems = totalResult?.total ?? 0;
   const totalPages = Math.ceil(totalItems / limit);
@@ -90,10 +124,10 @@ export async function adFindManyService({
 
 export async function adFindOneService({ adId }: { adId: AdSelectType['id'] }) {
   const ad = await db.query.adTable.findFirst({
-    where: and(
-      eq(adTable.id, adId),
-      or(eq(adTable.status, AdStatus.PUBLISHED), eq(adTable.status, AdStatus.UNPUBLISHED)),
-    ),
+    where: {
+      id: { eq: adId },
+      status: { OR: [{ eq: AdStatus.PUBLISHED }, { eq: AdStatus.UNPUBLISHED }] },
+    },
     with: { images: true, user: { columns: { name: true, contacts: true } } },
   });
   if (!ad) throw new HTTPException(StatusCode.NOT_FOUND, { message: 'Ad not found.' });
@@ -119,7 +153,10 @@ export async function adDeleteService({ userId, adId }: { userId: User['id']; ad
 
 export async function adGetDraftService({ userId }: { userId: User['id'] }) {
   const selectedAd = await db.query.adTable.findFirst({
-    where: and(eq(adTable.status, AdStatus.DRAFT), eq(adTable.userId, userId)),
+    where: {
+      status: AdStatus.DRAFT,
+      userId,
+    },
     with: { images: true },
     columns: {
       id: true,
@@ -282,7 +319,10 @@ export async function adDeleteImageDraftService({
 
 export async function adPublishDraftService({ userId }: { userId: User['id'] }) {
   const toPublishAd = await db.query.adTable.findFirst({
-    where: and(eq(adTable.status, AdStatus.DRAFT), eq(adTable.userId, userId)),
+    where: {
+      status: AdStatus.DRAFT,
+      userId,
+    },
     with: { images: true },
   });
 

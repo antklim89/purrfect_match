@@ -1,6 +1,7 @@
-import { relations, sql } from 'drizzle-orm';
+import { type InferInsertModel, sql } from 'drizzle-orm';
 import { numeric, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
 
+// import { favoriteTable } from '@/entities/favorite/tables';
 import { userTable } from '@/entities/user/tables';
 
 export const adTable = pgTable('ad', {
@@ -35,17 +36,18 @@ export const adImageTable = pgTable('ad_image', {
     .references(() => adTable.id, { onDelete: 'cascade' }),
 });
 
-export const adRelations = relations(adTable, ({ many, one }) => ({
-  images: many(adImageTable),
-  user: one(userTable, {
-    fields: [adTable.userId],
-    references: [userTable.id],
-  }),
-}));
+// export const adRelations = relations(adTable, ({ many, one }) => ({
+//   images: many(adImageTable),
+//   favorites: many(favoriteTable),
+//   user: one(userTable, {
+//     fields: [adTable.userId],
+//     references: [userTable.id],
+//   }),
+// }));
 
-export const adImageRelations = relations(adImageTable, ({ one }) => ({
-  ad: one(adTable, {
-    fields: [adImageTable.adId],
-    references: [adTable.id],
-  }),
-}));
+// export const adImageRelations = relations(adImageTable, ({ one }) => ({
+//   ad: one(adTable, {
+//     fields: [adImageTable.adId],
+//     references: [adTable.id],
+//   }),
+// }));

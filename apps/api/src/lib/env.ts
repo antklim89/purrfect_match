@@ -1,3 +1,4 @@
+import process from 'node:process';
 import { z } from 'zod/v4-mini';
 
 export const env = z
@@ -8,4 +9,4 @@ export const env = z
     PORT: z.coerce.number(),
     DATABASE_URL: z.string(),
   })
-  .parse(Bun.env);
+  .parse(process.env);

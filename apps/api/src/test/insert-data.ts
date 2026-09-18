@@ -1,12 +1,13 @@
+import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
 import type { PgTable, TableConfig } from 'drizzle-orm/pg-core';
 
 import { auth } from '@/lib/auth';
 import { db } from '@/lib/db';
 import { createTestUserData } from './test-data';
 
-export function insertListData<Table extends PgTable<TableConfig>>(
+export function insertListData<Table extends PgTable<TableConfig>, Insert extends InferInsertModel<Table>>(
   table: Table,
-  data: (index: number) => Table['$inferInsert'],
+  data: (index: number) => Insert,
   quantity = 1,
 ) {
   return db
@@ -15,10 +16,10 @@ export function insertListData<Table extends PgTable<TableConfig>>(
     .returning();
 }
 
-export async function insertData<Table extends PgTable<TableConfig>>(
+export async function insertData<Table extends PgTable<TableConfig>, Insert extends InferInsertModel<Table>>(
   table: Table,
-  data: Table['$inferInsert'],
-): Promise<Table['$inferSelect']> {
+  data: Insert,
+): Promise<InferSelectModel<Table>> {
   const [result] = await db.insert(table).values(data).returning();
 
   if (!result) throw new Error('Failed to create test ad.');

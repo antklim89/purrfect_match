@@ -1,4 +1,4 @@
-import { relations } from 'drizzle-orm';
+// import { relations } from 'drizzle-orm';
 import { index, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
 
 import { userTable } from '../user/tables';
@@ -69,21 +69,21 @@ export const verificationTable = pgTable(
   (table) => [index('verification_identifier_idx').on(table.identifier)],
 );
 
-export const userRelations = relations(userTable, ({ many }) => ({
-  sessions: many(sessionTable),
-  accounts: many(accountTable),
-}));
+// export const userRelations = relations(userTable, ({ many }) => ({
+//   sessions: many(sessionTable),
+//   accounts: many(accountTable),
+// }));
 
-export const sessionRelations = relations(sessionTable, ({ one }) => ({
-  user: one(userTable, {
-    fields: [sessionTable.userId],
-    references: [userTable.id],
-  }),
-}));
+// export const sessionRelations = relations(sessionTable, ({ one }) => ({
+//   user: one(userTable, {
+//     fields: [sessionTable.userId],
+//     references: [userTable.id],
+//   }),
+// }));
 
-export const accountRelations = relations(accountTable, ({ one }) => ({
-  user: one(userTable, {
-    fields: [accountTable.userId],
-    references: [userTable.id],
-  }),
-}));
+// export const accountRelations = relations(accountTable, ({ one }) => ({
+//   user: one(userTable, {
+//     fields: [accountTable.userId],
+//     references: [userTable.id],
+//   }),
+// }));
