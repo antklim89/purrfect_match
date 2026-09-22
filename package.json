@@ -10,6 +10,7 @@
       "npm-run-all2": "^9.0.3",
       "hono": "^4.12.27",
       "@biomejs/biome": "2.5.14",
+      "better-auth": "^1.6.22",
       "@types/bun": "latest"
     }
   },
