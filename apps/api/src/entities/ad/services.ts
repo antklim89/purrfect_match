@@ -22,19 +22,25 @@ import type { AdImageSelectType, AdSelectType } from './types';
 import { getAdMediaDir, getAdMediaPath, uploadImage } from './utils';
 
 export async function adFindManyService({
-  breed,
-  search,
-  type,
-  authorId,
-  page = 1,
-  sortBy = ADS_SORT_BY_DEFAULT,
-  orderBy = ADS_ORDER_BY_DEFAULT,
-  maxPrice,
-  minPrice,
-  limit = 12,
-  status = 'published',
-  withoutPagination = false,
-}: AdFilterType) {
+  filter: {
+    breed,
+    search,
+    type,
+    authorId,
+    page = 1,
+    sortBy = ADS_SORT_BY_DEFAULT,
+    orderBy = ADS_ORDER_BY_DEFAULT,
+    maxPrice,
+    minPrice,
+    limit = 12,
+    status = 'published',
+    withoutPagination = false,
+  },
+  userId,
+}: {
+  filter: AdFilterType;
+  userId?: string;
+}) {
   const whereQuery: RelationsFilter<(typeof relations)['adTable'], typeof relations> = {};
   if (search) whereQuery.description = { ilike: `%${search}%` };
   if (breed) whereQuery.breed = { eq: breed };
@@ -53,7 +59,16 @@ export async function adFindManyService({
     limit,
     offset: (page - 1) * limit,
     extras: {
-      favoriteCount: (t) => db.$count(favoriteTable, eq(t.id, favoriteTable.adId)).as('favorite_count'),
+      inFavorites: (table, o) => {
+        if (!userId) return o.sql<boolean>`SELECT false`;
+        return o.sql<boolean>`
+          EXISTS(
+            SELECT 1
+            FROM ${favoriteTable}
+            WHERE ${favoriteTable.adId} = ${table.id} AND ${favoriteTable.userId} = ${userId}
+          )
+        `.as('in_favorites');
+      },
     },
 
     with: {
@@ -68,8 +83,9 @@ export async function adFindManyService({
       type: true,
       status: true,
     },
-    orderBy: (table, o) =>
-      orderBy === 'desc' ? [o.desc(table[sortBy]), o.desc(table.id)] : [o.asc(table[sortBy]), o.asc(table.id)],
+    orderBy: (table, o) => {
+      return orderBy === 'desc' ? [o.desc(table[sortBy]), o.desc(table.id)] : [o.asc(table[sortBy]), o.asc(table.id)];
+    },
     where: whereQuery,
   });
 
@@ -92,8 +108,20 @@ export async function adFindManyService({
   return { items: ads, pagination };
 }
 
-export async function adFindOneService({ adId }: { adId: AdSelectType['id'] }) {
+export async function adFindOneService({ adId, userId }: { adId: AdSelectType['id']; userId?: string }) {
   const ad = await db.query.adTable.findFirst({
+    extras: {
+      inFavorites: (table, o) => {
+        if (!userId) return o.sql<boolean>`SELECT false`;
+        return o.sql<boolean>`
+          EXISTS(
+            SELECT 1
+            FROM ${favoriteTable}
+            WHERE ${favoriteTable.adId} = ${table.id} AND ${favoriteTable.userId} = ${userId}
+          )
+        `.as('in_favorites');
+      },
+    },
     where: {
       id: { eq: adId },
       status: { OR: [{ eq: AdStatus.PUBLISHED }, { eq: AdStatus.UNPUBLISHED }] },

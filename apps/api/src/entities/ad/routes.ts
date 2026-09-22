@@ -3,7 +3,7 @@ import { StatusCode } from '@purrfect_match/shared/models/status-codes';
 import { Hono } from 'hono';
 import { bodyLimit } from 'hono/body-limit';
 
-import { authMiddleware, schemaMiddleware } from '@/models/middlewares';
+import { authMiddleware, schemaMiddleware, tryAuthMiddleware } from '@/models/middlewares';
 import { uploadMiddleware } from '@/models/middlewares/upload-middleware';
 import { uuidParamsMiddleware } from '@/models/middlewares/uuid-params-middleware';
 import {
@@ -20,16 +20,18 @@ import {
 
 export const adRoute = new Hono()
   .basePath('ad')
-  .get('/', schemaMiddleware('query', AdFilterSchema), async (c) => {
+  .get('/', schemaMiddleware('query', AdFilterSchema), tryAuthMiddleware, async (c) => {
     const query = c.req.valid('query');
+    const user = c.get('user');
 
-    const result = await adFindManyService(query);
+    const result = await adFindManyService({ filter: query, userId: user?.id });
     return c.json(result);
   })
-  .get('/:adId', uuidParamsMiddleware('adId'), async (c) => {
+  .get('/:adId', uuidParamsMiddleware('adId'), tryAuthMiddleware, async (c) => {
     const { adId } = c.req.valid('param');
+    const user = c.get('user');
 
-    const result = await adFindOneService({ adId });
+    const result = await adFindOneService({ adId, userId: user?.id });
     return c.json(result);
   })
   .delete('/:adId', uuidParamsMiddleware('adId'), authMiddleware, async (c) => {

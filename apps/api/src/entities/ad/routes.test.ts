@@ -8,6 +8,7 @@ import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
 import app from '@/app';
 import { db } from '@/lib/db';
 import { MEDIA_ROOT_FOLDER } from '@/models/constants';
+import { favoriteTable } from '@/schema';
 import { testApiCall } from '@/test/api-call';
 import { insertData, insertListData, registerTestUser } from '@/test/insert-data';
 import { createTestAdData } from '@/test/test-data';
@@ -84,9 +85,12 @@ describe('[DELETE] /api/ad/:id', () => {
 
 describe('[GET] /api/ad', () => {
   let user: User;
+  let headers: Record<string, string>;
 
   beforeEach(async () => {
-    user = (await registerTestUser()).user;
+    const userResult = await registerTestUser();
+    user = userResult.user;
+    headers = userResult.headers;
   });
 
   it('should find ads', async () => {
@@ -96,6 +100,7 @@ describe('[GET] /api/ad', () => {
       insertData(adTable, createTestAdData(user.id, { status: AdStatus.DRAFT })),
     ]);
 
+    await insertData(favoriteTable, { adId: insertedAd[0].id, userId: user.id });
     const { data } = await testApiCall(client.api.ad.$get({ query: { limit: '50' } }));
 
     expect(data!.items).toHaveLength(1);
@@ -110,6 +115,25 @@ describe('[GET] /api/ad', () => {
         expect.objectContaining({ id: insertedAd[1].id }),
       ]),
     );
+  });
+
+  it('should find ads with favorites', async () => {
+    const insertedAd = await Promise.all([
+      insertData(adTable, createTestAdData(user.id, { status: AdStatus.PUBLISHED })),
+      insertData(adTable, createTestAdData(user.id, { status: AdStatus.PUBLISHED })),
+    ]);
+
+    await insertData(favoriteTable, { adId: insertedAd[0].id, userId: user.id });
+
+    const result1 = await testApiCall(client.api.ad.$get({ query: { limit: '50' } }, { headers }));
+
+    expect(result1.data!.items[1]!.inFavorites).toBeTruthy();
+    expect(result1.data!.items[0]!.inFavorites).toBeFalsy();
+
+    const result2 = await testApiCall(client.api.ad.$get({ query: { limit: '50' } }));
+
+    expect(result2.data!.items[1]!.inFavorites).toBeFalsy();
+    expect(result2.data!.items[0]!.inFavorites).toBeFalsy();
   });
 
   it('should find all ads with search', async () => {
@@ -277,6 +301,22 @@ describe('[GET] /api/ad/:id', () => {
     if (error) return expect(error).toBeNull();
 
     expect(data.id).toEqual(ad.id);
+  });
+
+  it('should find ad with favorites', async () => {
+    const { user, headers } = await registerTestUser();
+    const ad = await insertData(adTable, createTestAdData(user.id));
+    const ad2 = await insertData(adTable, createTestAdData(user.id));
+    await insertData(favoriteTable, { adId: ad.id, userId: user.id });
+
+    const result1 = await testApiCall(client.api.ad[':adId'].$get({ param: { adId: ad.id } }, { headers }));
+    expect(result1.data!.id).toEqual(ad.id);
+
+    const result2 = await testApiCall(client.api.ad[':adId'].$get({ param: { adId: ad.id } }));
+    expect(result2.data!.inFavorites).toBeFalsy();
+
+    const result3 = await testApiCall(client.api.ad[':adId'].$get({ param: { adId: ad2.id } }));
+    expect(result3.data!.inFavorites).toBeFalsy();
   });
 
   it('should not find draft ad', async () => {
