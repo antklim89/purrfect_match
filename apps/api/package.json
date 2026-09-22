@@ -10,7 +10,7 @@
   "module": "index.ts",
   "scripts": {
     "db:generate": "bun  drizzle-kit generate",
-    "db:migrate": "bun --bun src/migrate.ts",
+    "db:migrate": "bun drizzle-kit migrate",
     "dev": "run-p dev:**",
     "dev:app": "bun run --hot src/app.ts",
     "dev:typecheck": "bun typecheck -w --preserveWatchOutput",
@@ -24,7 +24,7 @@
   "dependencies": {
     "@better-auth/drizzle-adapter": "^1.7.5",
     "@electric-sql/pglite": "^0.5.3",
-    "@hono/zod-validator": "^0.8.0",
+    "@hono/zod-validator": "^0.9.1",
     "@purrfect_match/shared": "workspace:*",
     "better-auth": "catalog:",
     "drizzle-orm": "^1.0.0-rc.4",
