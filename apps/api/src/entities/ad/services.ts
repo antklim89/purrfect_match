@@ -25,7 +25,7 @@ export async function adFindManyService({
   breed,
   search,
   type,
-  userId,
+  authorId,
   page = 1,
   sortBy = ADS_SORT_BY_DEFAULT,
   orderBy = ADS_ORDER_BY_DEFAULT,
@@ -39,7 +39,7 @@ export async function adFindManyService({
   if (search) whereQuery.description = { ilike: `%${search}%` };
   if (breed) whereQuery.breed = { eq: breed };
   if (type) whereQuery.type = { eq: type };
-  if (userId) whereQuery.userId = { eq: userId };
+  if (authorId) whereQuery.userId = { eq: authorId };
 
   if (status === 'all') whereQuery.status = { OR: [{ eq: AdStatus.PUBLISHED }, { eq: AdStatus.UNPUBLISHED }] };
   else if (status === 'unpublished') whereQuery.status = { eq: AdStatus.UNPUBLISHED };

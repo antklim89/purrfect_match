@@ -43,7 +43,7 @@ export const AdFilterSchema = z.object({
   minPrice: z.optional(z.coerce.number().check(z.minimum(0))),
   maxPrice: z.optional(z.coerce.number().check(z.minimum(0))),
   status: z.optional(z.enum(['all', 'published', 'unpublished'])),
-  userId: z.optional(z.string()),
+  authorId: z.optional(z.uuidv7()),
   page: z.optional(z.coerce.number().check(z.positive())),
   sortBy: z.optional(z.literal(ADS_SORT_BY)),
   orderBy: z.optional(z.enum(['asc', 'desc'])),
