@@ -2,16 +2,16 @@
 /** biome-ignore-all lint/suspicious/noConsole: ok */
 import { faker } from '@faker-js/faker';
 import { animalBreeds, animalTypes } from '@purrfect_match/shared/entities/animal/constants';
-import { sql } from 'drizzle-orm';
-import { PgTable } from 'drizzle-orm/pg-core';
+import { type InferInsertModel, sql } from 'drizzle-orm';
+import type { PgTable, TableConfig } from 'drizzle-orm/pg-core';
 
 import type { AdImageInsertType, AdInsertType } from '@/entities/ad/types';
 import { auth } from '@/lib/auth';
 import { db } from '@/lib/db';
-import * as schema from '@/schema';
+import { adImageTable, adTable, relations } from '@/schema';
 
-const USERS_NUMBER = 20;
-const ADS_NUMBER = 50;
+const USERS_NUMBER = 200;
+const ADS_NUMBER = 20000;
 const contacts = [
   { number: '1 (555) 555 44 55', type: 'phone' },
   { number: '1 (555) 555 33 55', type: 'whatsapp' },
@@ -24,11 +24,21 @@ export const PLACEHOLDER_BLUR_DATA =
 
 async function resetDb() {
   await Promise.all(
-    Object.values(schema).map(async (table) => {
-      if (table instanceof PgTable) {
-        await db.execute(sql`TRUNCATE TABLE ${table} CASCADE`);
-      }
+    Object.values(relations).map(async ({ table }) => {
+      await db.execute(sql`TRUNCATE TABLE ${table} CASCADE`);
     }),
+  );
+}
+
+function insertChunks<Table extends PgTable<TableConfig>, Insert extends InferInsertModel<Table>>(
+  table: Table,
+  arr: Insert[],
+  size = 100,
+) {
+  return Promise.all(
+    Array.from({ length: Math.ceil(arr.length / size) }, (_, i) => arr.slice(i * size, i * size + size)).flatMap(
+      (item) => db.insert(table).values(item),
+    ),
   );
 }
 
@@ -73,7 +83,7 @@ async function createAd() {
     };
   });
 
-  await db.insert(schema.adTable).values(ads);
+  await insertChunks(adTable, ads);
   console.log('Ads inserted');
 }
 
@@ -91,7 +101,7 @@ async function createAdImages() {
     }),
   );
 
-  await db.insert(schema.adImageTable).values(adsImages);
+  await insertChunks(adImageTable, adsImages);
   console.log('Images inserted');
 }
 
@@ -99,3 +109,4 @@ await resetDb();
 await createUsers();
 await createAd();
 await createAdImages();
+await db.$client.end();
