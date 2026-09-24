@@ -14,18 +14,21 @@ export const relations = defineRelations(
       images: r.many.adImageTable(),
       favorites: r.many.favoriteTable(),
       user: r.one.userTable({
+        optional: false,
         from: [r.adTable.userId],
         to: [r.userTable.id],
       }),
     },
     adImageTable: {
       ad: r.one.adTable({
+        optional: false,
         from: [r.adImageTable.adId],
         to: [r.adTable.id],
       }),
     },
     favoriteTable: {
       ad: r.one.adTable({
+        optional: false,
         from: [r.favoriteTable.adId],
         to: [r.adTable.id],
       }),
