@@ -21,7 +21,7 @@ export function AdCreateForm() {
 
   async function handleImageRemove(image: UploadImageType) {
     const result = await apiCall(
-      apiSessionClient.api.ad[':id']['delete-image-draft'].$patch({ param: { id: image.id } }),
+      apiSessionClient.api.ad[':adImageId']['delete-image-draft'].$patch({ param: { adImageId: image.id } }),
     );
     if (result.error) toast.error(result.error.message);
     return result;

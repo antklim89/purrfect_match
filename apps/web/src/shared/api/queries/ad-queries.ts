@@ -5,7 +5,7 @@ import { apiCall, apiClient, apiSessionClient } from '@/shared/lib/api-client';
 
 export const adFindOneQuery = cache(async ({ id }: { id: string }) => {
   'use cache';
-  return await apiCall(apiClient.api.ad[':id'].$get({ param: { id } }));
+  return await apiCall(apiClient.api.ad[':adId'].$get({ param: { adId: id } }));
 });
 
 export const adFindListQuery = cache(async ({ query }: InferRequestType<typeof apiClient.api.ad.$get>) => {
@@ -24,7 +24,7 @@ export const adFindDraftQuery = cache(async () => {
 export const adFindMyListQuery = cache(async ({ userId }: { userId: string }) => {
   return await apiCall(
     apiSessionClient.api.ad.$get({
-      query: { userId, limit: '50', sortBy: 'publishedAt', orderBy: 'desc', status: 'all' },
+      query: { authorId: userId, limit: '50', sortBy: 'publishedAt', orderBy: 'desc', status: 'all' },
     }),
   );
 });

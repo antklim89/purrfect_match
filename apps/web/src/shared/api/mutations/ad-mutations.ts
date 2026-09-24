@@ -12,8 +12,8 @@ export async function adUploadImageDraftMutation({ image }: { image: File }) {
   return await apiCall(apiClient.api.ad['upload-image-draft'].$patch({ form: { image } }));
 }
 
-export async function adDeleteImageDraftMutation({ adId }: { adId: string }) {
-  return await apiCall(apiClient.api.ad[':id']['delete-image-draft'].$patch({ param: { id: adId } }));
+export async function adDeleteImageDraftMutation({ adImageId }: { adImageId: string }) {
+  return await apiCall(apiClient.api.ad[':adImageId']['delete-image-draft'].$patch({ param: { adImageId } }));
 }
 
 export async function adPublishDraftMutation() {
@@ -23,9 +23,9 @@ export async function adPublishDraftMutation() {
 }
 
 export async function adTogglePublishMutation({ adId }: { adId: string }) {
-  return await apiCall(apiClient.api.ad[':id']['toggle-publish'].$patch({ param: { id: adId } }));
+  return await apiCall(apiClient.api.ad[':adId']['toggle-publish'].$patch({ param: { adId } }));
 }
 
 export async function adDeleteMutation({ adId }: { adId: string }) {
-  return await apiCall(apiClient.api.ad[':id'].$delete({ param: { id: adId } }));
+  return await apiCall(apiClient.api.ad[':adId'].$delete({ param: { adId } }));
 }
