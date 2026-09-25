@@ -4,17 +4,15 @@ import type { InferRequestType } from 'hono/client';
 import { apiCall, apiClient, apiSessionClient } from '@/shared/lib/api-client';
 
 export const adFindOneQuery = cache(async ({ id }: { id: string }) => {
-  'use cache';
   return await apiCall(apiClient.api.ad[':adId'].$get({ param: { adId: id } }));
 });
 
 export const adFindListQuery = cache(async ({ query }: InferRequestType<typeof apiClient.api.ad.$get>) => {
-  'use cache';
-  return await apiCall(apiClient.api.ad.$get({ query }));
+  return await apiCall(apiSessionClient.api.ad.$get({ query }));
 });
 
 export const adFindNewListQuery = cache(async () => {
-  return await apiCall(apiClient.api.ad.$get({ query: { limit: '6', sortBy: 'publishedAt', orderBy: 'desc' } }));
+  return await apiCall(apiSessionClient.api.ad.$get({ query: { limit: '6', sortBy: 'publishedAt', orderBy: 'desc' } }));
 });
 
 export const adFindDraftQuery = cache(async () => {
