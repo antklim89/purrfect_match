@@ -85,3 +85,24 @@ describe('[DELETE] /api/favorite', () => {
     expect(deletedFavorites).toHaveLength(0);
   });
 });
+
+describe('[GET] /ad/:adId/favorite', () => {
+  it('should find favorite ad', async () => {
+    const { headers, user } = await registerTestUser();
+    const ad = await insertData(adTable, createTestAdData(user.id));
+    await insertData(favoriteTable, { adId: ad.id, userId: user.id });
+
+    const { data } = await testApiCall(client.api.ad[':adId'].favorite.$get({ param: { adId: ad.id } }, { headers }));
+
+    expect(data).not.toBeNull();
+  });
+
+  it('should not find not existed favorite ad', async () => {
+    const { headers, user } = await registerTestUser();
+    const ad = await insertData(adTable, createTestAdData(user.id));
+
+    const { data } = await testApiCall(client.api.ad[':adId'].favorite.$get({ param: { adId: ad.id } }, { headers }));
+
+    expect(data).toBeNull();
+  });
+});
