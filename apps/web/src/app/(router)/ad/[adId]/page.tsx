@@ -1,10 +1,21 @@
 import type { Metadata } from 'next';
-import { notFound } from 'next/navigation';
 
-import { AdDescription, AdImages, AdInfo } from '@/features/ad';
+import {
+  AdDescription,
+  AdDescriptionFallback,
+  AdImages,
+  AdImagesFallback,
+  AdInfo,
+  AdInfoFallback,
+} from '@/features/ad';
+import { ToggleFavoriteButton } from '@/features/toggle-favorite';
 import { adFindOneQuery } from '@/shared/api/queries/ad-queries';
 import notFoundFallback from '@/shared/assets/not-found.png';
+import { apiCall, apiSessionClient } from '@/shared/lib/api-client';
+import { loader } from '@/shared/lib/loader';
+import { Button } from '@/shared/ui/button';
 import { ErrorComponent } from '@/shared/ui/error-component';
+import { Spinner } from '@/shared/ui/spinner';
 import { AdSection, AdSectionContent, AdSectionDescription } from '@/widgets/ad-section';
 
 export async function generateMetadata({ params }: PageProps<'/ad/[adId]'>): Promise<Metadata> {
@@ -33,22 +44,53 @@ export async function generateMetadata({ params }: PageProps<'/ad/[adId]'>): Pro
 }
 
 export default async function Page({ params }: PageProps<'/ad/[adId]'>) {
-  'use cache';
+  const favoriteButtonLoader = loader({
+    params,
+    key: 'favorite button',
+    render: async ({ params: { adId } }) => {
+      const { data: favorite } = await apiCall(apiSessionClient.api.ad[':adId'].favorite.$get({ param: { adId } }));
+      return <ToggleFavoriteButton adId={adId} inFavorites={favorite != null} />;
+    },
+    fallback: (
+      <Button variant="outline" size="icon-lg">
+        <Spinner />
+      </Button>
+    ),
+  });
 
-  const { adId } = await params;
-  const { error, data: ad } = await adFindOneQuery({ id: adId });
-  if (error?.status === 404) notFound();
-  if (error) return <ErrorComponent {...error} />;
+  return loader({
+    params,
+    props: {
+      favoriteButton: favoriteButtonLoader,
+    },
+    render: async ({ params: { adId }, props: { favoriteButton } }) => {
+      'use cache';
 
-  return (
-    <AdSection>
-      <AdSectionContent>
-        <AdImages ad={ad} />
-        <AdInfo ad={ad} />
-      </AdSectionContent>
-      <AdSectionDescription>
-        <AdDescription ad={ad} />
-      </AdSectionDescription>
-    </AdSection>
-  );
+      const { error, data: ad } = await adFindOneQuery({ id: adId });
+      if (error) return <ErrorComponent {...error} />;
+
+      return (
+        <AdSection>
+          <AdSectionContent>
+            <AdImages ad={ad} />
+            <AdInfo ad={ad} actionsSlot={favoriteButton} />
+          </AdSectionContent>
+          <AdSectionDescription>
+            <AdDescription ad={ad} />
+          </AdSectionDescription>
+        </AdSection>
+      );
+    },
+    fallback: (
+      <AdSection>
+        <AdSectionContent>
+          <AdImagesFallback />
+          <AdInfoFallback />
+        </AdSectionContent>
+        <AdSectionDescription>
+          <AdDescriptionFallback />
+        </AdSectionDescription>
+      </AdSection>
+    ),
+  });
 }

@@ -29,6 +29,7 @@ export interface AdPreviewType {
   status: AdStatus;
   publishedAt: string;
   id: string;
+  inFavorites: boolean;
   images: {
     url: string;
     blurDataUrl: string;
