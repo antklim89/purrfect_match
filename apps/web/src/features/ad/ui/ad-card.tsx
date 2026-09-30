@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import { AD_IMAGE_HEIGHT, AD_IMAGE_WIDTH } from '@purrfect_match/shared/entities/ad/constants';
 import type { AdPreviewType } from '@purrfect_match/shared/entities/ad/types';
 import Image from 'next/image';
@@ -9,7 +10,7 @@ import { Badge } from '@/shared/ui/badge';
 import { buttonVariants } from '@/shared/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/shared/ui/card';
 
-export function AdCard({ ad }: { ad: AdPreviewType }) {
+export function AdCard({ ad, actionSlot }: { ad: AdPreviewType; actionSlot?: ReactNode }) {
   const image = ad.images[0];
 
   return (
@@ -23,9 +24,13 @@ export function AdCard({ ad }: { ad: AdPreviewType }) {
         width={AD_IMAGE_WIDTH / 8}
         height={AD_IMAGE_HEIGHT / 8}
       />
-      <CardHeader className="gap-0">
-        <CardTitle className="text-lg">{ad.name}</CardTitle>
-        <span className="text-xs opacity-60">{formatDate(ad.publishedAt)}</span>
+      <CardHeader className="flex gap-1">
+        <div className="flex flex-col grow">
+          <CardTitle className="text-lg">{ad.name}</CardTitle>
+          <span className="text-xs opacity-60">{formatDate(ad.publishedAt)}</span>
+        </div>
+
+        <div className="flex flex-col gap-2">{actionSlot}</div>
       </CardHeader>
       <CardContent className="flex flex-col gap-2">
         <div className="flex gap-2">
