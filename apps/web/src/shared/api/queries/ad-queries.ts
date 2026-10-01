@@ -15,6 +15,12 @@ export const adFindNewListQuery = cache(async () => {
   return await apiCall(apiSessionClient.api.ad.$get({ query: { limit: '6', sortBy: 'publishedAt', orderBy: 'desc' } }));
 });
 
+export const adFavoritesListQuery = cache(async () => {
+  return await apiCall(
+    apiSessionClient.api.ad.$get({ query: { limit: '20', sortBy: 'publishedAt', favorites: 'true', orderBy: 'desc' } }),
+  );
+});
+
 export const adFindDraftQuery = cache(async () => {
   return await apiCall(apiSessionClient.api.ad['get-draft'].$post());
 });

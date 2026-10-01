@@ -35,6 +35,7 @@ export async function adFindManyService({
     limit = 12,
     status = 'published',
     withoutPagination = false,
+    favorites = false,
   },
   userId,
 }: {
@@ -46,6 +47,7 @@ export async function adFindManyService({
   if (breed) whereQuery.breed = { eq: breed };
   if (type) whereQuery.type = { eq: type };
   if (authorId) whereQuery.userId = { eq: authorId };
+  if (favorites) whereQuery.favorites = { userId };
 
   if (status === 'all') whereQuery.status = { OR: [{ eq: AdStatus.PUBLISHED }, { eq: AdStatus.UNPUBLISHED }] };
   else if (status === 'unpublished') whereQuery.status = { eq: AdStatus.UNPUBLISHED };

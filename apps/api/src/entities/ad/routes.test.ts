@@ -24,65 +24,6 @@ beforeAll(async () => {
   await fs.rm(MEDIA_ROOT_FOLDER, { force: true, recursive: true });
 });
 
-describe('[DELETE] /api/ad/:id', () => {
-  it('should delete ad', async () => {
-    const { headers, user } = await registerTestUser();
-
-    const imageId = Bun.randomUUIDv7();
-    const ad = await insertData(adTable, createTestAdData(user.id));
-    const mediaDir = getAdMediaDir({ root: MEDIA_ROOT_FOLDER, adId: ad.id, userId: user.id });
-    const mediaPath = getAdMediaPath({ root: MEDIA_ROOT_FOLDER, adId: ad.id, userId: user.id, fileName: imageId });
-
-    await Bun.write(mediaPath, image);
-
-    await testApiCall(client.api.ad[':adId'].$delete({ param: { adId: ad.id } }, { headers }));
-
-    const deletedAd = await db.query.adTable.findFirst({ where: { id: ad.id } });
-
-    expect(deletedAd).toBeUndefined();
-    expect(await fs.exists(mediaDir)).toBeFalsy();
-    expect(await fs.exists(mediaPath)).toBeFalsy();
-  });
-
-  it('should not delete ad if not authenticated', async () => {
-    const { user } = await registerTestUser();
-    const ad = await insertData(adTable, createTestAdData(user.id));
-    const { data, error } = await testApiCall(client.api.ad[':adId'].$delete({ param: { adId: ad.id } }));
-
-    if (!error) return expect(data).toBeNull();
-
-    const deletedAd = await db.query.adTable.findFirst({ where: { id: ad.id } });
-    expect(deletedAd).not.toBeUndefined();
-    expect(error.status).toEqual(401);
-  });
-
-  it('should not delete ad if not valid input', async () => {
-    const { headers, user } = await registerTestUser();
-    const ad = await insertData(adTable, createTestAdData(user.id));
-    const { data, error } = await testApiCall(
-      client.api.ad[':adId'].$delete({ param: { adId: 'invalid_id' } }, { headers }),
-    );
-
-    if (!error) return expect(data).toBeNull();
-
-    const deletedAd = await db.query.adTable.findFirst({ where: { id: ad.id } });
-    expect(deletedAd).not.toBeUndefined();
-    expect(error.status).toEqual(400);
-  });
-
-  it('should not delete ad if user id from another user', async () => {
-    const { user } = await registerTestUser();
-    const { headers } = await registerTestUser();
-    const ad = await insertData(adTable, createTestAdData(user.id));
-    const { data, error } = await testApiCall(client.api.ad[':adId'].$delete({ param: { adId: ad.id } }, { headers }));
-
-    if (!error) return expect(data).toBeNull();
-
-    const deletedAd = await db.query.adTable.findFirst({ where: { id: ad.id } });
-    expect(deletedAd).not.toBeUndefined();
-  });
-});
-
 describe('[GET] /api/ad', () => {
   let user: User;
   let headers: Record<string, string>;
@@ -117,7 +58,7 @@ describe('[GET] /api/ad', () => {
     );
   });
 
-  it('should find ads with favorites', async () => {
+  it('should show is ad in favorites', async () => {
     const insertedAd = await Promise.all([
       insertData(adTable, createTestAdData(user.id, { status: AdStatus.PUBLISHED })),
       insertData(adTable, createTestAdData(user.id, { status: AdStatus.PUBLISHED })),
@@ -134,6 +75,22 @@ describe('[GET] /api/ad', () => {
 
     expect(result2.data!.items[1]!.inFavorites).toBeFalsy();
     expect(result2.data!.items[0]!.inFavorites).toBeFalsy();
+  });
+
+  it('should find favorites ads', async () => {
+    const insertedAd = await Promise.all([
+      insertData(adTable, createTestAdData(user.id)),
+      insertData(adTable, createTestAdData(user.id)),
+    ]);
+
+    const insertedFavorite1 = await insertData(favoriteTable, { adId: insertedAd[0].id, userId: user.id });
+    const insertedFavorite2 = await insertData(favoriteTable, { adId: insertedAd[1].id, userId: user.id });
+
+    const result = await testApiCall(client.api.ad.$get({ query: { limit: '50', favorites: 'true' } }, { headers }));
+
+    expect(result.data!.items).toHaveLength(2);
+    expect(result.data!.items[0]!.id).toEqual(insertedFavorite2.adId);
+    expect(result.data!.items[1]!.id).toEqual(insertedFavorite1.adId);
   });
 
   it('should find all ads with search', async () => {
@@ -554,5 +511,64 @@ describe('[PATCH] /api/ad/:id/toggle-publish', () => {
     expect(error2).toBeNullable();
     expect(ad2).toHaveProperty('id', draftAd.id);
     expect(ad2).toHaveProperty('status', AdStatus.PUBLISHED);
+  });
+});
+
+describe('[DELETE] /api/ad/:id', () => {
+  it('should delete ad', async () => {
+    const { headers, user } = await registerTestUser();
+
+    const imageId = Bun.randomUUIDv7();
+    const ad = await insertData(adTable, createTestAdData(user.id));
+    const mediaDir = getAdMediaDir({ root: MEDIA_ROOT_FOLDER, adId: ad.id, userId: user.id });
+    const mediaPath = getAdMediaPath({ root: MEDIA_ROOT_FOLDER, adId: ad.id, userId: user.id, fileName: imageId });
+
+    await Bun.write(mediaPath, image);
+
+    await testApiCall(client.api.ad[':adId'].$delete({ param: { adId: ad.id } }, { headers }));
+
+    const deletedAd = await db.query.adTable.findFirst({ where: { id: ad.id } });
+
+    expect(deletedAd).toBeUndefined();
+    expect(await fs.exists(mediaDir)).toBeFalsy();
+    expect(await fs.exists(mediaPath)).toBeFalsy();
+  });
+
+  it('should not delete ad if not authenticated', async () => {
+    const { user } = await registerTestUser();
+    const ad = await insertData(adTable, createTestAdData(user.id));
+    const { data, error } = await testApiCall(client.api.ad[':adId'].$delete({ param: { adId: ad.id } }));
+
+    if (!error) return expect(data).toBeNull();
+
+    const deletedAd = await db.query.adTable.findFirst({ where: { id: ad.id } });
+    expect(deletedAd).not.toBeUndefined();
+    expect(error.status).toEqual(401);
+  });
+
+  it('should not delete ad if not valid input', async () => {
+    const { headers, user } = await registerTestUser();
+    const ad = await insertData(adTable, createTestAdData(user.id));
+    const { data, error } = await testApiCall(
+      client.api.ad[':adId'].$delete({ param: { adId: 'invalid_id' } }, { headers }),
+    );
+
+    if (!error) return expect(data).toBeNull();
+
+    const deletedAd = await db.query.adTable.findFirst({ where: { id: ad.id } });
+    expect(deletedAd).not.toBeUndefined();
+    expect(error.status).toEqual(400);
+  });
+
+  it('should not delete ad if user id from another user', async () => {
+    const { user } = await registerTestUser();
+    const { headers } = await registerTestUser();
+    const ad = await insertData(adTable, createTestAdData(user.id));
+    const { data, error } = await testApiCall(client.api.ad[':adId'].$delete({ param: { adId: ad.id } }, { headers }));
+
+    if (!error) return expect(data).toBeNull();
+
+    const deletedAd = await db.query.adTable.findFirst({ where: { id: ad.id } });
+    expect(deletedAd).not.toBeUndefined();
   });
 });
