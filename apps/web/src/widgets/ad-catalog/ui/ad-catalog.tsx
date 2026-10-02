@@ -7,11 +7,13 @@ export function AdCatalog({
   filtersSlot,
   sortSlot,
   paginationSlot,
+  animalSlot,
 }: {
   children: ReactNode;
   filtersSlot: ReactNode;
   sortSlot: ReactNode;
   paginationSlot?: ReactNode;
+  animalSlot?: ReactNode;
 }) {
   return (
     <div className="flex gap-4">
@@ -20,6 +22,7 @@ export function AdCatalog({
       </div>
 
       <div className="flex-1 flex flex-col gap-4">
+        {animalSlot}
         <div className="flex gap-4 items-center justify-end">
           <div className="w-full">{paginationSlot}</div>
 

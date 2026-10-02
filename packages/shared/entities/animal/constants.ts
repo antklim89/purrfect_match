@@ -1,8 +1,15 @@
-import type { AnimalBreeds, AnimalCatalog, AnimalTypes } from './types';
-
-export const animals = {
-  cat: {
+import birdImage from './assets/bird-card.webp';
+import catImage from './assets/cat-card.webp';
+import dogImage from './assets/dog-card.webp';
+import fishImage from './assets/fish-card.webp';
+import rabbitImage from './assets/rabbit-card.webp';
+import turtleImage from './assets/turtle-card.webp';
+import type { AnimalBreeds, AnimalType, AnimalTypes } from './types';
+export const animals = [
+  {
+    name: 'cat',
     description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi, laudantium?',
+    image: catImage,
     breeds: [
       {
         name: 'Somali',
@@ -26,8 +33,10 @@ export const animals = {
       },
     ],
   },
-  dog: {
+  {
+    name: 'dog',
     description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi, laudantium?',
+    image: dogImage,
     breeds: [
       {
         name: 'Chigi',
@@ -51,8 +60,10 @@ export const animals = {
       },
     ],
   },
-  bird: {
+  {
+    name: 'bird',
     description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi, laudantium?',
+    image: birdImage,
     breeds: [
       {
         name: 'Palm Cockadtoo',
@@ -76,8 +87,10 @@ export const animals = {
       },
     ],
   },
-  fish: {
+  {
+    name: 'fish',
     description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi, laudantium?',
+    image: fishImage,
     breeds: [
       {
         name: 'Knifefish',
@@ -101,8 +114,10 @@ export const animals = {
       },
     ],
   },
-  rabbit: {
+  {
+    name: 'rabbit',
     description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi, laudantium?',
+    image: rabbitImage,
     breeds: [
       {
         name: 'Jersey Wooly',
@@ -126,8 +141,10 @@ export const animals = {
       },
     ],
   },
-  turtle: {
+  {
+    name: 'turtle',
     description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi, laudantium?',
+    image: turtleImage,
     breeds: [
       {
         name: 'Russian Tortoise',
@@ -151,9 +168,9 @@ export const animals = {
       },
     ],
   },
-} as const satisfies AnimalCatalog;
+] as const satisfies AnimalType[];
 
-export const animalTypes = Object.keys(animals) as AnimalTypes[];
+export const animalTypes = animals.map((i) => i.name) as AnimalTypes[];
 export const animalBreeds = Object.fromEntries(
-  Object.entries(animals).map(([key, value]) => [key, value.breeds.map((i) => i.name)]),
+  animals.map((animal) => [animal.name, animal.breeds.map((i) => i.name)]),
 ) as AnimalBreeds;

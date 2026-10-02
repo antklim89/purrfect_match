@@ -1,6 +1,8 @@
+import { animals } from '@purrfect_match/shared/entities/animal/constants';
 import { cacheLife } from 'next/cache';
 
 import { AdCard, AdCardFallback, AdList } from '@/features/ad';
+import { AnimalItem, AnimalsList } from '@/features/animal';
 import { ToggleFavoriteButton } from '@/features/toggle-favorite';
 import { adFindNewListQuery } from '@/shared/api/queries/ad-queries';
 import { loader } from '@/shared/lib/loader';
@@ -45,6 +47,13 @@ async function Page() {
       return (
         <>
           <Hero />
+          <section className="container my-4">
+            <AnimalsList>
+              {animals.map((animal) => (
+                <AnimalItem key={animal.name} animal={animal} />
+              ))}
+            </AnimalsList>
+          </section>
           <section className="container my-4">{newAds}</section>
         </>
       );
