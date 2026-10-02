@@ -71,7 +71,7 @@ export function ImageUpload({
           <ImageUploadingAttachment image={image} key={image.name} />
         ))}
       </div>
-      <Input {...props} ref={inputRef} className="hidden" type="file" onChange={handleImageChange} {...props} />
+      <Input ref={inputRef} className="hidden" type="file" onChange={handleImageChange} {...props} />
     </div>
   );
 }
