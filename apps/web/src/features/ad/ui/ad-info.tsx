@@ -1,7 +1,9 @@
 import type { ReactNode } from 'react';
 import type { AdType } from '@purrfect_match/shared/entities/ad/types';
+import Link from 'next/link';
 
-import { formatDate, formatPrice } from '@/shared/lib/utils';
+import { cn, formatDate, formatPrice } from '@/shared/lib/utils';
+import { buttonVariants } from '@/shared/ui/button';
 import { Card, CardContent, CardFooter, CardHeader } from '@/shared/ui/card';
 import { ItemGroup } from '@/shared/ui/item';
 import { AdContact } from './ad-contact';
@@ -11,12 +13,14 @@ export function AdInfo({ ad, actionsSlot }: { ad: AdType; actionsSlot?: ReactNod
     <Card>
       <CardHeader className="flex justify-between w-full">
         <div>
-          <h1>
-            <span className="text-2xl capitalize">{ad.name}</span>
-            <br />
-            <span className="capitalize">
-              {ad.type} {ad.breed}
-            </span>
+          <h1 className="flex gap-4 items-end capitalize">
+            <span className="text-4xl">{ad.name}</span>
+            <Link className={cn(buttonVariants({ variant: 'link' }), 'text-xl px-0')} href={`/ad?type=${ad.type}`}>
+              {ad.type}
+            </Link>
+            <Link className={cn(buttonVariants({ variant: 'link' }), 'text-xl px-0')} href={`/ad?breed=${ad.breed}`}>
+              {ad.breed}
+            </Link>
           </h1>
           <p className="text-sm text-muted-foreground">
             by {ad.user.name} at {formatDate(ad.publishedAt)}
