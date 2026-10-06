@@ -1,13 +1,12 @@
 import type { ComponentProps, ReactNode } from 'react';
 import { createFormHookContexts } from '@tanstack/react-form';
 import { XIcon } from 'lucide-react';
-import { z } from 'zod/v4-mini';
 
 import { Button } from './button';
 import { Field, FieldError, FieldLabel, FieldSet } from './field';
 import type { Input } from './input';
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput, InputGroupTextarea } from './input-group';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './select';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from './select';
 import { Spinner } from './spinner';
 import { cn } from '../lib/utils';
 
@@ -49,7 +48,7 @@ export function FormInputNumber({
   clear = false,
   ...props
 }: ComponentProps<typeof Input> & { label?: string; clear?: boolean }) {
-  const field = useFieldContext<number>();
+  const field = useFieldContext<number | null>();
 
   return (
     <Field data-invalid={!field.state.meta.isValid}>
@@ -59,13 +58,17 @@ export function FormInputNumber({
           aria-invalid={!field.state.meta.isValid}
           inputMode="numeric"
           id={field.name + field.form.formId}
-          value={field.state.value}
-          onChange={(e) => field.handleChange(z.catch(z.coerce.number(), 0).parse(e.target.value))}
+          value={field.state.value ?? ''}
+          onChange={(e) => {
+            const number = Number.parseFloat(e.target.value);
+            if (Number.isNaN(number)) field.handleChange(null);
+            else field.handleChange(number);
+          }}
           {...props}
         />
-        {clear && field.state.value > 0 && (
+        {clear && Number(field.state.value) > 0 && (
           <InputGroupAddon align="inline-end">
-            <InputGroupButton onClick={() => field.setValue(0)}>
+            <InputGroupButton onClick={() => field.setValue(null)}>
               <span className="sr-only">clear {field.name} input</span> <XIcon />
             </InputGroupButton>
           </InputGroupAddon>
@@ -170,19 +173,21 @@ export function FormSelect<T>({
   const field = useFieldContext<T>();
 
   return (
-    <Field>
+    <Field data-invalid={!field.state.meta.isValid}>
       {label ? <FieldLabel htmlFor={field.name + field.form.formId}>{label}</FieldLabel> : null}
       <Select onValueChange={(v) => v && field.handleChange(v)} value={field.state.value}>
-        <SelectTrigger {...props}>
+        <SelectTrigger {...props} aria-invalid={!field.state.meta.isValid}>
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
-        <SelectContent alignItemWithTrigger>{children}</SelectContent>
+        <SelectContent alignItemWithTrigger>
+          <SelectGroup>{children}</SelectGroup>
+        </SelectContent>
       </Select>
       <FieldError errors={field.state.meta.errors} />
     </Field>
   );
 }
 
-export function FormSelectItem<T>(props: { value: T } & ComponentProps<typeof SelectItem>) {
+export function FormSelectItem(props: ComponentProps<typeof SelectItem>) {
   return <SelectItem {...props} />;
 }
