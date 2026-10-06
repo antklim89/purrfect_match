@@ -1,10 +1,9 @@
-import { animals } from '@purrfect_match/shared/entities/animal/constants';
 import { cacheLife } from 'next/cache';
 
 import { AdCard, AdCardFallback, AdList } from '@/features/ad';
 import { AdFilter } from '@/features/ad-filter';
 import { AdSort } from '@/features/ad-sort';
-import { AnimalItem } from '@/features/animal';
+import { AnimalInfo } from '@/features/animal';
 import { adFindListQuery } from '@/shared/api/queries/ad-queries';
 import { loader } from '@/shared/lib/loader';
 import { ErrorComponent } from '@/shared/ui/error-component';
@@ -13,23 +12,19 @@ import { AdCatalog } from '@/widgets/ad-catalog';
 
 async function Page(props: PageProps<'/ad'>) {
   const animalLoader = loader({
-    ...props,
-    // searchParams: props.searchParams,
-    // searchParams: Promise.resolve({foo: 'bar'}),
-    // props: {foo: 'bar'},
+    key: 'animal loader',
     promises: {
       searchParams: props.searchParams,
     },
-    render({ props, promises: { searchParams } }) {
-      const animal = animals.find((i) => i.name === searchParams.type);
-      console.log('🚀 ~ animal: \n%o\n', searchParams);
-      if (!animal) return null;
-      return <AnimalItem animal={animal} />;
+    render() {
+      return <AnimalInfo />;
     },
   });
   const adsListLoader = loader({
-    ...props,
-    async render({ searchParams }) {
+    promises: {
+      searchParams: props.searchParams,
+    },
+    async render({ promises: { searchParams } }) {
       const { data: ads, error } = await adFindListQuery({ query: searchParams });
       if (error) return <ErrorComponent {...error} />;
 
@@ -51,8 +46,10 @@ async function Page(props: PageProps<'/ad'>) {
   });
 
   const paginationLoader = loader({
-    ...props,
-    async render({ searchParams }) {
+    promises: {
+      searchParams: props.searchParams,
+    },
+    async render({ promises: { searchParams } }) {
       const { data: ads, error } = await adFindListQuery({ query: searchParams });
       if (error) return <ErrorComponent {...error} />;
 

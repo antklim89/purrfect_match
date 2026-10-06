@@ -43,13 +43,15 @@ export async function generateMetadata({ params }: PageProps<'/ad/[adId]'>): Pro
   };
 }
 
-export default async function Page({ params }: PageProps<'/ad/[adId]'>) {
+export default async function Page(props: PageProps<'/ad/[adId]'>) {
   const favoriteButtonLoader = loader({
-    params,
+    promises: { params: props.params },
     key: 'favorite button',
-    render: async ({ params: { adId } }) => {
-      const { data: favorite } = await apiCall(apiSessionClient.api.ad[':adId'].favorite.$get({ param: { adId } }));
-      return <ToggleFavoriteButton adId={adId} inFavorites={favorite != null} />;
+    render: async ({ promises: { params } }) => {
+      const { data: favorite } = await apiCall(
+        apiSessionClient.api.ad[':adId'].favorite.$get({ param: { adId: params.adId } }),
+      );
+      return <ToggleFavoriteButton adId={params.adId} inFavorites={favorite != null} />;
     },
     fallback: (
       <Button variant="outline" size="icon-lg">
@@ -59,14 +61,14 @@ export default async function Page({ params }: PageProps<'/ad/[adId]'>) {
   });
 
   return loader({
-    params,
+    promises: { params: props.params },
     props: {
       favoriteButton: favoriteButtonLoader,
     },
-    render: async ({ params: { adId }, props: { favoriteButton } }) => {
+    render: async ({ promises: { params }, props: { favoriteButton } }) => {
       'use cache';
 
-      const { error, data: ad } = await adFindOneQuery({ id: adId });
+      const { error, data: ad } = await adFindOneQuery({ id: params.adId });
       if (error) return <ErrorComponent {...error} />;
 
       return (

@@ -20,13 +20,15 @@ import {
   AdSectionPublishAlertActions,
 } from '@/widgets/ad-section';
 
-export default async function Page({ params }: PageProps<'/ad/[adId]'>) {
+export default async function Page(props: PageProps<'/ad/[adId]'>) {
   const favoriteButtonLoader = loader({
-    params,
+    promises: { params: props.params },
     key: 'favorite button',
-    render: async ({ params: { adId } }) => {
-      const { data: favorite } = await apiCall(apiSessionClient.api.ad[':adId'].favorite.$get({ param: { adId } }));
-      return <ToggleFavoriteButton adId={adId} inFavorites={favorite != null} />;
+    render: async ({ promises: { params } }) => {
+      const { data: favorite } = await apiCall(
+        apiSessionClient.api.ad[':adId'].favorite.$get({ param: { adId: params.adId } }),
+      );
+      return <ToggleFavoriteButton adId={params.adId} inFavorites={favorite != null} />;
     },
     fallback: (
       <Button variant="outline" size="icon-lg">
@@ -36,17 +38,18 @@ export default async function Page({ params }: PageProps<'/ad/[adId]'>) {
   });
 
   return loader({
-    params,
+    promises: {
+      params: props.params,
+      session: getSession(),
+    },
     props: {
       favoriteButton: favoriteButtonLoader,
     },
-    promise() {
-      return getSession();
-    },
-    async render({ params: { adId }, promise: { user }, props: { favoriteButton } }) {
-      const { error, data: ad } = await adFindOneQuery({ id: adId });
+
+    async render({ promises: { params, session }, props: { favoriteButton } }) {
+      const { error, data: ad } = await adFindOneQuery({ id: params.adId });
       if (error) return <ErrorComponent {...error} />;
-      if (!user || user.id !== ad.userId) notFound();
+      if (!session?.user || session.user?.id !== ad.userId) notFound();
 
       return (
         <AdSection>
