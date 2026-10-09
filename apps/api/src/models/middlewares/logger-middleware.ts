@@ -36,6 +36,7 @@ function getResponseTime(startTime: number) {
 
 export const loggerMiddleware = createMiddleware(async (c, next) => {
   if (process.env.NODE_ENV === 'test' || process.env.NODE_ENV === 'production') return next();
+  const url = new URL(c.req.url);
 
   const start = Date.now();
   await next();
@@ -44,6 +45,6 @@ export const loggerMiddleware = createMiddleware(async (c, next) => {
     modifiers.BOLD(c.req.method),
     getStatus(c.res.status),
     getResponseTime(start),
-    modifiers.DIM(c.req.path),
+    modifiers.DIM(`${url.pathname}?${url.searchParams}`),
   );
 });
