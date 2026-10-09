@@ -43,7 +43,10 @@ export async function adFindManyService({
   userId?: string;
 }) {
   const whereQuery: RelationsFilter<(typeof relations)['adTable'], typeof relations> = {};
-  if (search) whereQuery.description = { ilike: `%${search}%` };
+  if (search) {
+    whereQuery.RAW = (t) => sql`${t.description} @@ to_tsquery('english', ${search.trim().replace(/\s+/g, ' & ')})`;
+  }
+
   if (breed) whereQuery.breed = { eq: breed };
   if (type) whereQuery.type = { eq: type };
   if (authorId) whereQuery.userId = { eq: authorId };

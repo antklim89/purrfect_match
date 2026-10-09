@@ -1,28 +1,37 @@
-import { sql } from 'drizzle-orm';
-import { numeric, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
+import { type SQL, sql } from 'drizzle-orm';
+import { customType, index, numeric, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
 
 import { userTable } from '@/entities/user/tables';
 
-export const adTable = pgTable('ad', {
-  id: uuid().default(sql`uuidv7()`).primaryKey(),
+const tsvector = customType<{ data: string }>({ dataType: () => 'tsvector' });
 
-  name: text().notNull(),
-  description: text().notNull(),
-  breed: text().notNull(),
-  type: text().notNull(),
-  price: numeric({ precision: 10, scale: 2, mode: 'number' }).notNull(),
+export const adTable = pgTable(
+  'ad',
+  {
+    id: uuid().default(sql`uuidv7()`).primaryKey(),
 
-  status: text({ enum: ['DRAFT', 'PUBLISHED', 'UNPUBLISHED'] })
-    .notNull()
-    .default('DRAFT'),
+    name: text().notNull(),
+    description: text().notNull(),
+    tsvector: tsvector()
+      .notNull()
+      .generatedAlwaysAs((): SQL => sql`to_tsvector('english', ${adTable.description})`),
+    breed: text().notNull(),
+    type: text().notNull(),
+    price: numeric({ precision: 10, scale: 2, mode: 'number' }).notNull(),
 
-  userId: uuid()
-    .notNull()
-    .references(() => userTable.id, { onDelete: 'cascade' }),
+    status: text({ enum: ['DRAFT', 'PUBLISHED', 'UNPUBLISHED'] })
+      .notNull()
+      .default('DRAFT'),
 
-  createdAt: timestamp('created_at', { mode: 'string', withTimezone: true }).defaultNow().notNull(),
-  publishedAt: timestamp('published_at', { mode: 'string', withTimezone: true }).defaultNow().notNull(),
-});
+    userId: uuid()
+      .notNull()
+      .references(() => userTable.id, { onDelete: 'cascade' }),
+
+    createdAt: timestamp('created_at', { mode: 'string', withTimezone: true }).defaultNow().notNull(),
+    publishedAt: timestamp('published_at', { mode: 'string', withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => [index('ad_search_idx').using('gin', table.tsvector)],
+);
 
 export const adImageTable = pgTable('ad_image', {
   id: uuid().default(sql`uuidv7()`).primaryKey(),
