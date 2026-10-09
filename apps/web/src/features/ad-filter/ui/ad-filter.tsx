@@ -8,25 +8,25 @@ import { parseAsInteger, parseAsString, type UseQueryStatesKeysMap, useQueryStat
 import { useAppForm } from '@/shared/lib/form';
 import { buttonVariants } from '@/shared/ui/button';
 
-const ALL = 'all';
-
-const keyMap: UseQueryStatesKeysMap<
-  Required<Pick<AdFilterType, 'search' | 'type' | 'breed' | 'page' | 'minPrice' | 'maxPrice'>>
-> = {
+const keyMap: UseQueryStatesKeysMap<Required<Pick<AdFilterType, 'search' | 'page' | 'minPrice' | 'maxPrice'>>> = {
   page: parseAsInteger.withDefault(1),
-  search: parseAsString.withDefault('').withOptions({ limitUrlUpdates: { method: 'debounce', timeMs: 700 } }),
-  type: parseAsString.withDefault(ALL),
-  breed: parseAsString.withDefault(ALL),
+  search: parseAsString.withDefault(''),
   minPrice: parseAsInteger,
   maxPrice: parseAsInteger,
 };
+const options = { clearOnDefault: true, shallow: false };
 
 export function AdFilter({ filtersSlot }: { filtersSlot?: ReactNode }) {
-  const [filter, setFilter] = useQueryStates(keyMap, { clearOnDefault: true, shallow: false });
+  const [filter, setFilter] = useQueryStates(keyMap, options);
 
   const form = useAppForm({
     defaultValues: filter,
-    listeners: { onChange: ({ formApi }) => setFilter({ ...formApi.state.values, page: 1 }) },
+    listeners: {
+      onChangeDebounceMs: 700,
+      onChange({ formApi }) {
+        setFilter({ ...formApi.state.values, page: 1 });
+      },
+    },
   });
 
   return (
@@ -46,7 +46,7 @@ export function AdFilter({ filtersSlot }: { filtersSlot?: ReactNode }) {
 
         {filtersSlot}
 
-        <Link href="/ad" className={buttonVariants({ variant: 'outline', className: 'mt-8' })}>
+        <Link href="/ad" className={buttonVariants({ variant: 'outline', className: 'mt-6' })}>
           Reset
         </Link>
       </form.AppForm>
