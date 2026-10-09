@@ -30,7 +30,7 @@ export function FormInput({
           onChange={(e) => field.handleChange(e.target.value)}
           {...props}
         />
-        {clear && field.state.value.length > 0 && (
+        {clear && field.state.value?.length > 0 && (
           <InputGroupAddon align="inline-end">
             <InputGroupButton onClick={() => field.setValue('')}>
               <span className="sr-only">clear {field.name} input</span> <XIcon />
