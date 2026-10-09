@@ -3,7 +3,7 @@ import { cacheLife } from 'next/cache';
 import { AdCard, AdCardFallback, AdList } from '@/features/ad';
 import { AdFilter } from '@/features/ad-filter';
 import { AdSort } from '@/features/ad-sort';
-import { AnimalInfo } from '@/features/animal';
+import { AnimalFilter } from '@/features/animal';
 import { adFindListQuery } from '@/shared/api/queries/ad-queries';
 import { loader } from '@/shared/lib/loader';
 import { ErrorComponent } from '@/shared/ui/error-component';
@@ -16,8 +16,8 @@ async function Page(props: PageProps<'/ad'>) {
     promises: {
       searchParams: props.searchParams,
     },
-    render() {
-      return <AnimalInfo />;
+    render({ promises: { searchParams } }) {
+      return <AnimalFilter searchParams={searchParams} />;
     },
   });
   const adsListLoader = loader({

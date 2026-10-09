@@ -22,7 +22,7 @@ export function AdCatalog({
       </div>
 
       <div className="flex-1 flex flex-col gap-4">
-        {animalSlot}
+        <Suspense>{animalSlot}</Suspense>
         <div className="flex gap-4 items-center justify-end">
           <div className="w-full">{paginationSlot}</div>
 
