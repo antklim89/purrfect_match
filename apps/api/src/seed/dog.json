@@ -1,0 +1,2062 @@
+[
+  {
+    "name": "Affenpinscher",
+    "description": "Big attitude, monkey-faced charm"
+  },
+  {
+    "name": "Afghan Hound",
+    "description": "Silk-coated sprinter of the highlands"
+  },
+  {
+    "name": "Aidi",
+    "description": "Atlas-bred. Flock-ready. Fearless."
+  },
+  {
+    "name": "Ainu",
+    "description": "Snow-born hunter, loyal guardian"
+  },
+  {
+    "name": "Airedale Terrier",
+    "description": "King of Terriers, heart of a worker"
+  },
+  {
+    "name": "Airedoodle",
+    "description": "Big-terrier brains, curly-coat charm"
+  },
+  {
+    "name": "Akita",
+    "description": "Dignity, power, and legendary loyalty"
+  },
+  {
+    "name": "Akita Shepherd",
+    "description": "Big heart, bold guardian, smart worker."
+  },
+  {
+    "name": "Alaskan Husky",
+    "description": "Built to run Alaska's miles"
+  },
+  {
+    "name": "Alaskan Klee Kai",
+    "description": "Big Husky Look, Small Dog Package"
+  },
+  {
+    "name": "Alaskan Malamute",
+    "description": "Built to freight. Made for the Arctic."
+  },
+  {
+    "name": "Alaskan Shepherd",
+    "description": "Endurance of the North, brain of a herder"
+  },
+  {
+    "name": "Alpine Dachsbracke",
+    "description": "Low to the ground, nose on the trail"
+  },
+  {
+    "name": "Alusky",
+    "description": "Born to run. Built for the cold."
+  },
+  {
+    "name": "American Alsatian",
+    "description": "Dire-wolf look, couch-dog heart"
+  },
+  {
+    "name": "American Bulldog",
+    "description": "Farm-strong. Family-devoted."
+  },
+  {
+    "name": "American Bully",
+    "description": "Big heart in a bold build"
+  },
+  {
+    "name": "American Cocker Spaniel",
+    "description": "Silky ears, sporting heart"
+  },
+  {
+    "name": "American Coonhound",
+    "description": "All nose, all night, all heart."
+  },
+  {
+    "name": "American Eskimo Dog",
+    "description": "Brains in a Snow-White Coat"
+  },
+  {
+    "name": "American Foxhound",
+    "description": "Built to bay, bred to endure."
+  },
+  {
+    "name": "American Hairless Terrier",
+    "description": "All terrier, no hair."
+  },
+  {
+    "name": "American Leopard Hound",
+    "description": "Nose to the ground, game up the tree"
+  },
+  {
+    "name": "American Pit Bull Terrier",
+    "description": "Athletic heart, devoted companion."
+  },
+  {
+    "name": "American Pugabull",
+    "description": "Pug charm, Bulldog brawn."
+  },
+  {
+    "name": "American Staffordshire Terrier",
+    "description": "Big heart, strong build, eager partner"
+  },
+  {
+    "name": "American Water Spaniel",
+    "description": "Small boat dog, big water drive"
+  },
+  {
+    "name": "Anatolian Shepherd Dog",
+    "description": "Built to guard, bred to decide."
+  },
+  {
+    "name": "Appenzeller Dog",
+    "description": "Ring-tailed Swiss farm guardian"
+  },
+  {
+    "name": "Apple Head Chihuahua",
+    "description": "Tiny body, mighty heart."
+  },
+  {
+    "name": "Armenian Gampr",
+    "description": "Highland guardian, steady and bold"
+  },
+  {
+    "name": "Aussiedoodle",
+    "description": "Brains, bounce, and curls in one dog"
+  },
+  {
+    "name": "Aussiedor",
+    "description": "Work hard, play harder - Aussiedor."
+  },
+  {
+    "name": "Aussiepom",
+    "description": "Small body, big herder-brain."
+  },
+  {
+    "name": "Australian Bulldog",
+    "description": "Built for mateship, bred for Aussie days"
+  },
+  {
+    "name": "Australian Cattle Dog",
+    "description": "Built to drive cattle all day"
+  },
+  {
+    "name": "Australian Kelpie Dog",
+    "description": "Born to work, built to last."
+  },
+  {
+    "name": "Australian Labradoodle",
+    "description": "Soft coat, big heart, smart mind."
+  },
+  {
+    "name": "Australian Retriever",
+    "description": "Golden charm, Aussie smarts"
+  },
+  {
+    "name": "Australian Shepherd",
+    "description": "Built for brains, built for work"
+  },
+  {
+    "name": "Australian Shepherd Mix",
+    "description": "Brains, bounce, and a herder's heart"
+  },
+  {
+    "name": "Australian Terrier",
+    "description": "Small Terrier, Big Aussie Grit"
+  },
+  {
+    "name": "Azawakh",
+    "description": "Sahel speed, camp guardian heart"
+  },
+  {
+    "name": "Bagle",
+    "description": "Two hounds. One unstoppable nose."
+  },
+  {
+    "name": "Barbet",
+    "description": "France's curly-coated marsh retriever"
+  },
+  {
+    "name": "Basenji Dog",
+    "description": "The yodeling hunter of Africa"
+  },
+  {
+    "name": "Basenji Mix",
+    "description": "Smart, sleek, and a little wild"
+  },
+  {
+    "name": "Bassador",
+    "description": "Low rider nose, Lab-sized love"
+  },
+  {
+    "name": "Basset Fauve de Bretagne",
+    "description": "Small legs, big nose, Brittany heart"
+  },
+  {
+    "name": "Basset Hound",
+    "description": "Low rider. High-powered nose."
+  },
+  {
+    "name": "Bassetoodle",
+    "description": "Big nose, curly smarts, sweet heart"
+  },
+  {
+    "name": "Bavarian Mountain Hound",
+    "description": "Born for the blood trail."
+  },
+  {
+    "name": "Bea-Tzu",
+    "description": "Small dog, big nose, bigger heart"
+  },
+  {
+    "name": "Beabull",
+    "description": "Big heart, bigger nose."
+  },
+  {
+    "name": "Beagador",
+    "description": "Big heart, bigger nose."
+  },
+  {
+    "name": "Beagle",
+    "description": "Big Nose, Big Heart, Beagle"
+  },
+  {
+    "name": "Beagle Shepherd",
+    "description": "Nose of a hound, heart of a guardian"
+  },
+  {
+    "name": "Beaglier",
+    "description": "Big nose, bigger heart."
+  },
+  {
+    "name": "Beago",
+    "description": "Big heart, bigger nose."
+  },
+  {
+    "name": "Bearded Collie",
+    "description": "Shaggy coat, sharp herding heart"
+  },
+  {
+    "name": "Beaski",
+    "description": "Nose to the trail, legs for miles"
+  },
+  {
+    "name": "Beauceron",
+    "description": "Red Stockings: brains, brawn, backbone"
+  },
+  {
+    "name": "Bedlington Terrier",
+    "description": "Looks like a lamb, hunts like a terrier"
+  },
+  {
+    "name": "Belgian Laekenois",
+    "description": "Wiry coat, watchful heart."
+  },
+  {
+    "name": "Belgian Malinois",
+    "description": "Built to work. Ready to learn."
+  },
+  {
+    "name": "Belgian Malinois Mix",
+    "description": "Brains, speed, and serious drive"
+  },
+  {
+    "name": "Belgian Sheepdog",
+    "description": "Black coat, bright mind, bold heart."
+  },
+  {
+    "name": "Belgian Shepherd",
+    "description": "Four coats. One unstoppable worker."
+  },
+  {
+    "name": "Belgian Tervuren",
+    "description": "Brains, beauty, and boundless drive"
+  },
+  {
+    "name": "Bergamasco",
+    "description": "The flock-coated guardian of Bergamo"
+  },
+  {
+    "name": "Berger Blanc Suisse",
+    "description": "Snow-white coat, shepherd-smart heart"
+  },
+  {
+    "name": "Berger Picard",
+    "description": "Rustic looks, serious herding brains."
+  },
+  {
+    "name": "Bernedoodle",
+    "description": "Big-heart mountain buddy with poodle brains"
+  },
+  {
+    "name": "Bernese Mountain Dog",
+    "description": "Bernese: the gentle Alpine powerhouse"
+  },
+  {
+    "name": "Bernese Mountain Dog Mix",
+    "description": "Big heart, Swiss-style calm"
+  },
+  {
+    "name": "Bernese Shepherd",
+    "description": "Swiss strength, family gentleness."
+  },
+  {
+    "name": "Bichon Frise",
+    "description": "A little cloud of cheerful companionship"
+  },
+  {
+    "name": "Bichpoo",
+    "description": "Curly coat, cheerful heart."
+  },
+  {
+    "name": "Biewer Terrier",
+    "description": "Tri-color charm in a tiny terrier"
+  },
+  {
+    "name": "Black And Tan Coonhound",
+    "description": "Deep voice. Deeper nose."
+  },
+  {
+    "name": "Black German Shepherd",
+    "description": "All-black coat, all-purpose partner."
+  },
+  {
+    "name": "Black Mouth Cur",
+    "description": "Dark muzzle. Bright work ethic."
+  },
+  {
+    "name": "Black Russian Terrier",
+    "description": "Built to guard, trained to serve"
+  },
+  {
+    "name": "Bloodhound",
+    "description": "Built to follow the faintest trail"
+  },
+  {
+    "name": "Blue German Shepherd",
+    "description": "Blue coat, classic Shepherd heart."
+  },
+  {
+    "name": "Blue Lacy Dog",
+    "description": "Texas grit in a blue coat"
+  },
+  {
+    "name": "Blue Nose Pit Bull",
+    "description": "Blue coat, big heart, built to work."
+  },
+  {
+    "name": "Blue Picardy Spaniel",
+    "description": "Blue-roan calm, marsh-ready hunter"
+  },
+  {
+    "name": "Bluetick Coonhound",
+    "description": "Blue coat, big nose, bigger bay"
+  },
+  {
+    "name": "Boerboel",
+    "description": "South Africa's steadfast homestead guardian"
+  },
+  {
+    "name": "Boggle",
+    "description": "Nose of a hound, heart of an athlete"
+  },
+  {
+    "name": "Boglen Terrier",
+    "description": "Big nose, big heart, best buddy"
+  },
+  {
+    "name": "Bolognese Dog",
+    "description": "A little white shadow of devotion"
+  },
+  {
+    "name": "Borador",
+    "description": "Brains of a Collie, heart of a Lab"
+  },
+  {
+    "name": "Border Collie",
+    "description": "The sheepdog with a laser focus"
+  },
+  {
+    "name": "Border Collie Mix",
+    "description": "Brains in motion-give me a job"
+  },
+  {
+    "name": "Border Terrier",
+    "description": "Big grit in a small terrier"
+  },
+  {
+    "name": "Bordoodle",
+    "description": "Brains, bounce, and curls (maybe)"
+  },
+  {
+    "name": "Borkie",
+    "description": "Big nose, bold heart, small body."
+  },
+  {
+    "name": "Boskimo",
+    "description": "Spitz fluff, Boston charm."
+  },
+  {
+    "name": "Boston Terrier",
+    "description": "Tuxedo looks, city-smart charm"
+  },
+  {
+    "name": "Bouvier Des Flandres",
+    "description": "Bearded muscle with a farmer's brain"
+  },
+  {
+    "name": "Boxachi",
+    "description": "Big-dog heart, small-dog spark"
+  },
+  {
+    "name": "Boxador",
+    "description": "Two classic breeds, one big heart"
+  },
+  {
+    "name": "Boxer Dog",
+    "description": "Square-jawed athlete, big-hearted clown"
+  },
+  {
+    "name": "Boxer Mix",
+    "description": "Big heart, bouncy Boxer spirit"
+  },
+  {
+    "name": "Boxerdoodle",
+    "description": "Brains of a Poodle, bounce of a Boxer"
+  },
+  {
+    "name": "Boxsky",
+    "description": "Playful power, Husky heart."
+  },
+  {
+    "name": "Boxweiler",
+    "description": "Big heart. Big muscles. Bigger loyalty."
+  },
+  {
+    "name": "Boykin Spaniel",
+    "description": "The Little Brown Dog That Works"
+  },
+  {
+    "name": "Bracco Italiano",
+    "description": "Italy's steady, elegant pointer"
+  },
+  {
+    "name": "Braque du Bourbonnais",
+    "description": "Small braque, big field sense."
+  },
+  {
+    "name": "Braque Francais",
+    "description": "French finesse, steady point."
+  },
+  {
+    "name": "Brazilian Terrier",
+    "description": "Brazil's bold little watchdog"
+  },
+  {
+    "name": "Briard",
+    "description": "Shaggy French guardian with heart"
+  },
+  {
+    "name": "British Timber",
+    "description": "Wolf look, dog heart."
+  },
+  {
+    "name": "Brittany",
+    "description": "Small frame, big field drive."
+  },
+  {
+    "name": "Brug",
+    "description": "Big personality, small snout"
+  },
+  {
+    "name": "Brussels Griffon",
+    "description": "Tiny Dog, Huge Personality"
+  },
+  {
+    "name": "Bull Terrier",
+    "description": "Egg-shaped head, big-hearted clown"
+  },
+  {
+    "name": "Bullboxer",
+    "description": "Powerful heart, playful paws."
+  },
+  {
+    "name": "Bulldog",
+    "description": "Tough look, tender heart."
+  },
+  {
+    "name": "Bulldog Mix",
+    "description": "Big heart, Bulldog roots, mixed magic"
+  },
+  {
+    "name": "Bullmastiff",
+    "description": "Silent strength, steadfast guardian."
+  },
+  {
+    "name": "Cairn Terrier",
+    "description": "Scruffy Highland hunter, loyal friend"
+  },
+  {
+    "name": "Canaan Dog",
+    "description": "Levant guardian with ancient instincts"
+  },
+  {
+    "name": "Cane Corso",
+    "description": "Italy's athletic guardian mastiff"
+  },
+  {
+    "name": "Carolina Dog",
+    "description": "The Southeast's wild-hearted landrace"
+  },
+  {
+    "name": "Catahoula Bulldog",
+    "description": "Grit, speed, and swamp-country brains."
+  },
+  {
+    "name": "Catahoula Leopard Dog",
+    "description": "Louisiana's leopard-coated worker"
+  },
+  {
+    "name": "Catalan Sheepdog",
+    "description": "Shaggy coat, sharp mind, mountain grit."
+  },
+  {
+    "name": "Caucasian Shepherd",
+    "description": "Built for the flock. Ready for the frontier."
+  },
+  {
+    "name": "Cava Tzu",
+    "description": "A lap-dog heart with hybrid charm"
+  },
+  {
+    "name": "Cavador",
+    "description": "Fetch skills, lap-dog heart"
+  },
+  {
+    "name": "Cavalier King Charles Spaniel",
+    "description": "A royal lapdog with a spaniel heart"
+  },
+  {
+    "name": "Cavapoo",
+    "description": "Big-heart companion in a small package"
+  },
+  {
+    "name": "Cesky Fousek",
+    "description": "Bohemia's bearded all-terrain gundog"
+  },
+  {
+    "name": "Cesky Terrier",
+    "description": "Silky-coated burrow hunter from Czechia"
+  },
+  {
+    "name": "Cheagle",
+    "description": "Big nose. Small package."
+  },
+  {
+    "name": "Chesapeake Bay Retriever",
+    "description": "Built for ice water, born to retrieve"
+  },
+  {
+    "name": "Chi Chi",
+    "description": "Tiny body, big personality"
+  },
+  {
+    "name": "Chihuahua",
+    "description": "Tiny body, fearless heart."
+  },
+  {
+    "name": "Chihuahua Mix",
+    "description": "Tiny mix, huge presence."
+  },
+  {
+    "name": "Chinese Crested Dog",
+    "description": "Crested charm, big-heart companion."
+  },
+  {
+    "name": "Chinese Shar-Pei",
+    "description": "Wrinkles with a watchful heart."
+  },
+  {
+    "name": "Chinook",
+    "description": "Big pull, soft heart."
+  },
+  {
+    "name": "Chipit",
+    "description": "Small frame, big heart, strong spirit"
+  },
+  {
+    "name": "Chipoo",
+    "description": "Tiny body, clever heart"
+  },
+  {
+    "name": "Chiweenie",
+    "description": "Tiny body, big backbone."
+  },
+  {
+    "name": "Chorkie",
+    "description": "Tiny body, terrier grit."
+  },
+  {
+    "name": "Chow Chow",
+    "description": "Lion look, loyal heart-Chow Chow"
+  },
+  {
+    "name": "Chow Pom",
+    "description": "Big fluff, northern-type attitude."
+  },
+  {
+    "name": "Chow Shepherd",
+    "description": "Fluff of a Chow, heart of a Shepherd"
+  },
+  {
+    "name": "Chusky",
+    "description": "Fluff, brains, and a mind of its own"
+  },
+  {
+    "name": "Clumber Spaniel",
+    "description": "Slow-and-steady flushing specialist"
+  },
+  {
+    "name": "Cockalier",
+    "description": "Two spaniels, one heart-stealer"
+  },
+  {
+    "name": "Cockapoo",
+    "description": "Big heart, curly smarts"
+  },
+  {
+    "name": "Cocker Spaniel",
+    "description": "Merry flusher, gentle retriever"
+  },
+  {
+    "name": "Collie",
+    "description": "The gentle genius in a flowing coat"
+  },
+  {
+    "name": "Collie Mix",
+    "description": "Brains, heart, and herding heritage"
+  },
+  {
+    "name": "Comfort Retriever",
+    "description": "Small, smart, and comfort-driven."
+  },
+  {
+    "name": "Corgidor",
+    "description": "Short legs, big fetch energy."
+  },
+  {
+    "name": "Corgipoo",
+    "description": "Big brain, short legs-maybe!"
+  },
+  {
+    "name": "Corkie",
+    "description": "Small body, big heart, bold bark"
+  },
+  {
+    "name": "Corman Shepherd",
+    "description": "Big-dog brains, short-dog swagger"
+  },
+  {
+    "name": "Coton de Tulear",
+    "description": "Cotton coat, big-heart companion"
+  },
+  {
+    "name": "Croatian Sheepdog",
+    "description": "Black-coated brains for busy flocks"
+  },
+  {
+    "name": "Curly Coated Retriever",
+    "description": "Curls built for the water &amp; field"
+  },
+  {
+    "name": "Czechoslovakian Wolfdog",
+    "description": "Wolf looks, dog heart, marathon stamina."
+  },
+  {
+    "name": "Dachsador",
+    "description": "Big heart, low chassis."
+  },
+  {
+    "name": "Dachshund",
+    "description": "Small legs. Big hunter."
+  },
+  {
+    "name": "Dachshund Mix",
+    "description": "Small body, big tracker energy"
+  },
+  {
+    "name": "Dalmadoodle",
+    "description": "Spots, smarts, and springy energy"
+  },
+  {
+    "name": "Dalmador",
+    "description": "Spots, splashes, and a fetch-first heart"
+  },
+  {
+    "name": "Dalmatian",
+    "description": "Spots built for the long run"
+  },
+  {
+    "name": "Dalmatian Mix",
+    "description": "Spots, speed, and a surprise mix!"
+  },
+  {
+    "name": "Dandie Dinmont Terrier",
+    "description": "Topknot, grit, and Scottish wit"
+  },
+  {
+    "name": "Daniff",
+    "description": "Gentle giant, built to guard"
+  },
+  {
+    "name": "Danish Swedish Farmdog",
+    "description": "Small dog. Big farm skills."
+  },
+  {
+    "name": "Dapple Dachshund",
+    "description": "Small hound, huge courage-dappled."
+  },
+  {
+    "name": "Daug",
+    "description": "Big personality on short legs"
+  },
+  {
+    "name": "Deer Head Chihuahua",
+    "description": "Big attitude, deer-headed charm"
+  },
+  {
+    "name": "Doberman Pinscher",
+    "description": "Brains, speed, and steadfast loyalty"
+  },
+  {
+    "name": "Dog",
+    "description": "The wolf's cousin, humanity's partner"
+  },
+  {
+    "name": "Dogo Argentino",
+    "description": "White hunter, loyal guardian"
+  },
+  {
+    "name": "Dogue De Bordeaux",
+    "description": "Big head. Bigger heart."
+  },
+  {
+    "name": "Dorgi",
+    "description": "Long body, large personality"
+  },
+  {
+    "name": "Dorkie",
+    "description": "Small body, fearless heart."
+  },
+  {
+    "name": "Double Doodle",
+    "description": "Triple-heritage, double the doodle charm"
+  },
+  {
+    "name": "Doxiepoo",
+    "description": "Small dog, big brain, bigger attitude"
+  },
+  {
+    "name": "Doxle",
+    "description": "Big Nose, Brave Heart, Small Body"
+  },
+  {
+    "name": "Drever",
+    "description": "Small legs, big nose, louder heart"
+  },
+  {
+    "name": "Dunker",
+    "description": "Norway's hare-tracking marathoner"
+  },
+  {
+    "name": "Dutch Shepherd",
+    "description": "Brindle brains. Farm-born grit."
+  },
+  {
+    "name": "East Siberian Laika",
+    "description": "Taiga-born. Game-found. Cold-proof."
+  },
+  {
+    "name": "English Bulldog",
+    "description": "Big-hearted, wrinkle-faced icon"
+  },
+  {
+    "name": "English Cocker Spaniel",
+    "description": "Feathered ears, big-hearted bird dog"
+  },
+  {
+    "name": "English Cream Golden Retriever",
+    "description": "Cream coat, classic retriever heart."
+  },
+  {
+    "name": "English Foxhound",
+    "description": "Built to bay, bred to stay"
+  },
+  {
+    "name": "English Pointer",
+    "description": "Built to find birds, born to point"
+  },
+  {
+    "name": "English Setter",
+    "description": "Belton beauty, born to find birds"
+  },
+  {
+    "name": "English Shepherd",
+    "description": "One dog, a whole farm's worth of skills"
+  },
+  {
+    "name": "English Springer Spaniel",
+    "description": "Spring it. Retrieve it. Love it."
+  },
+  {
+    "name": "English Toy Terrier",
+    "description": "Tiny terrier, big Victorian spirit"
+  },
+  {
+    "name": "Entlebucher Mountain Dog",
+    "description": "Swiss grit in a compact herder"
+  },
+  {
+    "name": "Epagneul Pont Audemer",
+    "description": "Normandy's curly marsh retriever"
+  },
+  {
+    "name": "Eskipoo",
+    "description": "Fluffy brains, big heart."
+  },
+  {
+    "name": "Estrela Mountain Dog",
+    "description": "Serra Sentinel, Family Guardian"
+  },
+  {
+    "name": "Eurasier",
+    "description": "Soft coat, steady heart."
+  },
+  {
+    "name": "Feist",
+    "description": "Small dog. Big woods energy."
+  },
+  {
+    "name": "Field Spaniel",
+    "description": "Silky spaniel, serious gundog."
+  },
+  {
+    "name": "Finnish Lapphund",
+    "description": "Lapland's friendly, vocal snow-spitz"
+  },
+  {
+    "name": "Finnish Spitz",
+    "description": "The red hunter with a loud compass"
+  },
+  {
+    "name": "Flat-Coated Retriever",
+    "description": "The glossy, grinning game-finder"
+  },
+  {
+    "name": "Formosan Mountain Dog",
+    "description": "Taiwan's agile forest guardian"
+  },
+  {
+    "name": "Fox Terrier",
+    "description": "Small body, big hunt-drive."
+  },
+  {
+    "name": "French Bulldog",
+    "description": "Big charm, small bulldog."
+  },
+  {
+    "name": "French Bulldog Mix",
+    "description": "Small mix, big personality"
+  },
+  {
+    "name": "Frenchton",
+    "description": "Big charm in a compact package"
+  },
+  {
+    "name": "Frengle",
+    "description": "Small body, big nose, bigger heart"
+  },
+  {
+    "name": "Frug",
+    "description": "Small dog, big snorts, bigger love."
+  },
+  {
+    "name": "Gerberian Shepsky",
+    "description": "Two working legends, one tireless dog."
+  },
+  {
+    "name": "German Longhaired Pointer",
+    "description": "Feathered coat, all-around field skill"
+  },
+  {
+    "name": "German Pinscher",
+    "description": "Sleek. Smart. Always on watch."
+  },
+  {
+    "name": "German Shepherd",
+    "description": "Brains, bravery, and a steady lead"
+  },
+  {
+    "name": "German Shepherd Mix",
+    "description": "Big brain, big heart, big zoomies"
+  },
+  {
+    "name": "German Sheppit",
+    "description": "Built to work, born to bond"
+  },
+  {
+    "name": "German Sheprador",
+    "description": "Smart, steady, ready for action."
+  },
+  {
+    "name": "German Shorthaired Pointer",
+    "description": "Point. Retrieve. Repeat."
+  },
+  {
+    "name": "German Spitz",
+    "description": "Big bark, bright mind, plush coat"
+  },
+  {
+    "name": "German Wirehaired Pointer",
+    "description": "Wiry coat, soft heart, all-purpose hunter"
+  },
+  {
+    "name": "Giant Schnauzer",
+    "description": "Big Beard. Bigger Work Ethic."
+  },
+  {
+    "name": "Giant Schnoodle",
+    "description": "Big brain, bigger beard energy"
+  },
+  {
+    "name": "Glechon",
+    "description": "Big nose, fluffy heart."
+  },
+  {
+    "name": "Glen Of Imaal Terrier",
+    "description": "Low-slung Irish grit, big heart"
+  },
+  {
+    "name": "Goberian",
+    "description": "Retriever heart, Husky hustle"
+  },
+  {
+    "name": "Goldador",
+    "description": "Two retrievers, one devoted teammate"
+  },
+  {
+    "name": "Golden Dox",
+    "description": "Big heart, long body, bright mind"
+  },
+  {
+    "name": "Golden Irish",
+    "description": "A golden heart with a red-hot zest"
+  },
+  {
+    "name": "Golden Newfie",
+    "description": "Gentle giant, born to swim."
+  },
+  {
+    "name": "Golden Pyrenees",
+    "description": "Gentle retriever heart, mountain-guardian soul"
+  },
+  {
+    "name": "Golden Retriever",
+    "description": "Gentle retriever, happy helper"
+  },
+  {
+    "name": "Golden Retriever Mix",
+    "description": "Golden heart, mixed-breed magic"
+  },
+  {
+    "name": "Golden Saint",
+    "description": "Gentle giant, golden heart"
+  },
+  {
+    "name": "Golden Shepherd",
+    "description": "Two classics, one devoted partner"
+  },
+  {
+    "name": "Goldendoodle",
+    "description": "Smart, social, and seriously fluffy"
+  },
+  {
+    "name": "Gollie",
+    "description": "Two working legends, one loyal sidekick"
+  },
+  {
+    "name": "Gordon Setter",
+    "description": "Black-and-tan bird dog with heart"
+  },
+  {
+    "name": "Great Dane",
+    "description": "Gentle giant, noble guardian"
+  },
+  {
+    "name": "Great Dane Mix",
+    "description": "Big heart, mixed roots, Dane vibes"
+  },
+  {
+    "name": "Great Danoodle",
+    "description": "Big heart. Big brain. Big paws."
+  },
+  {
+    "name": "Great Pyrenees",
+    "description": "Born to Guard the Mountain Flock"
+  },
+  {
+    "name": "Great Pyrenees Mix",
+    "description": "Big fluff, bigger guardian vibes"
+  },
+  {
+    "name": "Greater Swiss Mountain Dog",
+    "description": "Swiss strength on four paws."
+  },
+  {
+    "name": "Greyhound",
+    "description": "Born to sprint, built to lounge"
+  },
+  {
+    "name": "Griffonshire",
+    "description": "Tiny body, griffon grit, Yorkie sass."
+  },
+  {
+    "name": "Groenendael",
+    "description": "Black coat, bright mind, ready to work."
+  },
+  {
+    "name": "Harrier",
+    "description": "Built to bay, bred to trail"
+  },
+  {
+    "name": "Havamalt",
+    "description": "Tiny charmer, big heart."
+  },
+  {
+    "name": "Havanese",
+    "description": "Silky little shadow of the family"
+  },
+  {
+    "name": "Havapoo",
+    "description": "Small dog, big charm, smart curls"
+  },
+  {
+    "name": "Havashire",
+    "description": "Big charm in a tiny package"
+  },
+  {
+    "name": "Havashu",
+    "description": "Tiny mix, big heart companion."
+  },
+  {
+    "name": "Hokkaido",
+    "description": "Snow-country hunter with a loyal heart"
+  },
+  {
+    "name": "Hovawart",
+    "description": "Built to guard, bred to bond"
+  },
+  {
+    "name": "Huntaway",
+    "description": "The big-voice sheep mover"
+  },
+  {
+    "name": "Huskador",
+    "description": "Two legends. One unstoppable buddy."
+  },
+  {
+    "name": "Huskita",
+    "description": "Guardian power, sled-dog stamina"
+  },
+  {
+    "name": "Husky",
+    "description": "Born to run, built to endure."
+  },
+  {
+    "name": "Husky Jack",
+    "description": "Small frame, sled-dog stamina"
+  },
+  {
+    "name": "Huskydoodle",
+    "description": "Snow-dog spirit, poodle smarts"
+  },
+  {
+    "name": "Ibizan Hound",
+    "description": "Big ears. Fast legs. Rabbit radar."
+  },
+  {
+    "name": "Icelandic Sheepdog",
+    "description": "Iceland's cheerful, tireless herder"
+  },
+  {
+    "name": "Irish Doodle",
+    "description": "Setter spirit, Poodle smarts"
+  },
+  {
+    "name": "Irish Setter",
+    "description": "Born to run, bred to point."
+  },
+  {
+    "name": "Irish Terrier",
+    "description": "Red coat. Big courage."
+  },
+  {
+    "name": "Irish Water Spaniel",
+    "description": "Ireland's curly-coated water retriever"
+  },
+  {
+    "name": "Irish WolfHound",
+    "description": "Towering hunter, gentle heart"
+  },
+  {
+    "name": "Italian Greyhound",
+    "description": "Velvet sprinter, lap-sized legend"
+  },
+  {
+    "name": "Jack Russell",
+    "description": "Small dog, big engine."
+  },
+  {
+    "name": "Jack-Chi",
+    "description": "Tiny body, terrier turbo"
+  },
+  {
+    "name": "Jackabee",
+    "description": "Small dog, huge nose, endless go."
+  },
+  {
+    "name": "Jagdterrier",
+    "description": "Small dog. Serious hunting drive."
+  },
+  {
+    "name": "Japanese Chin",
+    "description": "Silk-coated royalty in pocket size"
+  },
+  {
+    "name": "Japanese Spitz",
+    "description": "Snowy coat, sunny companion"
+  },
+  {
+    "name": "Japanese Terrier",
+    "description": "Japan's sleek little ratter-companion"
+  },
+  {
+    "name": "Kai Ken",
+    "description": "Brindle loyalty, mountain agility."
+  },
+  {
+    "name": "Keagle",
+    "description": "Big nose, bigger heart."
+  },
+  {
+    "name": "Keeshond",
+    "description": "Spectacles, smiles, and spitz spirit"
+  },
+  {
+    "name": "Kerry Blue Terrier",
+    "description": "Born black, turns blue, works hard"
+  },
+  {
+    "name": "King Shepherd",
+    "description": "Big heart, shepherd brains."
+  },
+  {
+    "name": "Kishu",
+    "description": "Silent hunter of Japan's Kii mountains"
+  },
+  {
+    "name": "Komondor",
+    "description": "The corded guardian of the flock"
+  },
+  {
+    "name": "Kooikerhondje",
+    "description": "Small dog, big decoy talent"
+  },
+  {
+    "name": "Koolie",
+    "description": "Built to muster. Bred to work."
+  },
+  {
+    "name": "Korean Jindo",
+    "description": "Jindo: Loyal Heart, Island Grit"
+  },
+  {
+    "name": "Kuvasz",
+    "description": "White coat, bold heart, born to guard"
+  },
+  {
+    "name": "Labahoula",
+    "description": "Two working legends, one powerhouse pup"
+  },
+  {
+    "name": "Labmaraner",
+    "description": "Two hunting legends, one loyal athlete"
+  },
+  {
+    "name": "Labrabull",
+    "description": "Big heart. Strong play. Smart partner."
+  },
+  {
+    "name": "Labradane",
+    "description": "Big heart, bigger best friend"
+  },
+  {
+    "name": "Labradoodle",
+    "description": "Curly charm, clever heart."
+  },
+  {
+    "name": "Labrador Retriever",
+    "description": "Born to retrieve, built to bond."
+  },
+  {
+    "name": "Labraheeler",
+    "description": "Two working legends, one best mate"
+  },
+  {
+    "name": "Labrottie",
+    "description": "Big-hearted athlete with a watchful side"
+  },
+  {
+    "name": "Lagotto Romagnolo",
+    "description": "Romagna's curly-coated truffle pro"
+  },
+  {
+    "name": "Lakeland Terrier",
+    "description": "Lake District grit in a small package"
+  },
+  {
+    "name": "Lancashire Heeler",
+    "description": "Tiny drover, big worker."
+  },
+  {
+    "name": "Landseer Newfoundland",
+    "description": "Built for water, bred for kindness"
+  },
+  {
+    "name": "Lapponian Herder",
+    "description": "Reindeer runner of the far north"
+  },
+  {
+    "name": "Large Munsterlander",
+    "description": "Black-and-white versatility in the field"
+  },
+  {
+    "name": "Leonberger",
+    "description": "Lion look, gentle heart."
+  },
+  {
+    "name": "Lhasa Apso",
+    "description": "Little Lion Sentinel of Lhasa"
+  },
+  {
+    "name": "Lhasapoo",
+    "description": "Small, smart, and seriously snuggly"
+  },
+  {
+    "name": "Long-Haired Rottweiler",
+    "description": "Same Rottweiler power, extra fluff."
+  },
+  {
+    "name": "Lowchen",
+    "description": "Small dog, big lion heart"
+  },
+  {
+    "name": "Lurcher",
+    "description": "Speed with a working-dog brain"
+  },
+  {
+    "name": "Mal Shi",
+    "description": "Small dog, big cuddle energy"
+  },
+  {
+    "name": "Malchi",
+    "description": "Tiny mix, huge devotion."
+  },
+  {
+    "name": "Malteagle",
+    "description": "Small dog, big nose, bigger heart"
+  },
+  {
+    "name": "Maltese",
+    "description": "Silky white, big-hearted companion"
+  },
+  {
+    "name": "Maltese Mix",
+    "description": "Big devotion in a little mix"
+  },
+  {
+    "name": "Maltese Shih Tzu",
+    "description": "Tiny friend, big heart."
+  },
+  {
+    "name": "Maltipom",
+    "description": "Big personality, tiny paws."
+  },
+  {
+    "name": "Maltipoo",
+    "description": "Tiny dog, big-heart companion."
+  },
+  {
+    "name": "Manchester Terrier",
+    "description": "Sleek. Smart. Born to Rat."
+  },
+  {
+    "name": "Maremma Sheepdog",
+    "description": "White guardian of the flock."
+  },
+  {
+    "name": "Mastador (Mastiff × Labrador Retriever mix)",
+    "description": "Big heart. Strong body. Ready to retrieve."
+  },
+  {
+    "name": "Mastiff",
+    "description": "Gentle Giant, Serious Guardian"
+  },
+  {
+    "name": "Mastiff Mix",
+    "description": "Big heart. Big dog. Big responsibility."
+  },
+  {
+    "name": "Mauzer",
+    "description": "Bearded buddy, big heart."
+  },
+  {
+    "name": "Meagle",
+    "description": "Small dog, big nose."
+  },
+  {
+    "name": "Miki",
+    "description": "Tiny companion, giant heart"
+  },
+  {
+    "name": "Mini Labradoodle",
+    "description": "Big heart, mini doodle energy"
+  },
+  {
+    "name": "Miniature Bull Terrier",
+    "description": "Small body. Bull Terrier swagger."
+  },
+  {
+    "name": "Miniature Husky",
+    "description": "Husky looks, pocket-sized brains."
+  },
+  {
+    "name": "Miniature Pinscher",
+    "description": "Small body. Huge confidence."
+  },
+  {
+    "name": "Mongrel",
+    "description": "One dog, many stories."
+  },
+  {
+    "name": "Morkie",
+    "description": "Tiny dog, huge personality."
+  },
+  {
+    "name": "Moscow Watchdog",
+    "description": "Big heart. Bigger guardian."
+  },
+  {
+    "name": "Mountain Cur",
+    "description": "Appalachian grit. All-day get-it-done."
+  },
+  {
+    "name": "Mountain Feist",
+    "description": "Small dog, big mountain hunt"
+  },
+  {
+    "name": "Mudi",
+    "description": "Hungary's curly-coated herding spark"
+  },
+  {
+    "name": "Neapolitan Mastiff",
+    "description": "Wrinkles with a watchdog's heart."
+  },
+  {
+    "name": "Newfoundland",
+    "description": "Built for the surf, born to save"
+  },
+  {
+    "name": "Newfypoo",
+    "description": "Big heart, brain, and beach-day vibes."
+  },
+  {
+    "name": "Norfolk Terrier",
+    "description": "Small dog, true working terrier"
+  },
+  {
+    "name": "Norrbottenspets",
+    "description": "Small spitz, big northern grit"
+  },
+  {
+    "name": "Northern Inuit Dog",
+    "description": "Wolf look, dog heart."
+  },
+  {
+    "name": "Norwegian Buhund",
+    "description": "Nordic farm dog with a big voice"
+  },
+  {
+    "name": "Norwegian Elkhound",
+    "description": "Bays for moose, bonds for life"
+  },
+  {
+    "name": "Norwegian Lundehund",
+    "description": "The cliff-climber with six toes"
+  },
+  {
+    "name": "Norwich Terrier",
+    "description": "Big courage in a small terrier"
+  },
+  {
+    "name": "Nova Scotia Duck Tolling Retriever",
+    "description": "Little red decoy, big retrieve."
+  },
+  {
+    "name": "Old English Sheepdog",
+    "description": "Shaggy charm, steady herding heart"
+  },
+  {
+    "name": "Ori-Pei",
+    "description": "Wrinkles, wit, and watchdog charm"
+  },
+  {
+    "name": "Otterhound",
+    "description": "The rough-coated river tracker"
+  },
+  {
+    "name": "Papillon",
+    "description": "Tiny dog, butterfly ears, big brain."
+  },
+  {
+    "name": "Papillon Mix",
+    "description": "Butterfly ears, big-brain bestie"
+  },
+  {
+    "name": "Parson Russell Terrier",
+    "description": "Leggy little fox-bolter with fire"
+  },
+  {
+    "name": "Parti Schnauzer",
+    "description": "Big beard, bold heart, bright patches."
+  },
+  {
+    "name": "Patterdale Terrier",
+    "description": "Small dog, big grit."
+  },
+  {
+    "name": "Peagle",
+    "description": "Big nose, small ego, huge heart."
+  },
+  {
+    "name": "Peekapoo",
+    "description": "Tiny royal charm, clever curls"
+  },
+  {
+    "name": "Pekingese",
+    "description": "Small dog, imperial attitude."
+  },
+  {
+    "name": "Pembroke Welsh Corgi",
+    "description": "Low rider. Big herder energy."
+  },
+  {
+    "name": "Perro De Presa Canario",
+    "description": "Power with poise-guardianship refined."
+  },
+  {
+    "name": "Peruvian Inca Orchid",
+    "description": "Peru's warm-skinned living legend"
+  },
+  {
+    "name": "Petit Basset Griffon Vendéen",
+    "description": "Small hound, big nose, bold heart"
+  },
+  {
+    "name": "Petite Goldendoodle",
+    "description": "Big heart, petite doodle charm"
+  },
+  {
+    "name": "Pharaoh Hound",
+    "description": "Malta's swift, sun-kissed sighthound"
+  },
+  {
+    "name": "Picardy Spaniel",
+    "description": "Picardy: the calm marshland gundog"
+  },
+  {
+    "name": "Piebald Dachshund",
+    "description": "Spots, sass, and a low-rider stride"
+  },
+  {
+    "name": "Pit Bull",
+    "description": "Big heart, strong body, smart work"
+  },
+  {
+    "name": "Pitador",
+    "description": "Big heart. Strong body. Ready to learn."
+  },
+  {
+    "name": "Pitsky",
+    "description": "Power + pull = Pitsky"
+  },
+  {
+    "name": "Plott Hound Mix",
+    "description": "Big Nose. Big Heart. Bigger Adventure."
+  },
+  {
+    "name": "Plott Hounds",
+    "description": "Brindle grit with a hound's nose"
+  },
+  {
+    "name": "Pocket Pitbull",
+    "description": "Small frame, big bully charm."
+  },
+  {
+    "name": "Podenco Canario",
+    "description": "Big ears. Bigger stamina."
+  },
+  {
+    "name": "Pointer",
+    "description": "Freeze. Focus. Point."
+  },
+  {
+    "name": "Pointer Mix",
+    "description": "Born to sniff, built to zoom"
+  },
+  {
+    "name": "Polish Lowland Sheepdog",
+    "description": "Shaggy brain, steady guardian."
+  },
+  {
+    "name": "Polish Tatra Sheepdog",
+    "description": "White guardian of the high pastures"
+  },
+  {
+    "name": "Pomapoo",
+    "description": "Tiny fluff, clever heart."
+  },
+  {
+    "name": "Pomchi",
+    "description": "Tiny mix, huge attitude"
+  },
+  {
+    "name": "Pomeagle",
+    "description": "Big Nose, Fluffy Heart"
+  },
+  {
+    "name": "Pomeranian",
+    "description": "Tiny Spitz, huge personality"
+  },
+  {
+    "name": "Pomeranian Mix",
+    "description": "Big personality, small-package mix"
+  },
+  {
+    "name": "Pomsky",
+    "description": "Big Husky vibe, small-dog package"
+  },
+  {
+    "name": "Poochon",
+    "description": "Small dog, big charm, curly confidence"
+  },
+  {
+    "name": "Poodle",
+    "description": "Brains, curls, and water-dog heart"
+  },
+  {
+    "name": "Poogle",
+    "description": "Big nose, bright brain, soft coat"
+  },
+  {
+    "name": "Portuguese Podengo",
+    "description": "Portugal's quick-eared rabbit hunter"
+  },
+  {
+    "name": "Pudelpointer",
+    "description": "Point. Retrieve. Repeat."
+  },
+  {
+    "name": "Pug",
+    "description": "Big personality, tiny snort."
+  },
+  {
+    "name": "Pug Mix",
+    "description": "Pug charm, mixed to match."
+  },
+  {
+    "name": "Pugapoo",
+    "description": "Curly charm, puggy heart."
+  },
+  {
+    "name": "Puggle",
+    "description": "Big nose, big heart, small package"
+  },
+  {
+    "name": "Pugshire",
+    "description": "Tiny comic, big-terrier confidence"
+  },
+  {
+    "name": "Puli",
+    "description": "Corded coat, quick mind, true herder"
+  },
+  {
+    "name": "Pumi",
+    "description": "Hungary's curly-coated stock driver"
+  },
+  {
+    "name": "Pyrador",
+    "description": "Big heart. Big paws. Bigger loyalty."
+  },
+  {
+    "name": "Pyredoodle",
+    "description": "Fluffy guardian, clever companion"
+  },
+  {
+    "name": "Pyrenean Mastiff",
+    "description": "Gentle Giant, Mountain Guardian"
+  },
+  {
+    "name": "Pyrenean Shepherd",
+    "description": "Small dog. Big mountain work."
+  },
+  {
+    "name": "Raggle",
+    "description": "Small dog, big nose, bigger hustle."
+  },
+  {
+    "name": "Rat Terrier",
+    "description": "Small Dog. Big Farm-Dog Energy."
+  },
+  {
+    "name": "Red Nose Pit Bull",
+    "description": "Red nose, big heart, built to move"
+  },
+  {
+    "name": "Redbone Coonhound",
+    "description": "Red coat. Cold nose. Big bay."
+  },
+  {
+    "name": "Rhodesian Ridgeback",
+    "description": "The ridge-backed guardian of Africa"
+  },
+  {
+    "name": "Rotterman",
+    "description": "Two guardians, one loyal partner"
+  },
+  {
+    "name": "Rottle",
+    "description": "Brains, brawn, and curls-maybe."
+  },
+  {
+    "name": "Rottsky",
+    "description": "Power + Endurance in One Dog"
+  },
+  {
+    "name": "Rottweiler",
+    "description": "Built to guard, born to bond."
+  },
+  {
+    "name": "Rottweiler Mix",
+    "description": "Big heart, bold heritage."
+  },
+  {
+    "name": "Russell Terrier",
+    "description": "Small body. Big terrier engine."
+  },
+  {
+    "name": "Sable Black German Shepherd",
+    "description": "Dark-coated. Clear-minded. Always working."
+  },
+  {
+    "name": "Sable German Shepherd",
+    "description": "Sable style, shepherd smarts."
+  },
+  {
+    "name": "Saint Berdoodle",
+    "description": "Big heart, clever mind, fluffy charm"
+  },
+  {
+    "name": "Saint Bernard",
+    "description": "Alpine heart, giant helper"
+  },
+  {
+    "name": "Saint Shepherd",
+    "description": "Big heart, sharp mind, steady paws."
+  },
+  {
+    "name": "Saluki",
+    "description": "Grace in motion, born to chase"
+  },
+  {
+    "name": "Samoyed",
+    "description": "The smiling Arctic helper"
+  },
+  {
+    "name": "Sapsali",
+    "description": "Shaggy guardian of Korean tradition"
+  },
+  {
+    "name": "Sarplaninac",
+    "description": "Mountain-born guardian of the flock"
+  },
+  {
+    "name": "Schapendoes",
+    "description": "Shaggy coat, sharp herding brain"
+  },
+  {
+    "name": "Schipperke",
+    "description": "Big watchdog energy in a small spitz."
+  },
+  {
+    "name": "Schneagle",
+    "description": "Big nose. Bright mind. Best buddy."
+  },
+  {
+    "name": "Schnoodle",
+    "description": "Schnauzer sass, Poodle class."
+  },
+  {
+    "name": "Scotch Collie",
+    "description": "The farmer's collie: steady, smart, tough."
+  },
+  {
+    "name": "Scottish Deerhound",
+    "description": "Highland speed with a gentle heart"
+  },
+  {
+    "name": "Scottish Terrier",
+    "description": "Small dog. Big Highland attitude."
+  },
+  {
+    "name": "Sealyham Terrier",
+    "description": "Bearded Welsh grit in a small package"
+  },
+  {
+    "name": "Sheepadoodle",
+    "description": "Fluffy brains, herding heart"
+  },
+  {
+    "name": "Shepadoodle",
+    "description": "Brains, bravery, and bounce."
+  },
+  {
+    "name": "Shepkita",
+    "description": "Two iconic guardians, one loyal mix"
+  },
+  {
+    "name": "Shepweiler",
+    "description": "Two working legends, one loyal guardian"
+  },
+  {
+    "name": "Shetland Sheepdog",
+    "description": "Small shepherd, giant heart"
+  },
+  {
+    "name": "Shiba Inu",
+    "description": "Small hunter, huge spirit."
+  },
+  {
+    "name": "Shiba Inu Mix",
+    "description": "Spitz spark, mix-breed surprise"
+  },
+  {
+    "name": "Shichi",
+    "description": "Small body, huge personality"
+  },
+  {
+    "name": "Shih Poo",
+    "description": "Big charm in a small curl."
+  },
+  {
+    "name": "Shih Tzu",
+    "description": "Lion-hearted lap companion"
+  },
+  {
+    "name": "Shih Tzu Mix",
+    "description": "Big heart, small paws, mixed magic"
+  },
+  {
+    "name": "Shikoku",
+    "description": "Mountain hunter in a sesame coat"
+  },
+  {
+    "name": "Shiloh Shepherd",
+    "description": "Big-hearted shepherd, steady and strong"
+  },
+  {
+    "name": "Shiranian",
+    "description": "Tiny lion-heart, giant cuddle energy"
+  },
+  {
+    "name": "Shollie",
+    "description": "Brains, bravery, and boundless drive"
+  },
+  {
+    "name": "Siberian Husky",
+    "description": "Built to run, born to belong."
+  },
+  {
+    "name": "Siberian Retriever",
+    "description": "Built for friendship, shaped by humans"
+  },
+  {
+    "name": "Siberpoo",
+    "description": "Brainy athlete in a fluffy suit"
+  },
+  {
+    "name": "Silken Windhound",
+    "description": "Silky coat. Sighthound speed."
+  },
+  {
+    "name": "Silky Terrier",
+    "description": "Small body. Serious terrier spirit."
+  },
+  {
+    "name": "Skye Terrier",
+    "description": "Long coat, low build, big courage"
+  },
+  {
+    "name": "Slovak Cuvac",
+    "description": "White coat. Mountain heart. True guardian."
+  },
+  {
+    "name": "Smooth Fox Terrier",
+    "description": "Sleek coat, big terrier courage."
+  },
+  {
+    "name": "Snorkie",
+    "description": "Small dog, big whiskers, bigger attitude"
+  },
+  {
+    "name": "Spanador",
+    "description": "Two gun dogs, one great family pal"
+  },
+  {
+    "name": "Spanish Mastiff",
+    "description": "Big heart, bigger guardian."
+  },
+  {
+    "name": "Spanish Water Dog",
+    "description": "Curly-coated worker: land and water."
+  },
+  {
+    "name": "Spinone Italiano",
+    "description": "The bearded all-terrain bird dog"
+  },
+  {
+    "name": "Springador",
+    "description": "Two gundogs, one great adventure."
+  },
+  {
+    "name": "Springerdoodle",
+    "description": "Springer spirit, Poodle brains"
+  },
+  {
+    "name": "Stabyhoun",
+    "description": "Friesland's do-it-all gundog"
+  },
+  {
+    "name": "Staffordshire Bull Terrier",
+    "description": "Small body. Big heart. Pure Staffie."
+  },
+  {
+    "name": "Standard Schnauzer",
+    "description": "Bearded German all-rounder"
+  },
+  {
+    "name": "Swedish Elkhound",
+    "description": "Built to bark, track, and endure"
+  },
+  {
+    "name": "Swedish Lapphund",
+    "description": "Spitz-type reindeer-herding dog of the Sami people"
+  },
+  {
+    "name": "Swedish Vallhund",
+    "description": "Big herder in a compact spitz"
+  },
+  {
+    "name": "Taco Terrier",
+    "description": "Tiny body, terrier bravery"
+  },
+  {
+    "name": "Tamaskan",
+    "description": "Wolf look, dog heart."
+  },
+  {
+    "name": "Teacup Chihuahua",
+    "description": "Big attitude in a tiny package"
+  },
+  {
+    "name": "Teacup Maltese",
+    "description": "Tiny Maltese, huge companion heart"
+  },
+  {
+    "name": "Teacup Poodle",
+    "description": "Big brain, tiny frame."
+  },
+  {
+    "name": "Teddy Roosevelt Terrier",
+    "description": "Small farm dog, big ratter heart."
+  },
+  {
+    "name": "Tenterfield Terrier",
+    "description": "Small dog. Serious ratter."
+  },
+  {
+    "name": "Terrier",
+    "description": "Small dog, big grit."
+  },
+  {
+    "name": "Texas Heeler",
+    "description": "Built to work, born to learn"
+  },
+  {
+    "name": "Thai Ridgeback",
+    "description": "Thailand's ridged, ready athlete"
+  },
+  {
+    "name": "Tibetan Spaniel",
+    "description": "Monastery sentinel in a small package"
+  },
+  {
+    "name": "Tibetan Terrier",
+    "description": "Shaggy luck-bringer with snowshoe feet"
+  },
+  {
+    "name": "Torkie",
+    "description": "Tiny Terrier, Huge Personality"
+  },
+  {
+    "name": "Tornjak",
+    "description": "Calm Balkan guardian of the flock"
+  },
+  {
+    "name": "Toy Fox Terrier",
+    "description": "Tiny Terrier, Giant Spark"
+  },
+  {
+    "name": "Toy Poodle",
+    "description": "Small body, big brain."
+  },
+  {
+    "name": "Transylvanian Hound",
+    "description": "Carpathian Nose, Mountain Stamina"
+  },
+  {
+    "name": "Treeing Tennessee Brindle",
+    "description": "Brindle nose, big voice, treed game"
+  },
+  {
+    "name": "Treeing Walker Coonhound",
+    "description": "Built to run, born to tree"
+  },
+  {
+    "name": "Utonagan",
+    "description": "Wolf look, family heart"
+  },
+  {
+    "name": "Valley Bulldog",
+    "description": "Annapolis Valley's compact powerhouse"
+  },
+  {
+    "name": "Vizsla",
+    "description": "Hungary's golden velcro gundog"
+  },
+  {
+    "name": "Volpino Italiano",
+    "description": "Tiny fox look, big watchdog heart"
+  },
+  {
+    "name": "Weimaraner",
+    "description": "The Gray Ghost of the gundogs"
+  },
+  {
+    "name": "Weimardoodle",
+    "description": "Big brains, bigger zoomies."
+  },
+  {
+    "name": "Welsh Corgi",
+    "description": "Big herding heart, low ride."
+  },
+  {
+    "name": "Welsh Springer Spaniel",
+    "description": "Wales' red-and-white field partner"
+  },
+  {
+    "name": "Welsh Terrier",
+    "description": "Welsh grit, terrier wit"
+  },
+  {
+    "name": "West Highland Terrier",
+    "description": "White coat, brave heart-Westie style"
+  },
+  {
+    "name": "West Siberian Laika",
+    "description": "Taiga-bred tracker with a fearless voice"
+  },
+  {
+    "name": "Westiepoo",
+    "description": "Big personality, fluffy curls."
+  },
+  {
+    "name": "Wheaten Terrier",
+    "description": "Soft coat, big Irish spirit"
+  },
+  {
+    "name": "Whippet",
+    "description": "Speed on the track, snuggles at home"
+  },
+  {
+    "name": "White German Shepherd",
+    "description": "White coat. Working-dog heart."
+  },
+  {
+    "name": "Whoodle",
+    "description": "Soft curls, sharp minds, big heart"
+  },
+  {
+    "name": "Wire Fox Terrier",
+    "description": "Small dog, big hunt-heart."
+  },
+  {
+    "name": "Wirehaired Pointing Griffon",
+    "description": "Wiry coat, soft heart, hard worker"
+  },
+  {
+    "name": "Wirehaired Vizsla",
+    "description": "Rugged coat, velvet heart."
+  },
+  {
+    "name": "Xoloitzcuintli",
+    "description": "Ancient guardian, modern cuddle heater"
+  },
+  {
+    "name": "Yakutian Laika",
+    "description": "Yakutia's tireless Arctic teammate"
+  },
+  {
+    "name": "Yoranian",
+    "description": "Big attitude, tiny package"
+  },
+  {
+    "name": "Yorkie Bichon",
+    "description": "Tiny mix, big personality"
+  },
+  {
+    "name": "Yorkiepoo",
+    "description": "Big personality in a tiny mix"
+  },
+  {
+    "name": "Yorkshire Terrier",
+    "description": "Silky coat, steel-nerved terrier"
+  },
+  {
+    "name": "Zuchon",
+    "description": "Small dog, big cuddle energy."
+  }
+]

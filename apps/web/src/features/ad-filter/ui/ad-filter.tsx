@@ -1,5 +1,6 @@
 'use client';
 
+import type { ReactNode } from 'react';
 import type { AdFilterType } from '@purrfect_match/shared/entities/ad/types';
 import Link from 'next/link';
 import { parseAsInteger, parseAsString, type UseQueryStatesKeysMap, useQueryStates } from 'nuqs';
@@ -20,7 +21,7 @@ const keyMap: UseQueryStatesKeysMap<
   maxPrice: parseAsInteger,
 };
 
-export function AdFilter() {
+export function AdFilter({ filtersSlot }: { filtersSlot?: ReactNode }) {
   const [filter, setFilter] = useQueryStates(keyMap, { clearOnDefault: true, shallow: false });
 
   const form = useAppForm({
@@ -42,6 +43,8 @@ export function AdFilter() {
         <form.AppField name="maxPrice">
           {(field) => <field.FormInputNumber clear label="Max Price" placeholder="Enter maximum price..." />}
         </form.AppField>
+
+        {filtersSlot}
 
         <Link href="/ad" className={buttonVariants({ variant: 'outline', className: 'mt-8' })}>
           Reset

@@ -6,6 +6,7 @@ import { adRoute } from '@/entities/ad/routes';
 import { authRoute } from '@/entities/auth/routes';
 import { userRoute } from '@/entities/user/routes';
 import { corsMiddleware, loggerMiddleware, notFoundMiddleware, onErrorMiddleware } from '@/models/middlewares';
+import { animalRoute } from './entities/animal/routes';
 import { favoriteRoute } from './entities/favorite/routes';
 
 const app = new Hono()
@@ -17,6 +18,7 @@ const app = new Hono()
   .route('/api', userRoute)
   .route('/api', adRoute)
   .route('/api', favoriteRoute)
+  .route('/api', animalRoute)
   .onError(onErrorMiddleware)
   .notFound(notFoundMiddleware);
 

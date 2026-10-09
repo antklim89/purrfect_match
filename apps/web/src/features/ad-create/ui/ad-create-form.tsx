@@ -1,6 +1,5 @@
+import type { ReactNode } from 'react';
 import { MAX_IMAGES_PER_AD } from '@purrfect_match/shared/entities/ad/constants';
-import { animalBreeds, animalTypes } from '@purrfect_match/shared/entities/animal/constants';
-import type { AnimalTypes } from '@purrfect_match/shared/entities/animal/types';
 import { toast } from 'sonner';
 
 import { apiCall, apiSessionClient } from '@/shared/lib/api-client';
@@ -9,7 +8,7 @@ import { Field, FieldError, FieldLabel } from '@/shared/ui/field';
 import { ImageUpload, type UploadImageType } from '@/shared/ui/image-upload';
 import { adCreateFormOptions } from '../models/form-options';
 
-export function AdCreateForm() {
+export function AdCreateForm({ animalSelectSlot }: { animalSelectSlot: ReactNode }) {
   const form = useTypedAppFormContext(adCreateFormOptions);
 
   async function handleImageUpload(image: File) {
@@ -32,38 +31,9 @@ export function AdCreateForm() {
       <form.AppField name="name">
         {(field) => <field.FormInput placeholder="Enter animal name" label="Name" />}
       </form.AppField>
-      <form.AppField name="type" listeners={{ onChange: ({ fieldApi }) => fieldApi.form.setFieldValue('breed', '') }}>
-        {(field) => (
-          <field.FormSelect className="capitalize" placeholder="Select animal type" label="Type">
-            {animalTypes.map((animalType) => (
-              <field.FormSelectItem className="capitalize" key={animalType} value={animalType}>
-                {animalType}
-              </field.FormSelectItem>
-            ))}
-          </field.FormSelect>
-        )}
-      </form.AppField>
-      <form.AppField name="breed">
-        {(field) => (
-          <form.Subscribe
-            selector={(state) =>
-              typeof state.values.type === 'string' ? animalBreeds[state.values.type as AnimalTypes] : null
-            }
-          >
-            {(selectedAnimalBreeds) =>
-              selectedAnimalBreeds && (
-                <field.FormSelect className="capitalize" placeholder="Select animal breed" label="Breed">
-                  {selectedAnimalBreeds.map((animalType) => (
-                    <field.FormSelectItem className="capitalize" key={animalType} value={animalType}>
-                      {animalType}
-                    </field.FormSelectItem>
-                  ))}
-                </field.FormSelect>
-              )
-            }
-          </form.Subscribe>
-        )}
-      </form.AppField>
+
+      {animalSelectSlot}
+
       <form.AppField name="description">
         {(field) => <field.FormTextarea placeholder="Enter description" label="Description" />}
       </form.AppField>

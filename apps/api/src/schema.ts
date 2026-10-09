@@ -1,14 +1,35 @@
 import { defineRelations } from 'drizzle-orm';
 
 import { adImageTable, adTable } from './entities/ad/tables';
+import { animalBreedTable, animalTypeTable } from './entities/animal/tables';
 import { accountTable, sessionTable, verificationTable } from './entities/auth/tables';
 import { favoriteTable } from './entities/favorite/tables';
 import { userTable } from './entities/user/tables';
 
-export { accountTable, adImageTable, adTable, favoriteTable, sessionTable, userTable, verificationTable };
+export {
+  accountTable,
+  adImageTable,
+  adTable,
+  animalBreedTable,
+  animalTypeTable,
+  favoriteTable,
+  sessionTable,
+  userTable,
+  verificationTable,
+};
 
 export const relations = defineRelations(
-  { accountTable, adImageTable, adTable, favoriteTable, sessionTable, userTable, verificationTable },
+  {
+    accountTable,
+    adImageTable,
+    adTable,
+    favoriteTable,
+    sessionTable,
+    userTable,
+    verificationTable,
+    animalTypeTable,
+    animalBreedTable,
+  },
   (r) => ({
     adTable: {
       images: r.many.adImageTable(),
@@ -33,6 +54,20 @@ export const relations = defineRelations(
         to: [r.adTable.id],
       }),
     },
+    animalTypeTable: {
+      breeds: r.many.animalBreedTable({
+        from: r.animalTypeTable.name,
+        to: r.animalBreedTable.animalTypeName,
+      }),
+    },
+
+    animalBreedTable: {
+      type: r.one.animalTypeTable({
+        from: r.animalBreedTable.animalTypeName,
+        to: r.animalTypeTable.name,
+      }),
+    },
+
     userTable: {
       sessions: r.many.sessionTable({
         from: r.userTable.id,

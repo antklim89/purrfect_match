@@ -1,8 +1,8 @@
 import { faker } from '@faker-js/faker';
-import { animalBreeds, animalTypes } from '@purrfect_match/shared/entities/animal/constants';
 import type { User } from 'better-auth';
 
 import type { AdInsertType } from '@/entities/ad/types';
+import type { AnimalBreedInsertType, AnimalTypeInsertType } from '@/entities/animal/types';
 
 export function createTestUserData(): User {
   const createdAt = faker.date.between({ from: '2001-01-01T00:00:00.000Z', to: '2010-01-01T00:00:00.000Z' });
@@ -20,12 +20,12 @@ export function createTestUserData(): User {
 }
 
 export function createTestAdData(userId: User['id'], data: Partial<AdInsertType> = {}): AdInsertType {
-  const type = faker.helpers.arrayElement(animalTypes);
-  const breed = faker.helpers.arrayElement(animalBreeds[type]);
+  const breed = faker.animal.dog();
+  const type = faker.helpers.arrayElement(['Dog', 'Cat', 'Bird', 'Fish', 'Rodent', 'Exotic']);
 
   return {
     id: faker.string.uuid({ version: 7 }),
-    name: animalTypes[0] as string,
+    name: type,
     breed,
     type,
     description: faker.helpers.arrayElement([
@@ -37,6 +37,26 @@ export function createTestAdData(userId: User['id'], data: Partial<AdInsertType>
     userId,
     createdAt: faker.date.past({ years: 7 }).toISOString(),
     status: 'PUBLISHED',
+    ...data,
+  };
+}
+
+export function createTestAnimalTypeData(data: Partial<AnimalTypeInsertType> = {}): AnimalTypeInsertType {
+  return {
+    name: faker.animal.type(),
+    description: faker.lorem.text(),
+    imageUrl: faker.image.url(),
+    ...data,
+  };
+}
+export function createTestAnimalBreedData(
+  animalTypeName: string,
+  data: Partial<AnimalBreedInsertType> = {},
+): AnimalBreedInsertType {
+  return {
+    name: faker.animal.petName(),
+    description: faker.lorem.text(),
+    animalTypeName,
     ...data,
   };
 }

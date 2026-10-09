@@ -1,7 +1,7 @@
 {
   "version": "8",
   "dialect": "postgres",
-  "id": "7621bd8f-00c5-45e1-9992-0abd86b69fdc",
+  "id": "39e61196-8168-4236-976f-b32c7ad139b4",
   "prevIds": [
     "00000000-0000-0000-0000-000000000000"
   ],
@@ -33,6 +33,18 @@
     {
       "isRlsEnabled": false,
       "name": "verification",
+      "entityType": "tables",
+      "schema": "public"
+    },
+    {
+      "isRlsEnabled": false,
+      "name": "animal_breed",
+      "entityType": "tables",
+      "schema": "public"
+    },
+    {
+      "isRlsEnabled": false,
+      "name": "animal_type",
       "entityType": "tables",
       "schema": "public"
     },
@@ -569,6 +581,84 @@
       "table": "verification"
     },
     {
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "name",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "animal_breed"
+    },
+    {
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "description",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "animal_breed"
+    },
+    {
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "animalTypeName",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "animal_breed"
+    },
+    {
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "name",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "animal_type"
+    },
+    {
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "imageUrl",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "animal_type"
+    },
+    {
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "description",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "animal_type"
+    },
+    {
       "type": "uuid",
       "typeSchema": null,
       "notNull": true,
@@ -926,6 +1016,23 @@
     {
       "nameExplicit": false,
       "columns": [
+        "animalTypeName"
+      ],
+      "schemaTo": "public",
+      "tableTo": "animal_type",
+      "columnsTo": [
+        "name"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "RESTRICT",
+      "name": "animal_breed_animalTypeName_animal_type_name_fkey",
+      "entityType": "fks",
+      "schema": "public",
+      "table": "animal_breed"
+    },
+    {
+      "nameExplicit": false,
+      "columns": [
         "adId"
       ],
       "schemaTo": "public",
@@ -1006,6 +1113,26 @@
       "name": "verification_pkey",
       "schema": "public",
       "table": "verification",
+      "entityType": "pks"
+    },
+    {
+      "columns": [
+        "name"
+      ],
+      "nameExplicit": false,
+      "name": "animal_breed_pkey",
+      "schema": "public",
+      "table": "animal_breed",
+      "entityType": "pks"
+    },
+    {
+      "columns": [
+        "name"
+      ],
+      "nameExplicit": false,
+      "name": "animal_type_pkey",
+      "schema": "public",
+      "table": "animal_type",
       "entityType": "pks"
     },
     {

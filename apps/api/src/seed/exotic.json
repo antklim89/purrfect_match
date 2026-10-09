@@ -1,0 +1,514 @@
+[
+  {
+    "name": "Ackie Monitor",
+    "description": "Small goanna, spiny-tail swagger."
+  },
+  {
+    "name": "African Bullfrog",
+    "description": "Built for drought, powered by rain"
+  },
+  {
+    "name": "African Clawed Frog",
+    "description": "Three claws. One famous frog."
+  },
+  {
+    "name": "Albino (Amelanistic) Corn Snake",
+    "description": "Bright colors, gentle constrictor"
+  },
+  {
+    "name": "American Toad",
+    "description": "The trilling toad of the backyard"
+  },
+  {
+    "name": "Anole Lizard",
+    "description": "Dewlap drama in the treetops"
+  },
+  {
+    "name": "Argentine Black and White Tegu",
+    "description": "Big bands, bold brain, burrow life."
+  },
+  {
+    "name": "Argentine Horned Frog",
+    "description": "Big mouth. Bigger ambush."
+  },
+  {
+    "name": "Australian Gecko",
+    "description": "Tiny toes, big survival tricks"
+  },
+  {
+    "name": "Axanthic Ball Python",
+    "description": "All the pattern-none of the yellow"
+  },
+  {
+    "name": "Axolotl",
+    "description": "Forever young, forever regrowing"
+  },
+  {
+    "name": "Baird's Rat Snake",
+    "description": "Canyon climber in a blaze of orange"
+  },
+  {
+    "name": "Ball Python",
+    "description": "Small python, big defensive curl"
+  },
+  {
+    "name": "Banana Ball Python",
+    "description": "Sunshine coils with a lavender glow"
+  },
+  {
+    "name": "Banana Cinnamon Ball Python",
+    "description": "Caramel coils, calm soul."
+  },
+  {
+    "name": "Bearded dragon",
+    "description": "Big beard, bright sun, bold attitude."
+  },
+  {
+    "name": "Beauty rat snake",
+    "description": "Climb high. Hunt smart. Stay beautiful."
+  },
+  {
+    "name": "Black Dragon Lizard",
+    "description": "All the beardie charm-dressed in black."
+  },
+  {
+    "name": "Black Pastel Ball Python",
+    "description": "Dark beauty, gentle royal python"
+  },
+  {
+    "name": "Black Rat Snake",
+    "description": "Barn-climbing rodent patrol"
+  },
+  {
+    "name": "Black-headed python",
+    "description": "Black cap. Ground hunter. Snake eater."
+  },
+  {
+    "name": "Boas",
+    "description": "Quiet coils, powerful control"
+  },
+  {
+    "name": "Boelen's python",
+    "description": "Velvet-black python of the highlands"
+  },
+  {
+    "name": "Bredl's Python",
+    "description": "Desert-tough, rock-smart python"
+  },
+  {
+    "name": "Bullsnake",
+    "description": "Prairie's loudest look-alike"
+  },
+  {
+    "name": "California Kingsnake",
+    "description": "The striped hunter of the West"
+  },
+  {
+    "name": "Carpet Python",
+    "description": "Australia's patterned backyard constrictor"
+  },
+  {
+    "name": "Chameleon",
+    "description": "Eyes apart. Tongue like lightning."
+  },
+  {
+    "name": "Checkered Garter Snake",
+    "description": "Checkerboard swimmer of the Southwest"
+  },
+  {
+    "name": "Chicken Snake",
+    "description": "Barn Guardian, Not a Viper"
+  },
+  {
+    "name": "Children's python",
+    "description": "Small python, big night hunter"
+  },
+  {
+    "name": "Cinnamon Ball Python",
+    "description": "Warm tones, classic Ball Python calm."
+  },
+  {
+    "name": "Coastal Carpet Python",
+    "description": "Patterned climber of the east coast"
+  },
+  {
+    "name": "Corn Snake",
+    "description": "Checkerboard-bellied barnyard ally"
+  },
+  {
+    "name": "Crested Gecko",
+    "description": "The eyelash gecko of New Caledonia"
+  },
+  {
+    "name": "Desert Ghost Ball Python",
+    "description": "Bright today, brilliant for years."
+  },
+  {
+    "name": "Desert Kingsnake",
+    "description": "Desert's snake-eating \"king\""
+  },
+  {
+    "name": "Diamond Python",
+    "description": "Cool-climate python, diamond-bold!"
+  },
+  {
+    "name": "Dumeril's Boa",
+    "description": "Madagascar's master of ground ambush"
+  },
+  {
+    "name": "Dwarf Boa",
+    "description": "Small constrictors, big diversity"
+  },
+  {
+    "name": "Eastern Hognose Snake",
+    "description": "All bluff, no bite."
+  },
+  {
+    "name": "Eastern Rat Snake",
+    "description": "Barn-Patrolling, Tree-Climbing Black Snake"
+  },
+  {
+    "name": "Enchi Ball Python",
+    "description": "Enchi: Golden glow, cleaner pattern"
+  },
+  {
+    "name": "False coral snake",
+    "description": "Harmless mimic, master of disguise"
+  },
+  {
+    "name": "False Water Cobra",
+    "description": "Hoods like a cobra, lives like an otter"
+  },
+  {
+    "name": "Fire Ball Python",
+    "description": "Bright flame, classic ball python calm."
+  },
+  {
+    "name": "Fire-Bellied Toad",
+    "description": "Flash the belly, live to tell it."
+  },
+  {
+    "name": "Firefly Ball Python",
+    "description": "Glow with the Firefly Morph"
+  },
+  {
+    "name": "Fox Snakes",
+    "description": "Big blotches, zero venom."
+  },
+  {
+    "name": "Freeway Ball Python",
+    "description": "Bold stripes, calm python energy"
+  },
+  {
+    "name": "Frilled Lizard",
+    "description": "Pop the frill, own the moment"
+  },
+  {
+    "name": "Frog",
+    "description": "Tailless jumpers, masters of change"
+  },
+  {
+    "name": "Gargoyle Gecko",
+    "description": "Horned head, forest-night hunter"
+  },
+  {
+    "name": "Garter Snake",
+    "description": "Stripes you can trust"
+  },
+  {
+    "name": "Gecko",
+    "description": "Tiny toes, big grip."
+  },
+  {
+    "name": "Gopher Snake",
+    "description": "Rattlesnake act-harmless rodent hunter"
+  },
+  {
+    "name": "Great Plains Rat Snake",
+    "description": "Prairie-edge rodent control, no venom needed"
+  },
+  {
+    "name": "Green Anole",
+    "description": "Flash the dewlap, own the branch!"
+  },
+  {
+    "name": "Green Rat Snake",
+    "description": "Forest canopy's red-tailed climber"
+  },
+  {
+    "name": "Green Tree Frog",
+    "description": "Green, striped, and built to climb"
+  },
+  {
+    "name": "Green Tree Python",
+    "description": "Coiled like a leaf, strikes like lightning"
+  },
+  {
+    "name": "Hognose snake",
+    "description": "Small snout. Big drama."
+  },
+  {
+    "name": "IMG Boa Constrictor",
+    "description": "Powerful hug, no venom needed."
+  },
+  {
+    "name": "Japanese rat snake",
+    "description": "Japan's climbing rodent-hunter"
+  },
+  {
+    "name": "Jungle Carpet Python",
+    "description": "Rainforest gold: the jungle carpet python"
+  },
+  {
+    "name": "Kenyan Sand Boa",
+    "description": "Buried hunter of Africa's sands"
+  },
+  {
+    "name": "Killer Clown Ball Python",
+    "description": "Bright, bold, and built to curl."
+  },
+  {
+    "name": "King Snake",
+    "description": "Bold bands. Big appetite. No venom."
+  },
+  {
+    "name": "Knight Anole",
+    "description": "Cuba's bold, tree-top \"knight\" lizard"
+  },
+  {
+    "name": "Lavender Albino Ball Python",
+    "description": "Soft lavender, royal serpent"
+  },
+  {
+    "name": "Lemon Blast Ball Python",
+    "description": "Bright yellow, clean stripes, calm vibes"
+  },
+  {
+    "name": "Leopard Gecko",
+    "description": "Eyelids, spots, and a power-tail"
+  },
+  {
+    "name": "Leopard Tortoise",
+    "description": "Spotted shell, savanna soul."
+  },
+  {
+    "name": "Lipstick Albino Boa",
+    "description": "Big boa, calm power-albino brilliance"
+  },
+  {
+    "name": "Lizard",
+    "description": "From geckos to dragons-lizard power"
+  },
+  {
+    "name": "Mandarin Rat Snake",
+    "description": "Forest jewel of East Asia"
+  },
+  {
+    "name": "Mantella Frog",
+    "description": "Madagascar's living warning labels"
+  },
+  {
+    "name": "Mexican Black Kingsnake",
+    "description": "The glossy black king of snakes"
+  },
+  {
+    "name": "Milk Snake",
+    "description": "Bright bands, harmless bite-Milk Snake!"
+  },
+  {
+    "name": "Mojave Ball Python",
+    "description": "Mojave: creamy contrast, classic calm"
+  },
+  {
+    "name": "Moonglow Boa",
+    "description": "Moonlit beauty, boa power."
+  },
+  {
+    "name": "Mourning Gecko",
+    "description": "One gecko can start a colony"
+  },
+  {
+    "name": "Olive python",
+    "description": "Big river python of Australia's north"
+  },
+  {
+    "name": "Orange Dream Ball Python",
+    "description": "Sunset color, royal python calm"
+  },
+  {
+    "name": "Painted Turtle",
+    "description": "Bright stripes, master basker."
+  },
+  {
+    "name": "Panda Pied Ball Python",
+    "description": "Panda contrast, Pied patchwork."
+  },
+  {
+    "name": "Pied Ball Python",
+    "description": "Big white patches, classic ball python calm"
+  },
+  {
+    "name": "Pine Snake",
+    "description": "The bluffing burrower of the pines"
+  },
+  {
+    "name": "Plains Hognose Snake",
+    "description": "All bluff, no bite."
+  },
+  {
+    "name": "Poison Dart Frog",
+    "description": "Bright colors, bold chemistry"
+  },
+  {
+    "name": "Pygmy python",
+    "description": "Small python, big Pilbara survivor"
+  },
+  {
+    "name": "Python",
+    "description": "Big squeeze, bigger diversity."
+  },
+  {
+    "name": "Rainbow Boa",
+    "description": "Prism-scaled constrictor of the rainforest"
+  },
+  {
+    "name": "Rat Snakes",
+    "description": "Climbing constrictors, farm-friendly hunters"
+  },
+  {
+    "name": "Red Ackie Monitor",
+    "description": "Small goanna, big attitude-spiny tail!"
+  },
+  {
+    "name": "Red Tail Boa (common boa)",
+    "description": "Powerful hugger of the rainforest"
+  },
+  {
+    "name": "Red-Eared Slider",
+    "description": "Red patch, big splash-slider power!"
+  },
+  {
+    "name": "Red-Eyed Tree Frog",
+    "description": "Red eyes, rainforest nights"
+  },
+  {
+    "name": "Red-Footed Tortoise",
+    "description": "Red feet, rainforest traveler."
+  },
+  {
+    "name": "Rosy Boa",
+    "description": "The gentle boa of the desert rocks"
+  },
+  {
+    "name": "Rubber Boa",
+    "description": "The boa with a built-in decoy tail"
+  },
+  {
+    "name": "Russian Tortoise",
+    "description": "Built to burrow through extremes"
+  },
+  {
+    "name": "Salamander",
+    "description": "Tails, trails, and total regeneration"
+  },
+  {
+    "name": "Scaleless Ball Python",
+    "description": "Same royal python-sleek, scaleless shine"
+  },
+  {
+    "name": "Scarlet Kingsnake",
+    "description": "Coral look-kingsnake calm."
+  },
+  {
+    "name": "Sea Turtle",
+    "description": "Ancient shells, modern survivors"
+  },
+  {
+    "name": "Skink Lizard",
+    "description": "Smooth scales, global explorers"
+  },
+  {
+    "name": "Snake",
+    "description": "Built to glide, strike, and swallow"
+  },
+  {
+    "name": "Spadefoot Toad",
+    "description": "Dig deep. Breed fast. Vanish again."
+  },
+  {
+    "name": "Speckled Kingsnake",
+    "description": "Speckles, strength, and snake-eating swagger"
+  },
+  {
+    "name": "Spotted python",
+    "description": "Spots by night, constrict by might"
+  },
+  {
+    "name": "Sunset Ball Python",
+    "description": "Bring the golden hour home."
+  },
+  {
+    "name": "Super Pastel Ball Python",
+    "description": "Sunshine in a gentle coil"
+  },
+  {
+    "name": "Tangerine Leopard Gecko",
+    "description": "Orange glow, true eyelids, big personality"
+  },
+  {
+    "name": "Texas Garter Snake",
+    "description": "Striped hunter of Texas watersides"
+  },
+  {
+    "name": "Texas Rat Snake",
+    "description": "Texas' climbing rodent patrol"
+  },
+  {
+    "name": "Theropod",
+    "description": "From raptors to robins: all theropod"
+  },
+  {
+    "name": "Tiger Salamander",
+    "description": "Vernal-pool tiger, underground traveler"
+  },
+  {
+    "name": "Timor python",
+    "description": "The Lesser Sundas' slender constrictor"
+  },
+  {
+    "name": "Tokay Gecko",
+    "description": "The gecko that shouts and sticks"
+  },
+  {
+    "name": "Tree Frog",
+    "description": "Sticky toes, big voices, forest lives"
+  },
+  {
+    "name": "Uromastyx (Spiny-Tailed Lizard)",
+    "description": "Spiny tails, desert scales, plant power."
+  },
+  {
+    "name": "Vine Snake",
+    "description": "Look like a vine, strike like a snake"
+  },
+  {
+    "name": "Water Dragon",
+    "description": "Bask. Bolt. Dive."
+  },
+  {
+    "name": "Western Hognose Snake",
+    "description": "The prairie snake that plays dead best"
+  },
+  {
+    "name": "Western Rat Snake",
+    "description": "The barn's best rodent patrol"
+  },
+  {
+    "name": "Woma Python",
+    "description": "Burrow-dwelling snake-eater of the outback"
+  },
+  {
+    "name": "Yellow Belly Ball Python",
+    "description": "Bright belly, bold genetics."
+  }
+]

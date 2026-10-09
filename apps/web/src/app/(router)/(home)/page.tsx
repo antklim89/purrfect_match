@@ -1,15 +1,32 @@
-import { animals } from '@purrfect_match/shared/entities/animal/constants';
 import { cacheLife } from 'next/cache';
 
 import { AdCard, AdCardFallback, AdList } from '@/features/ad';
 import { AnimalItem, AnimalsList } from '@/features/animal';
 import { ToggleFavoriteButton } from '@/features/toggle-favorite';
 import { adFindNewListQuery } from '@/shared/api/queries/ad-queries';
+import { animalFindManyQuery } from '@/shared/api/queries/animal-queries';
 import { loader } from '@/shared/lib/loader';
 import { ErrorComponent } from '@/shared/ui/error-component';
 import { Hero } from '@/widgets/hero';
 
 async function Page() {
+  const animalLoader = loader({
+    async render() {
+      'use cache';
+      cacheLife('max');
+      const { data: animalsTypes, error } = await animalFindManyQuery();
+      if (error) return <ErrorComponent {...error} />;
+
+      return (
+        <AnimalsList>
+          {animalsTypes.map((animal) => (
+            <AnimalItem key={animal.name} animal={animal} />
+          ))}
+        </AnimalsList>
+      );
+    },
+  });
+
   const newAdsLoader = loader({
     async render() {
       const { data: ads, error } = await adFindNewListQuery();
@@ -39,21 +56,16 @@ async function Page() {
   return loader({
     props: {
       newAds: newAdsLoader,
+      animals: animalLoader,
     },
-    async render({ props: { newAds } }) {
+    async render({ props: { newAds, animals } }) {
       'use cache';
       cacheLife('max');
 
       return (
         <>
           <Hero />
-          <section className="container my-4">
-            <AnimalsList>
-              {animals.map((animal) => (
-                <AnimalItem key={animal.name} animal={animal} />
-              ))}
-            </AnimalsList>
-          </section>
+          <section className="container my-4">{animals}</section>
           <section className="container my-4">{newAds}</section>
         </>
       );

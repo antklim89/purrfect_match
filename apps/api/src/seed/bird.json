@@ -1,0 +1,90 @@
+[
+  {
+    "name": "African Grey Parrot",
+    "description": "The red-tailed genius of Africa"
+  },
+  {
+    "name": "Amazon Parrot",
+    "description": "Big voices, green feathers, wild minds"
+  },
+  {
+    "name": "Belgian Canary",
+    "description": "Curved to perfection, born to show"
+  },
+  {
+    "name": "Bird",
+    "description": "Feathers, flight, and endless variety"
+  },
+  {
+    "name": "Budgerigar",
+    "description": "Tiny nomad parrot, big personality"
+  },
+  {
+    "name": "Chinese Geese",
+    "description": "The Upright, Noisy Farm Sentinel"
+  },
+  {
+    "name": "Cockatiel",
+    "description": "Crest up-Australia's whistling nomad"
+  },
+  {
+    "name": "Conure",
+    "description": "Long tails, loud calls, big brains"
+  },
+  {
+    "name": "Duck",
+    "description": "Webbed feet, world travelers."
+  },
+  {
+    "name": "Eclectus Parrot",
+    "description": "Two sexes, two costumes-one parrot"
+  },
+  {
+    "name": "Eurasian Collared Dove",
+    "description": "The collar-marked urban colonizer"
+  },
+  {
+    "name": "Finch",
+    "description": "Built to crack seeds, born to sing"
+  },
+  {
+    "name": "Gouldian Finch",
+    "description": "Savanna's living rainbow finch"
+  },
+  {
+    "name": "Muscovy Duck",
+    "description": "The tree-perching duck with attitude"
+  },
+  {
+    "name": "Parakeet",
+    "description": "Budgie: the nomad that learned to talk"
+  },
+  {
+    "name": "Parrot",
+    "description": "Brains, beaks, and big voices"
+  },
+  {
+    "name": "Parrotlet",
+    "description": "Small body, big parrot attitude"
+  },
+  {
+    "name": "Pigeon",
+    "description": "Crop-milk champions of the skies"
+  },
+  {
+    "name": "Quail",
+    "description": "Camouflage, coveys, and quick takeoff"
+  },
+  {
+    "name": "Scarlet Macaw",
+    "description": "Scarlet skies, rainforest voice."
+  },
+  {
+    "name": "Senegal Parrot",
+    "description": "West Africa's V-chested woodland parrot"
+  },
+  {
+    "name": "Zebra Finch",
+    "description": "Small finch, big lessons in song"
+  }
+]

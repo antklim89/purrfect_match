@@ -54,6 +54,18 @@ CREATE TABLE "verification" (
 	"updated_at" timestamp NOT NULL
 );
 --> statement-breakpoint
+CREATE TABLE "animal_breed" (
+	"name" text PRIMARY KEY,
+	"description" text NOT NULL,
+	"animalTypeName" text NOT NULL
+);
+--> statement-breakpoint
+CREATE TABLE "animal_type" (
+	"name" text PRIMARY KEY,
+	"imageUrl" text NOT NULL,
+	"description" text NOT NULL
+);
+--> statement-breakpoint
 CREATE TABLE "ad_image" (
 	"id" uuid PRIMARY KEY DEFAULT uuidv7(),
 	"url" text NOT NULL,
@@ -83,5 +95,6 @@ ALTER TABLE "favorite" ADD CONSTRAINT "favorite_userId_user_id_fkey" FOREIGN KEY
 ALTER TABLE "favorite" ADD CONSTRAINT "favorite_ad_id_ad_id_fkey" FOREIGN KEY ("ad_id") REFERENCES "ad"("id") ON DELETE CASCADE;--> statement-breakpoint
 ALTER TABLE "account" ADD CONSTRAINT "account_user_id_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE CASCADE;--> statement-breakpoint
 ALTER TABLE "session" ADD CONSTRAINT "session_user_id_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE CASCADE;--> statement-breakpoint
+ALTER TABLE "animal_breed" ADD CONSTRAINT "animal_breed_animalTypeName_animal_type_name_fkey" FOREIGN KEY ("animalTypeName") REFERENCES "animal_type"("name") ON DELETE RESTRICT;--> statement-breakpoint
 ALTER TABLE "ad_image" ADD CONSTRAINT "ad_image_adId_ad_id_fkey" FOREIGN KEY ("adId") REFERENCES "ad"("id") ON DELETE CASCADE;--> statement-breakpoint
 ALTER TABLE "ad" ADD CONSTRAINT "ad_userId_user_id_fkey" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE CASCADE;

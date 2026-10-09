@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Dog",
+    "imageUrl": "/media/animal-breed-images/cat.webp",
+    "description": "There are many types of dogs, but all members of the genus Canis have common physical characteristics. Bone structure, behavior, and reproduction are just a few markers that are unique to canids. Many types of dogs have unique characteristics that distinguish them from wolves. You can use some of these markers to determine whether a canid is a wolf or a dog."
+  },
+  {
+    "name": "Cat",
+    "imageUrl": "/media/animal-breed-images/dog.webp",
+    "description": "Cats, which are part of the Felidae family, are some of the smallest carnivores that are protected by humans. Their retractable claws are incredibly useful, allowing them to maintain their balance, catch their prey, and protect themselves from threats. One of the telltale signs of a domestic cat is found in its skull, showing off sharp canine teeth that it inherited from its wild ancestors. With heightened hearing and smell, even cute cats can be resourceful hunters. They are one of the first animals to be domesticated."
+  },
+  {
+    "name": "Bird",
+    "imageUrl": "/media/animal-breed-images/bird.webp",
+    "description": "People looking for pet companionship who are allergic to more common pets like cats or dogs may want to consider a bird as a great alternative. If you choose the right breed pet birds can be friendly, gentle, and trainable. Though take care to research the best pet bird breeds before becoming a pet owner. Many people mistakenly believe smaller birds are less work. That may not be the case. While many birds can be quiet and gentle, that is not the case for all bird types. Many require more work than others. Some bird breeds can be rather vocal and disruptive to their environment."
+  },
+  {
+    "name": "Fish",
+    "imageUrl": "/media/animal-breed-images/fish.webp",
+    "description": "Owning fish as pets is a popular choice for many people. If you don't have a lot of space or time to care for another type of pet like a dog or cat, a fish could be an excellent option. With their lower maintenance, tranquil presence, and low cost of ownership fish can be a 'starter pet' for children and young adults, or a long term pet for anyone that prefers less lower ongoing responsibility. Fish are also often more affordable than keeping dogs, cats, or birds and pets."
+  },
+  {
+    "name": "Rodent",
+    "imageUrl": "/media/animal-breed-images/rodent.webp",
+    "description": "Owning a pet rodent is an increasingly popular choice for people across the world, particularly families with young children. These animals are sometimes known as 'pocket pets', though not all pet rodents are small enough to actually fit in a pocket. Hamsters, guinea pigs, gerbils, and mice are the most popular choice for pet rodents. These are low maintenance animals that can live in a small to medium sized cage or glass aquarium. They are a good choice for young children or busy individuals who prefer low maintenance pets. Pet rodents do not live as long as more traditional pets like cats and dogs. Most will live less than five years, though some like the chinchilla can live beyond 10 years."
+  },
+  {
+    "name": "Exotic",
+    "imageUrl": "/media/animal-breed-images/exotic.webp",
+    "description": "There is no single answer to 'what is an exotic pet?', but generally an exotic pet is considered an animal that is rare or uncommon, and may have unusual maintenance compared to other common animals like a dog or cat. Exotic pets are more likely to be wild animals that were caught and not bred in captivity to be domesticated. As certain types of animals become more common they may no longer be considered exotic pets. For example, some pet reptiles like snakes and some small rodents like hedgehogs were once considered rare but have increasingly gone mainstream as a type of pet and are now only borderline exotic."
+  }
+]
