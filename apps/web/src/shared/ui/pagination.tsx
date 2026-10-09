@@ -27,11 +27,7 @@ function PaginationLink({
       data-slot="pagination-link"
       data-active={isActive}
       scroll={false}
-      className={cn(
-        buttonVariants({ variant: isActive ? 'outline' : 'ghost' /*size*/ }),
-        'bg-transparent text-gray-200 hover:bg-transparent hover:text-gray-200',
-        className,
-      )}
+      className={cn(buttonVariants({ variant: isActive ? 'outline' : 'ghost', size }), className)}
       {...props}
     />
   );
