@@ -8,7 +8,7 @@ import { animalFindManyQuery } from '@/shared/api/queries/animal-queries';
 import { loader } from '@/shared/lib/loader';
 import { ErrorComponent } from '@/shared/ui/error-component';
 import { Pagination } from '@/shared/ui/pagination';
-import { AdCatalog } from '@/widgets/ad-catalog';
+import { AdCatalog, AdCatalogEmpty } from '@/widgets/ad-catalog';
 
 async function Page(props: PageProps<'/ad'>) {
   const animalSelectLoader = loader({
@@ -29,6 +29,7 @@ async function Page(props: PageProps<'/ad'>) {
       const { data: ads, error } = await adFindListQuery({ query: searchParams });
       if (error) return <ErrorComponent {...error} />;
 
+      if (ads.items.length === 0) return <AdCatalogEmpty />;
       return (
         <AdList>
           {ads.items.map((ad) => (
