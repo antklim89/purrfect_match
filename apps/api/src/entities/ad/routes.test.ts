@@ -197,7 +197,7 @@ describe('[GET] /api/ad', () => {
         if (error) return expect(error).toBeNull();
 
         totalAds.push(...data.items);
-        if (!data.pagination.hasNext) break;
+        if (data.pagination.currentPage >= data.pagination.totalPages) break;
         page = String(data.pagination.currentPage + 1);
       }
 
@@ -232,8 +232,6 @@ describe('[GET] /api/ad', () => {
       totalItems: 4,
       totalPages: 2,
       currentPage: 1,
-      pageSize: 2,
-      hasNext: true,
     });
 
     const result2 = await testApiCall(
@@ -244,8 +242,6 @@ describe('[GET] /api/ad', () => {
       totalItems: 4,
       totalPages: 2,
       currentPage: 2,
-      pageSize: 2,
-      hasNext: false,
     });
   });
 });

@@ -44,7 +44,8 @@ export async function adFindManyService({
 }) {
   const whereQuery: RelationsFilter<(typeof relations)['adTable'], typeof relations> = {};
   if (search) {
-    whereQuery.RAW = (t) => sql`${t.description} @@ to_tsquery('english', ${search.trim().replace(/\s+/g, ' & ')})`;
+    const tsSearch = search.trim().replace(/\s+/g, ' & ');
+    whereQuery.RAW = (t) => sql`${t.description} @@ to_tsquery('english', ${tsSearch})`;
   }
 
   if (breed) whereQuery.breed = { eq: breed };
@@ -60,35 +61,32 @@ export async function adFindManyService({
   else if (minPrice != null) whereQuery.price = { gte: minPrice };
   else if (maxPrice != null) whereQuery.price = { lte: maxPrice };
 
-  const adsQuery = db.query.adTable.findMany({
-    limit,
-    offset: (page - 1) * limit,
-    extras: {
-      inFavorites: inFavorites(userId),
-    },
-    with: {
-      images: { columns: { blurDataUrl: true, url: true }, limit: 1 },
-    },
-    columns: {
-      id: true,
-      breed: true,
-      publishedAt: true,
-      name: true,
-      price: true,
-      type: true,
-      status: true,
-    },
-    orderBy: (table, o) => {
-      return orderBy === 'desc' ? [o.desc(table[sortBy]), o.desc(table.id)] : [o.asc(table[sortBy]), o.asc(table.id)];
-    },
-    where: whereQuery,
-  });
-
-  const paginationQuery = withoutPagination
-    ? []
-    : db.query.adTable.findMany({ columns: {}, where: whereQuery, extras: { total: count() } });
-
-  const [ads, [totalResult]] = await Promise.all([adsQuery, paginationQuery]);
+  const [ads, [totalResult]] = await Promise.all([
+    db.query.adTable.findMany({
+      limit,
+      offset: (page - 1) * limit,
+      extras: {
+        inFavorites: inFavorites(userId),
+      },
+      with: {
+        images: { columns: { blurDataUrl: true, url: true }, limit: 1 },
+      },
+      columns: {
+        id: true,
+        breed: true,
+        publishedAt: true,
+        name: true,
+        price: true,
+        type: true,
+        status: true,
+      },
+      orderBy: (table, o) => {
+        return orderBy === 'desc' ? [o.desc(table[sortBy]), o.desc(table.id)] : [o.asc(table[sortBy]), o.asc(table.id)];
+      },
+      where: whereQuery,
+    }),
+    withoutPagination ? [] : db.query.adTable.findMany({ columns: {}, where: whereQuery, extras: { total: count() } }),
+  ]);
 
   const totalItems = totalResult?.total ?? 0;
   const totalPages = Math.ceil(totalItems / limit);
@@ -97,8 +95,6 @@ export async function adFindManyService({
     totalItems,
     totalPages,
     currentPage: page,
-    pageSize: limit,
-    hasNext: page < totalPages,
   };
   return { items: ads, pagination };
 }
