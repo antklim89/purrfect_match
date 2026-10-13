@@ -9,7 +9,7 @@ import { AdPublishSchema } from '@purrfect_match/shared/entities/ad/schemas';
 import type { AdDraftType, AdFilterType, AdPagination } from '@purrfect_match/shared/entities/ad/types';
 import { StatusCode } from '@purrfect_match/shared/models/status-codes';
 import type { User } from 'better-auth';
-import { and, count, eq, exists, type RelationsFilter, sql } from 'drizzle-orm';
+import { and, count, eq, exists, type RelationsFilter, type SQL, type SQLOperator, sql } from 'drizzle-orm';
 import { HTTPException } from 'hono/http-exception';
 import { z } from 'zod/v4-mini';
 
@@ -64,18 +64,8 @@ export async function adFindManyService({
     limit,
     offset: (page - 1) * limit,
     extras: {
-      inFavorites: (table, o) => {
-        if (!userId) return o.sql<boolean>`SELECT false`;
-        return o.sql<boolean>`
-          EXISTS(
-            SELECT 1
-            FROM ${favoriteTable}
-            WHERE ${favoriteTable.adId} = ${table.id} AND ${favoriteTable.userId} = ${userId}
-          )
-        `.as('in_favorites');
-      },
+      inFavorites: inFavorites(userId),
     },
-
     with: {
       images: { columns: { blurDataUrl: true, url: true }, limit: 1 },
     },
@@ -116,16 +106,7 @@ export async function adFindManyService({
 export async function adFindOneService({ adId, userId }: { adId: AdSelectType['id']; userId?: string }) {
   const ad = await db.query.adTable.findFirst({
     extras: {
-      inFavorites: (table, o) => {
-        if (!userId) return o.sql<boolean>`SELECT false`;
-        return o.sql<boolean>`
-          EXISTS(
-            SELECT 1
-            FROM ${favoriteTable}
-            WHERE ${favoriteTable.adId} = ${table.id} AND ${favoriteTable.userId} = ${userId}
-          )
-        `.as('in_favorites');
-      },
+      inFavorites: inFavorites(userId),
     },
     where: {
       id: { eq: adId },
@@ -371,4 +352,19 @@ export async function adTogglePublishService({ userId, adId }: { userId: User['i
   }
 
   return updatedAd;
+}
+
+function inFavorites(
+  userId: string | undefined,
+): (table: typeof adTable, o: SQLOperator) => SQL<boolean> | SQL.Aliased<boolean> {
+  return (table, o) =>
+    userId
+      ? o.sql<boolean>`
+          EXISTS(
+            SELECT 1
+            FROM ${favoriteTable}
+            WHERE ${favoriteTable.adId} = ${table.id} AND ${favoriteTable.userId} = ${userId}
+          )
+        `.as('in_favorites')
+      : o.sql<boolean>`SELECT false`;
 }
