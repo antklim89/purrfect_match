@@ -1,4 +1,5 @@
 import { cacheLife } from 'next/cache';
+import Link from 'next/link';
 
 import { AdCard, AdCardFallback, AdList } from '@/features/ad';
 import { AdAnimalSelect, AdFilter } from '@/features/ad-filter';
@@ -27,7 +28,7 @@ async function Page(props: PageProps<'/ad'>) {
     },
     async render({ promises: { searchParams } }) {
       const { data: ads, error } = await adFindListQuery({ query: searchParams });
-      if (error) return <ErrorComponent {...error} />;
+      if (error) return <ErrorComponent {...error} action={<Link href="/ad">Reset Filters</Link>} />;
 
       if (ads.items.length === 0) return <AdCatalogEmpty />;
       return (
@@ -53,7 +54,7 @@ async function Page(props: PageProps<'/ad'>) {
     },
     async render({ promises: { searchParams } }) {
       const { data: ads, error } = await adFindListQuery({ query: searchParams });
-      if (error) return <ErrorComponent {...error} />;
+      if (error) return null;
 
       return <Pagination totalPages={ads.pagination.totalPages} page={ads.pagination.currentPage} />;
     },
