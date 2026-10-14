@@ -26,7 +26,9 @@ export function ErrorComponent({
     <Alert className="border-red-950 dark:border-red-400 bg-destructive text-destructive-foreground">
       <AlertTriangleIcon className="size-8" />
       <AlertTitle className="text-white text-2xl">{title ?? titleMap[status] ?? titleMap[500]}</AlertTitle>
-      <AlertDescription className="text-white">{message ?? 'Unexpected error. Try again later.'}</AlertDescription>
+      <AlertDescription className="text-white whitespace-pre-line">
+        {message ?? 'Unexpected error. Try again later.'}
+      </AlertDescription>
       <AlertAction className="p-2">{action}</AlertAction>
     </Alert>
   );
