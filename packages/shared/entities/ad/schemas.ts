@@ -34,17 +34,17 @@ export const AdDraftSchema = z.partial(
 );
 
 export const AdFilterSchema = z.object({
-  search: z.optional(z.string().check(z.maxLength(500))),
+  search: z.optional(z.string().check(z.maxLength(5))),
   type: z.optional(z.string().check(z.maxLength(500))),
   breed: z.optional(z.string().check(z.maxLength(500))),
-  minPrice: z.optional(z.coerce.number().check(z.minimum(0))),
-  maxPrice: z.optional(z.coerce.number().check(z.minimum(0))),
+  minPrice: z.optional(z.coerce.number<string>().check(z.minimum(0))),
+  maxPrice: z.optional(z.coerce.number<string>().check(z.minimum(0))),
   status: z.optional(z.enum(['all', 'published', 'unpublished'])),
   authorId: z.optional(z.uuidv7()),
-  page: z.optional(z.coerce.number().check(z.positive())),
+  page: z.optional(z.coerce.number<string>().check(z.positive())),
   sortBy: z.optional(z.literal(ADS_SORT_BY)),
   orderBy: z.optional(z.enum(['asc', 'desc'])),
-  limit: z.optional(z.coerce.number().check(z.positive(), z.maximum(MAX_ADS_LIMIT))),
+  limit: z.optional(z.coerce.number<string>().check(z.positive(), z.maximum(MAX_ADS_LIMIT))),
   withoutPagination: z.optional(z.coerce.boolean()),
   favorites: z.optional(z.coerce.boolean()),
 });
