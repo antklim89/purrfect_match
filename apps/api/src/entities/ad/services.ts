@@ -43,7 +43,7 @@ export async function adFindManyService({
   userId?: string;
 }) {
   const whereQuery: RelationsFilter<(typeof relations)['adTable'], typeof relations> = {};
-  if (search) {
+  if (search && search.length > 1) {
     const tsSearch = search.trim().replace(/\s+/g, ' & ');
     whereQuery.RAW = (t) => sql`${t.description} @@ to_tsquery('english', ${tsSearch})`;
   }
