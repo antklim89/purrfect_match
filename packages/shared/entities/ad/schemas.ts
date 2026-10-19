@@ -10,8 +10,7 @@ export const AdImageSchema = z.object({
 
 export const AdPublishSchema = z.object({
   name: z.string().check(z.minLength(2), z.maxLength(500)),
-  type: z.string().check(z.minLength(1, 'Enter animal type')),
-  breed: z.string().check(z.minLength(1, 'Enter animal breed')),
+  breedName: z.string().check(z.minLength(1, 'Enter animal breed')),
   price: z.number().check(z.minimum(0), z.maximum(9000000)),
   description: z.string().check(z.minLength(10), z.maxLength(40000)),
   images: z
@@ -25,10 +24,9 @@ export const AdPublishSchema = z.object({
 export const AdDraftSchema = z.partial(
   z.object({
     name: z.string(),
-    type: z.string(),
     price: z.number(),
     description: z.string(),
-    breed: z.string(),
+    breedName: z.string(),
     images: z.array(AdImageSchema).check(z.maxLength(20)),
   }),
 );

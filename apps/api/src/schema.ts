@@ -39,6 +39,11 @@ export const relations = defineRelations(
         from: [r.adTable.userId],
         to: [r.userTable.id],
       }),
+      breed: r.one.animalBreedTable({
+        optional: false,
+        from: [r.adTable.breedName],
+        to: [r.animalBreedTable.name],
+      }),
     },
     adImageTable: {
       ad: r.one.adTable({

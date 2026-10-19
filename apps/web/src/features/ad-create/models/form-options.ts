@@ -6,13 +6,13 @@ import { z } from 'zod/v4-mini';
 
 export const adCreateFormOptions = formOptions({
   validators: {
-    onChange: z.required(AdDraftSchema),
-    onSubmit: AdPublishSchema,
+    onChange: z.required(z.extend(AdDraftSchema, { type: z.string() })),
+    onSubmit: z.extend(AdPublishSchema, { type: z.string() }),
   },
   defaultValues: {
     name: '',
     type: '',
-    breed: '',
+    breedName: '',
     description: '',
     images: [] as AdImageType[],
     price: 0,

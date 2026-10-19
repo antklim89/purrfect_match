@@ -81,7 +81,7 @@ async function createAd() {
     return {
       id: faker.string.uuid({ version: 7 }),
       name: faker.animal.petName(),
-      breed: breed.name,
+      breedName: breed.name,
       type: type.name,
       description: faker.lorem.sentence({ min: 20, max: 1000 }).slice(0, 38000),
       price: faker.number.float({ min: 0, max: 1000000, multipleOf: 0.02 }),

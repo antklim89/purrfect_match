@@ -48,8 +48,8 @@ export async function adFindManyService({
     whereQuery.RAW = (t) => sql`${t.description} @@ to_tsquery('english', ${tsSearch})`;
   }
 
-  if (breed) whereQuery.breed = { eq: breed };
-  if (type) whereQuery.type = { eq: type };
+  if (breed) whereQuery.breedName = { eq: breed };
+  if (type) whereQuery.breed = { animalTypeName: { eq: type } };
   if (authorId) whereQuery.userId = { eq: authorId };
   if (favorites) whereQuery.favorites = { userId };
 
@@ -70,14 +70,13 @@ export async function adFindManyService({
       },
       with: {
         images: { columns: { blurDataUrl: true, url: true }, limit: 1 },
+        breed: { columns: { name: true, animalTypeName: true } },
       },
       columns: {
         id: true,
-        breed: true,
         publishedAt: true,
         name: true,
         price: true,
-        type: true,
         status: true,
       },
       orderBy: (table, o) => {
@@ -108,7 +107,11 @@ export async function adFindOneService({ adId, userId }: { adId: AdSelectType['i
       id: { eq: adId },
       status: { OR: [{ eq: AdStatus.PUBLISHED }, { eq: AdStatus.UNPUBLISHED }] },
     },
-    with: { images: true, user: { columns: { name: true, contacts: true } } },
+    with: {
+      images: true,
+      user: { columns: { name: true, contacts: true } },
+      breed: { columns: { name: true, animalTypeName: true } },
+    },
   });
   if (!ad) throw new HTTPException(StatusCode.NOT_FOUND, { message: 'Ad not found.' });
 
@@ -137,32 +140,34 @@ export async function adGetDraftService({ userId }: { userId: User['id'] }) {
       status: AdStatus.DRAFT,
       userId,
     },
-    with: { images: true },
+    with: { images: true, breed: { columns: { name: true, animalTypeName: true } } },
     columns: {
       id: true,
       status: true,
-      breed: true,
       description: true,
       name: true,
       price: true,
-      type: true,
     },
   });
 
   if (selectedAd) return selectedAd;
 
-  const [createdAd] = await db
-    .insert(adTable)
-    .values({ breed: '', description: '', name: '', price: 0, type: '', userId, status: AdStatus.DRAFT })
-    .returning({
-      id: adTable.id,
-      status: adTable.status,
-      breed: adTable.breed,
-      description: adTable.description,
-      name: adTable.name,
-      price: adTable.price,
-      type: adTable.type,
+  const breed = await db.query.animalBreedTable.findFirst();
+  if (!breed) {
+    throw new HTTPException(StatusCode.SERVER_ERROR, {
+      message: 'There are no breeds',
     });
+  }
+
+  const defaultValues = {
+    breedName: breed.name,
+    description: '',
+    name: '',
+    price: 0,
+    userId,
+    status: AdStatus.DRAFT,
+  };
+  const [createdAd] = await db.insert(adTable).values(defaultValues).returning({ id: adTable.id });
 
   if (!createdAd) {
     throw new HTTPException(StatusCode.SERVER_ERROR, {
@@ -170,7 +175,7 @@ export async function adGetDraftService({ userId }: { userId: User['id'] }) {
     });
   }
 
-  return { ...createdAd, images: [] };
+  return { ...createdAd, ...defaultValues, breed: null, images: [] };
 }
 
 export async function adUpdateDraftService({ userId, input }: { userId: User['id']; input: Partial<AdDraftType> }) {
@@ -183,11 +188,10 @@ export async function adUpdateDraftService({ userId, input }: { userId: User['id
   const [updatedAd] = await db
     .update(adTable)
     .set({
-      breed: input.breed,
+      breedName: input.breedName,
       name: input.name,
       description: input.description,
       price: input.price,
-      type: input.type,
     })
     .where(and(eq(adTable.status, AdStatus.DRAFT), eq(adTable.userId, userId)))
     .returning({ id: adTable.id });

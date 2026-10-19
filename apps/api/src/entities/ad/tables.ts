@@ -1,6 +1,7 @@
 import { type SQL, sql } from 'drizzle-orm';
 import { customType, index, numeric, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
 
+import { animalBreedTable } from '@/entities/animal/tables';
 import { userTable } from '@/entities/user/tables';
 
 const tsvector = customType<{ data: string }>({ dataType: () => 'tsvector' });
@@ -15,14 +16,16 @@ export const adTable = pgTable(
     tsvector: tsvector()
       .notNull()
       .generatedAlwaysAs((): SQL => sql`to_tsvector('english', ${adTable.description})`),
-    breed: text().notNull(),
-    type: text().notNull(),
+
     price: numeric({ precision: 10, scale: 2, mode: 'number' }).notNull(),
 
     status: text({ enum: ['DRAFT', 'PUBLISHED', 'UNPUBLISHED'] })
       .notNull()
       .default('DRAFT'),
 
+    breedName: text()
+      .notNull()
+      .references(() => animalBreedTable.name, { onDelete: 'cascade' }),
     userId: uuid()
       .notNull()
       .references(() => userTable.id, { onDelete: 'cascade' }),

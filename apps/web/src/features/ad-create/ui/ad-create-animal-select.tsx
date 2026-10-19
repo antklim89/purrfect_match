@@ -12,7 +12,7 @@ export function AdCreateAnimalSelect({ animals }: { animals: AnimalType[] }) {
   return (
     <form.AppField name="type">
       {(typeField) => (
-        <form.AppField name="breed">
+        <form.AppField name="breedName">
           {(breedField) => (
             <>
               <AnimalSelect
