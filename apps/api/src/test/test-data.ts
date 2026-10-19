@@ -3,6 +3,7 @@ import type { User } from 'better-auth';
 
 import type { AdInsertType } from '@/entities/ad/types';
 import type { AnimalBreedInsertType, AnimalTypeInsertType } from '@/entities/animal/types';
+import type { adImageTable } from '@/schema';
 
 export function createTestUserData(): User {
   const createdAt = faker.date.between({ from: '2001-01-01T00:00:00.000Z', to: '2010-01-01T00:00:00.000Z' });
@@ -19,44 +20,68 @@ export function createTestUserData(): User {
   };
 }
 
-export function createTestAdData(userId: User['id'], data: Partial<AdInsertType> = {}): AdInsertType {
-  const breed = faker.animal.dog();
-  const type = faker.helpers.arrayElement(['Dog', 'Cat', 'Bird', 'Fish', 'Rodent', 'Exotic']);
-
+export function createTestAdData({
+  ad,
+  breedName,
+  userId,
+}: {
+  ad: Partial<Omit<AdInsertType, 'userId' | 'breedName'>>;
+  userId: string;
+  breedName: string;
+}): AdInsertType {
   return {
     id: faker.string.uuid({ version: 7 }),
-    name: type,
-    breed,
-    type,
+    breedName,
+    userId,
+    name: faker.person.firstName(),
     description: faker.helpers.arrayElement([
       'foo bar Lorem ipsum dolor',
       'bar baz Lorem ipsum dolor',
       'foo baz Lorem ipsum dolor',
     ]),
     price: faker.number.float({ min: 10, max: 1000, multipleOf: 0.02 }),
-    userId,
     createdAt: faker.date.past({ years: 7 }).toISOString(),
     status: 'PUBLISHED',
-    ...data,
+    ...ad,
+  };
+}
+
+export function createTestAdImageData({
+  adImage,
+  adId,
+}: {
+  adId: string;
+  adImage?: Partial<typeof adImageTable.$inferInsert>;
+}): typeof adImageTable.$inferInsert {
+  return {
+    id: faker.string.uuid(),
+    adId,
+    url: faker.image.url(),
+    blurDataUrl: faker.image.dataUri(),
+    ...adImage,
   };
 }
 
 export function createTestAnimalTypeData(data: Partial<AnimalTypeInsertType> = {}): AnimalTypeInsertType {
   return {
-    name: faker.animal.type(),
+    name: faker.string.uuid(),
     description: faker.lorem.text(),
     imageUrl: faker.image.url(),
     ...data,
   };
 }
-export function createTestAnimalBreedData(
-  animalTypeName: string,
-  data: Partial<AnimalBreedInsertType> = {},
-): AnimalBreedInsertType {
+
+export function createTestAnimalBreedData({
+  animalTypeName,
+  breed = {},
+}: {
+  animalTypeName: string;
+  breed?: Partial<Omit<AnimalBreedInsertType, 'animalTypeName'>>;
+}): AnimalBreedInsertType {
   return {
-    name: faker.animal.petName(),
+    name: faker.string.uuid(),
     description: faker.lorem.text(),
     animalTypeName,
-    ...data,
+    ...breed,
   };
 }

@@ -1,17 +1,22 @@
 import * as fs from 'node:fs/promises';
+import { faker } from '@faker-js/faker';
 import { ADS_SORT_BY, AdStatus, MAX_IMAGES_PER_AD } from '@purrfect_match/shared/entities/ad/constants';
-import type { User } from 'better-auth';
 import { eq } from 'drizzle-orm';
 import { testClient } from 'hono/testing';
-import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
+import { beforeAll, describe, expect, it } from 'vitest';
 
 import app from '@/app';
 import { db } from '@/lib/db';
 import { MEDIA_ROOT_FOLDER } from '@/models/constants';
-import { favoriteTable } from '@/schema';
 import { testApiCall } from '@/test/api-call';
-import { insertData, insertListData, registerTestUser } from '@/test/insert-data';
-import { createTestAdData } from '@/test/test-data';
+import {
+  insertAd,
+  insertAdImage,
+  insertAnimalType,
+  insertBreedType,
+  insertFavorite,
+  registerTestUser,
+} from '@/test/insert-data';
 import { adTable } from './tables';
 import type { AdSelectType } from './types';
 import { getAdMediaDir, getAdMediaPath } from './utils';
@@ -25,46 +30,36 @@ beforeAll(async () => {
 });
 
 describe('[GET] /api/ad', () => {
-  let user: User;
-  let headers: Record<string, string>;
-
-  beforeEach(async () => {
-    const userResult = await registerTestUser();
-    user = userResult.user;
-    headers = userResult.headers;
-  });
-
   it('should find ads', async () => {
-    const insertedAd = await Promise.all([
-      insertData(adTable, createTestAdData(user.id, { status: AdStatus.PUBLISHED })),
-      insertData(adTable, createTestAdData(user.id, { status: AdStatus.UNPUBLISHED })),
-      insertData(adTable, createTestAdData(user.id, { status: AdStatus.DRAFT })),
+    const [insertedAd1, insertedAd2] = await Promise.all([
+      insertAd({ ad: { status: AdStatus.PUBLISHED } }),
+      insertAd({ ad: { status: AdStatus.UNPUBLISHED } }),
+      insertAd({ ad: { status: AdStatus.DRAFT } }),
     ]);
 
-    await insertData(favoriteTable, { adId: insertedAd[0].id, userId: user.id });
+    await insertFavorite({ ad: insertedAd1, user: insertedAd1.user });
+
     const { data } = await testApiCall(client.api.ad.$get({ query: { limit: '50' } }));
 
     expect(data!.items).toHaveLength(1);
-    expect(data!.items).toEqual(expect.arrayContaining([expect.objectContaining({ id: insertedAd[0].id })]));
+    expect(data!.items).toEqual(expect.arrayContaining([expect.objectContaining({ id: insertedAd1.id })]));
 
     const { data: data2 } = await testApiCall(client.api.ad.$get({ query: { limit: '50', status: 'all' } }));
 
     expect(data2!.items).toHaveLength(2);
     expect(data2!.items).toEqual(
       expect.arrayContaining([
-        expect.objectContaining({ id: insertedAd[0].id }),
-        expect.objectContaining({ id: insertedAd[1].id }),
+        expect.objectContaining({ id: insertedAd1.id }),
+        expect.objectContaining({ id: insertedAd2.id }),
       ]),
     );
   });
 
   it('should show is ad in favorites', async () => {
-    const insertedAd = await Promise.all([
-      insertData(adTable, createTestAdData(user.id, { status: AdStatus.PUBLISHED })),
-      insertData(adTable, createTestAdData(user.id, { status: AdStatus.PUBLISHED })),
-    ]);
+    const { user, headers } = await registerTestUser();
+    const insertedAd = await Promise.all([insertAd({ user }), insertAd({ user })]);
 
-    await insertData(favoriteTable, { adId: insertedAd[0].id, userId: user.id });
+    await insertFavorite({ ad: insertedAd[0], user });
 
     const result1 = await testApiCall(client.api.ad.$get({ query: { limit: '50' } }, { headers }));
 
@@ -78,13 +73,11 @@ describe('[GET] /api/ad', () => {
   });
 
   it('should find favorites ads', async () => {
-    const insertedAd = await Promise.all([
-      insertData(adTable, createTestAdData(user.id)),
-      insertData(adTable, createTestAdData(user.id)),
-    ]);
+    const { user, headers } = await registerTestUser();
+    const insertedAd = await Promise.all([insertAd({ user }), insertAd({ user })]);
 
-    const insertedFavorite1 = await insertData(favoriteTable, { adId: insertedAd[0].id, userId: user.id });
-    const insertedFavorite2 = await insertData(favoriteTable, { adId: insertedAd[1].id, userId: user.id });
+    const insertedFavorite1 = await insertFavorite({ ad: insertedAd[0], user });
+    const insertedFavorite2 = await insertFavorite({ ad: insertedAd[1], user });
 
     const result = await testApiCall(client.api.ad.$get({ query: { limit: '50', favorites: 'true' } }, { headers }));
 
@@ -96,9 +89,9 @@ describe('[GET] /api/ad', () => {
   it('should find all ads with search', async () => {
     const search = 'foo';
     const insertedAd = await Promise.all([
-      insertData(adTable, createTestAdData(user.id, { description: 'foo bar' })),
-      insertData(adTable, createTestAdData(user.id, { description: 'baz foo' })),
-      insertData(adTable, createTestAdData(user.id, { description: 'bar baz' })),
+      insertAd({ ad: { description: 'foo bar' } }),
+      insertAd({ ad: { description: 'baz foo' } }),
+      insertAd({ ad: { description: 'bar baz' } }),
     ]);
 
     const { data } = await testApiCall(client.api.ad.$get({ query: { search, limit: '50' } }));
@@ -113,36 +106,46 @@ describe('[GET] /api/ad', () => {
 
   it('should find all ads with filtered type', async () => {
     const type = 'cat';
+
+    const typeCat = await insertAnimalType({ type: { name: type } });
+    const typeDog = await insertAnimalType({ type: { name: 'dog' } });
+
     const insertedAd = await Promise.all([
-      insertData(adTable, createTestAdData(user.id, { type: 'cat' })),
-      insertData(adTable, createTestAdData(user.id, { type: 'cat' })),
-      insertData(adTable, createTestAdData(user.id, { type: 'dog' })),
+      insertAd({ type: typeCat }),
+      insertAd({ type: typeCat }),
+      insertAd({ type: typeDog }),
     ]);
 
     const { data } = await testApiCall(client.api.ad.$get({ query: { type, limit: '50' } }));
 
+    expect(data!.items).toHaveLength(2);
     expect(data!.items).toEqual(
       expect.arrayContaining([
         expect.objectContaining({ id: insertedAd[0].id }),
         expect.objectContaining({ id: insertedAd[1].id }),
+        expect.not.objectContaining({ id: insertedAd[2].id }),
       ]),
     );
   });
 
   it('should find all ads with filtered breed', async () => {
     const breed = 'red';
+    const breedRed = await insertBreedType({ breed: { name: breed } });
+    const breedBlue = await insertBreedType({ breed: { name: 'blue' } });
     const insertedAd = await Promise.all([
-      insertData(adTable, createTestAdData(user.id, { breed: 'red' })),
-      insertData(adTable, createTestAdData(user.id, { breed: 'red' })),
-      insertData(adTable, createTestAdData(user.id, { breed: 'blue' })),
+      insertAd({ breed: breedRed }),
+      insertAd({ breed: breedRed }),
+      insertAd({ breed: breedBlue }),
     ]);
 
     const { data } = await testApiCall(client.api.ad.$get({ query: { breed, limit: '50' } }));
 
+    expect(data!.items).toHaveLength(2);
     expect(data!.items).toEqual(
       expect.arrayContaining([
         expect.objectContaining({ id: insertedAd[0].id }),
         expect.objectContaining({ id: insertedAd[1].id }),
+        expect.not.objectContaining({ id: insertedAd[2].id }),
       ]),
     );
   });
@@ -153,11 +156,11 @@ describe('[GET] /api/ad', () => {
     { minPrice: '200', maxPrice: '400', type: 'both' },
   ])('should find ads with $type price filter', async ({ maxPrice, minPrice, type }) => {
     const insertedAd = await Promise.all([
-      insertData(adTable, createTestAdData(user.id, { price: 100 })),
-      insertData(adTable, createTestAdData(user.id, { price: 200 })),
-      insertData(adTable, createTestAdData(user.id, { price: 300 })),
-      insertData(adTable, createTestAdData(user.id, { price: 400 })),
-      insertData(adTable, createTestAdData(user.id, { price: 500 })),
+      insertAd({ ad: { price: 100 } }),
+      insertAd({ ad: { price: 200 } }),
+      insertAd({ ad: { price: 300 } }),
+      insertAd({ ad: { price: 400 } }),
+      insertAd({ ad: { price: 500 } }),
     ]);
 
     const { data } = await testApiCall(client.api.ad.$get({ query: { maxPrice, minPrice, limit: '50' } }));
@@ -182,7 +185,7 @@ describe('[GET] /api/ad', () => {
   it.each((['desc', 'asc'] as const).flatMap((orderBy) => ADS_SORT_BY.flatMap((sortBy) => ({ orderBy, sortBy }))))(
     'should find all ads with sort $sortBy and order $orderBy',
     async ({ orderBy, sortBy }) => {
-      const insertedAds = await insertListData(adTable, () => createTestAdData(user.id), 35);
+      const insertedAds = await Promise.all(faker.helpers.multiple(() => insertAd(), { count: 35 }));
 
       let page: string | undefined;
 
@@ -216,13 +219,15 @@ describe('[GET] /api/ad', () => {
   );
 
   it('should find search with pagination', async () => {
+    const typeCat = await insertAnimalType({ type: { name: 'cat' } });
+    const typeDog = await insertAnimalType({ type: { name: 'dog' } });
     await Promise.all([
-      insertData(adTable, createTestAdData(user.id, { type: 'dog', description: 'foo bar baz' })),
-      insertData(adTable, createTestAdData(user.id, { type: 'dog', description: 'bar baz' })),
-      insertData(adTable, createTestAdData(user.id, { type: 'cat', description: 'foo bar baz' })),
-      insertData(adTable, createTestAdData(user.id, { type: 'cat', description: 'bar baz' })),
-      insertData(adTable, createTestAdData(user.id, { type: 'cat', description: 'foo bar baz' })),
-      insertData(adTable, createTestAdData(user.id, { type: 'cat', description: 'foo bar baz' })),
+      insertAd({ ad: { description: 'foo bar baz' }, type: typeDog }),
+      insertAd({ ad: { description: 'bar baz' }, type: typeDog }),
+      insertAd({ ad: { description: 'foo bar baz' }, type: typeCat }),
+      insertAd({ ad: { description: 'bar baz' }, type: typeCat }),
+      insertAd({ ad: { description: 'foo bar baz' }, type: typeCat }),
+      insertAd({ ad: { description: 'foo bar baz' }, type: typeCat }),
     ]);
 
     const result1 = await testApiCall(
@@ -248,8 +253,7 @@ describe('[GET] /api/ad', () => {
 
 describe('[GET] /api/ad/:id', () => {
   it('should find ad', async () => {
-    const { user } = await registerTestUser();
-    const ad = await insertData(adTable, createTestAdData(user.id));
+    const ad = await insertAd();
     const { data, error } = await testApiCall(client.api.ad[':adId'].$get({ param: { adId: ad.id } }));
     if (error) return expect(error).toBeNull();
 
@@ -258,9 +262,9 @@ describe('[GET] /api/ad/:id', () => {
 
   it('should find ad with favorites', async () => {
     const { user, headers } = await registerTestUser();
-    const ad = await insertData(adTable, createTestAdData(user.id));
-    const ad2 = await insertData(adTable, createTestAdData(user.id));
-    await insertData(favoriteTable, { adId: ad.id, userId: user.id });
+    const ad = await insertAd();
+    const ad2 = await insertAd();
+    await insertFavorite({ ad, user });
 
     const result1 = await testApiCall(client.api.ad[':adId'].$get({ param: { adId: ad.id } }, { headers }));
     expect(result1.data!.id).toEqual(ad.id);
@@ -273,9 +277,10 @@ describe('[GET] /api/ad/:id', () => {
   });
 
   it('should not find draft ad', async () => {
-    const { user, headers } = await registerTestUser();
-    const ad = await insertData(adTable, createTestAdData(user.id, { status: AdStatus.DRAFT }));
-    const { error } = await testApiCall(client.api.ad[':adId'].$get({ param: { adId: ad.id } }, { headers }));
+    const ad = await insertAd({ ad: { status: AdStatus.DRAFT } });
+    const { error } = await testApiCall(
+      client.api.ad[':adId'].$get({ param: { adId: ad.id } }, { headers: ad.headers }),
+    );
 
     expect(error).toHaveProperty('status', 404);
   });
@@ -285,6 +290,7 @@ describe('[POST] /api/ad/get-draft', () => {
   it('should get or create draft ad', async () => {
     const { headers } = await registerTestUser();
     const { headers: headersAnother } = await registerTestUser();
+    await insertBreedType();
     const { data: firstData } = await testApiCall(client.api.ad['get-draft'].$post({}, { headers }));
 
     expect(firstData).toHaveProperty('id');
@@ -306,46 +312,38 @@ describe('[POST] /api/ad/get-draft', () => {
 
 describe('[PATCH] /api/ad/update-draft', () => {
   it('should update draft ad', async () => {
-    const { user, headers } = await registerTestUser();
-    const insertedAd = await insertData(adTable, createTestAdData(user.id, { status: 'DRAFT' }));
+    const insertedAd = await insertAd({ ad: { status: 'DRAFT' } });
+    const breedUpdated = await insertBreedType({ breed: { name: 'UPDATED' } });
     await testApiCall(
       client.api.ad['update-draft'].$patch(
         {
           json: {
-            breed: 'UPDATED',
+            breedName: breedUpdated.name,
             description: 'UPDATED',
             name: 'UPDATED',
             price: 1000,
-            type: 'UPDATED',
           },
         },
-        { headers },
+        { headers: insertedAd.headers },
       ),
     );
 
     const [updatedAd] = await db.select().from(adTable).where(eq(adTable.id, insertedAd.id));
 
-    expect(updatedAd).toHaveProperty('breed', 'UPDATED');
+    expect(updatedAd).toHaveProperty('breedName', 'UPDATED');
     expect(updatedAd).toHaveProperty('description', 'UPDATED');
     expect(updatedAd).toHaveProperty('name', 'UPDATED');
-    expect(updatedAd).toHaveProperty('breed', 'UPDATED');
     expect(updatedAd).toHaveProperty('price', 1000);
-    expect(updatedAd).toHaveProperty('type', 'UPDATED');
     expect(updatedAd).toHaveProperty('status', AdStatus.DRAFT);
   });
 
   it('should not update status column', async () => {
-    const { user, headers } = await registerTestUser();
-    const insertedAd = await insertData(adTable, createTestAdData(user.id, { status: 'DRAFT' }));
+    const insertedAd = await insertAd({ ad: { status: AdStatus.DRAFT } });
     await testApiCall(
       client.api.ad['update-draft'].$patch(
-        {
-          json: {
-            // @ts-expect-error testing
-            status: AdStatus.PUBLISHED,
-          },
-        },
-        { headers },
+        // @ts-expect-error testing
+        { json: { status: AdStatus.PUBLISHED } },
+        { headers: insertedAd.headers },
       ),
     );
 
@@ -356,10 +354,9 @@ describe('[PATCH] /api/ad/update-draft', () => {
 
 describe('[PATCH] /api/ad/upload-image-draft', () => {
   it('should upload draft ad image', async () => {
-    const { user, headers } = await registerTestUser();
-    const draftAd = await insertData(adTable, createTestAdData(user.id, { status: 'DRAFT' }));
+    const draftAd = await insertAd({ ad: { status: 'DRAFT' } });
 
-    await testApiCall(client.api.ad['upload-image-draft'].$patch({ form: { image } }, { headers }));
+    await testApiCall(client.api.ad['upload-image-draft'].$patch({ form: { image } }, { headers: draftAd.headers }));
 
     const updatedAd = await db.query.adTable.findFirst({
       where: { id: draftAd.id },
@@ -370,7 +367,7 @@ describe('[PATCH] /api/ad/upload-image-draft', () => {
       getAdMediaPath({
         root: MEDIA_ROOT_FOLDER,
         adId: updatedAd!.id,
-        userId: user.id,
+        userId: draftAd.user.id,
         fileName: updatedAd!.images[0]!.id,
       }),
     );
@@ -379,16 +376,17 @@ describe('[PATCH] /api/ad/upload-image-draft', () => {
   });
 
   it('should not upload too many images', async () => {
-    const { user, headers } = await registerTestUser();
-    const draftAd = await insertData(adTable, createTestAdData(user.id, { status: 'DRAFT' }));
+    const draftAd = await insertAd({ ad: { status: 'DRAFT' } });
 
     await Promise.all(
       Array.from({ length: MAX_IMAGES_PER_AD }, () =>
-        testApiCall(client.api.ad['upload-image-draft'].$patch({ form: { image } }, { headers })),
+        testApiCall(client.api.ad['upload-image-draft'].$patch({ form: { image } }, { headers: draftAd.headers })),
       ),
     );
 
-    const { error } = await testApiCall(client.api.ad['upload-image-draft'].$patch({ form: { image } }, { headers }));
+    const { error } = await testApiCall(
+      client.api.ad['upload-image-draft'].$patch({ form: { image } }, { headers: draftAd.headers }),
+    );
     expect(error).not.toBeNullable();
     const updatedAd = await db.query.adTable.findFirst({
       where: { id: draftAd.id },
@@ -398,7 +396,7 @@ describe('[PATCH] /api/ad/upload-image-draft', () => {
     const imagesDir = getAdMediaDir({
       root: MEDIA_ROOT_FOLDER,
       adId: updatedAd!.id,
-      userId: user.id,
+      userId: draftAd.user.id,
     });
     const dir = await Array.fromAsync(fs.glob(`${imagesDir}/**/*`));
 
@@ -409,18 +407,11 @@ describe('[PATCH] /api/ad/upload-image-draft', () => {
 
 describe('[PATCH] /api/ad/:id/delete-image-draft', () => {
   it('should delete draft ad image', async () => {
-    const { user, headers } = await registerTestUser();
-    await insertData(adTable, createTestAdData(user.id, { status: 'DRAFT' }));
-
-    const { data: uploadedImage } = await testApiCall(
-      client.api.ad['upload-image-draft'].$patch({ form: { image } }, { headers }),
-    );
+    const { headers, user, ...insertedAd } = await insertAd({ ad: { status: 'DRAFT' } });
+    const { id } = await insertAdImage({ ad: insertedAd });
 
     const { data: deletedImage } = await testApiCall(
-      client.api.ad[':adImageId']['delete-image-draft'].$patch(
-        { param: { adImageId: uploadedImage!.id } },
-        { headers },
-      ),
+      client.api.ad[':adImageId']['delete-image-draft'].$patch({ param: { adImageId: id } }, { headers }),
     );
 
     const deletedImageExists = await fs.exists(
@@ -439,10 +430,9 @@ describe('[PATCH] /api/ad/:id/delete-image-draft', () => {
 
 describe('[PATCH] /api/ad/publish-draft', () => {
   it('should publish draft', async () => {
-    const { user, headers } = await registerTestUser();
-    const draftAd = await insertData(adTable, createTestAdData(user.id, { status: 'DRAFT' }));
-
-    await testApiCall(client.api.ad['upload-image-draft'].$patch({ form: { image } }, { headers }));
+    const { headers, user, ...draftAd } = await insertAd({ ad: { status: 'DRAFT' } });
+    await insertAdImage({ ad: draftAd });
+    // await testApiCall(client.api.ad['upload-image-draft'].$patch({ form: { image } }, { headers }));
 
     const { data: publishedAd } = await testApiCall(client.api.ad['publish-draft'].$patch({}, { headers }));
     const [selectedAd] = await db.select().from(adTable).where(eq(adTable.id, draftAd.id));
@@ -453,10 +443,8 @@ describe('[PATCH] /api/ad/publish-draft', () => {
   });
 
   it('should not publish not draft ad', async () => {
-    const { user, headers } = await registerTestUser();
-    await insertData(adTable, createTestAdData(user.id, { status: 'PUBLISHED' }));
-
-    await testApiCall(client.api.ad['upload-image-draft'].$patch({ form: { image } }, { headers }));
+    const { headers, ...draftAd } = await insertAd();
+    await insertAdImage({ ad: draftAd });
 
     const { data: publishedAd, error } = await testApiCall(client.api.ad['publish-draft'].$patch({}, { headers }));
 
@@ -465,18 +453,14 @@ describe('[PATCH] /api/ad/publish-draft', () => {
   });
 
   it('should not publish invalid draft ad', async () => {
-    const { user, headers } = await registerTestUser();
-    const draftAd = await insertData(
-      adTable,
-      createTestAdData(user.id, {
+    const { headers, ...draftAd } = await insertAd({
+      ad: {
         status: AdStatus.DRAFT,
         price: -1,
         description: 'A',
         name: 'X',
-        breed: 'Y',
-        type: 'Z',
-      }),
-    );
+      },
+    });
 
     const { data: publishedAd, error } = await testApiCall(client.api.ad['publish-draft'].$patch({}, { headers }));
     const [selectedAd] = await db.select().from(adTable).where(eq(adTable.id, draftAd.id));
@@ -489,8 +473,7 @@ describe('[PATCH] /api/ad/publish-draft', () => {
 
 describe('[PATCH] /api/ad/:id/toggle-publish', () => {
   it('should toggle publish status', async () => {
-    const { user, headers } = await registerTestUser();
-    const draftAd = await insertData(adTable, createTestAdData(user.id, { status: AdStatus.PUBLISHED }));
+    const { headers, ...draftAd } = await insertAd();
 
     const { data: ad1, error: error1 } = await testApiCall(
       client.api.ad[':adId']['toggle-publish'].$patch({ param: { adId: draftAd.id } }, { headers }),
@@ -512,10 +495,9 @@ describe('[PATCH] /api/ad/:id/toggle-publish', () => {
 
 describe('[DELETE] /api/ad/:id', () => {
   it('should delete ad', async () => {
-    const { headers, user } = await registerTestUser();
+    const { headers, user, ...ad } = await insertAd();
 
     const imageId = Bun.randomUUIDv7();
-    const ad = await insertData(adTable, createTestAdData(user.id));
     const mediaDir = getAdMediaDir({ root: MEDIA_ROOT_FOLDER, adId: ad.id, userId: user.id });
     const mediaPath = getAdMediaPath({ root: MEDIA_ROOT_FOLDER, adId: ad.id, userId: user.id, fileName: imageId });
 
@@ -531,8 +513,7 @@ describe('[DELETE] /api/ad/:id', () => {
   });
 
   it('should not delete ad if not authenticated', async () => {
-    const { user } = await registerTestUser();
-    const ad = await insertData(adTable, createTestAdData(user.id));
+    const { headers, user, ...ad } = await insertAd();
     const { data, error } = await testApiCall(client.api.ad[':adId'].$delete({ param: { adId: ad.id } }));
 
     if (!error) return expect(data).toBeNull();
@@ -543,8 +524,7 @@ describe('[DELETE] /api/ad/:id', () => {
   });
 
   it('should not delete ad if not valid input', async () => {
-    const { headers, user } = await registerTestUser();
-    const ad = await insertData(adTable, createTestAdData(user.id));
+    const { headers, user, ...ad } = await insertAd();
     const { data, error } = await testApiCall(
       client.api.ad[':adId'].$delete({ param: { adId: 'invalid_id' } }, { headers }),
     );
@@ -557,9 +537,8 @@ describe('[DELETE] /api/ad/:id', () => {
   });
 
   it('should not delete ad if user id from another user', async () => {
-    const { user } = await registerTestUser();
     const { headers } = await registerTestUser();
-    const ad = await insertData(adTable, createTestAdData(user.id));
+    const { user, ...ad } = await insertAd();
     const { data, error } = await testApiCall(client.api.ad[':adId'].$delete({ param: { adId: ad.id } }, { headers }));
 
     if (!error) return expect(data).toBeNull();

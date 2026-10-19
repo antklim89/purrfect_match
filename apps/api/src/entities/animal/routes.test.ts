@@ -3,17 +3,15 @@ import { describe, expect, it } from 'vitest';
 
 import app from '@/app';
 import { testApiCall } from '@/test/api-call';
-import { insertData } from '@/test/insert-data';
-import { createTestAnimalBreedData, createTestAnimalTypeData } from '@/test/test-data';
-import { animalBreedTable, animalTypeTable } from './tables';
+import { insertAnimalType, insertBreedType } from '@/test/insert-data';
 
 const client = testClient(app);
 
 describe('[GET] /api/animal', () => {
   it('should find animal types', async () => {
-    const insertedAnimalType = await insertData(animalTypeTable, createTestAnimalTypeData());
-    const insertedBreed1 = await insertData(animalBreedTable, createTestAnimalBreedData(insertedAnimalType.name));
-    const insertedBreed2 = await insertData(animalBreedTable, createTestAnimalBreedData(insertedAnimalType.name));
+    const insertedAnimalType = await insertAnimalType();
+    const insertedBreed1 = await insertBreedType({ type: insertedAnimalType });
+    const insertedBreed2 = await insertBreedType({ type: insertedAnimalType });
 
     const { data } = await testApiCall(client.api.animal.$get());
 
@@ -29,9 +27,9 @@ describe('[GET] /api/animal', () => {
   });
 
   it('should find animal by name', async () => {
-    const insertedAnimalType = await insertData(animalTypeTable, createTestAnimalTypeData());
-    const insertedBreed1 = await insertData(animalBreedTable, createTestAnimalBreedData(insertedAnimalType.name));
-    const insertedBreed2 = await insertData(animalBreedTable, createTestAnimalBreedData(insertedAnimalType.name));
+    const insertedAnimalType = await insertAnimalType();
+    const insertedBreed1 = await insertBreedType({ type: insertedAnimalType });
+    const insertedBreed2 = await insertBreedType({ type: insertedAnimalType });
 
     const { data } = await testApiCall(client.api.animal[':name'].$get({ param: { name: insertedAnimalType.name } }));
 
