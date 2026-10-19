@@ -1,7 +1,7 @@
 {
   "version": "8",
   "dialect": "postgres",
-  "id": "39e61196-8168-4236-976f-b32c7ad139b4",
+  "id": "6d676860-94be-4d14-a22b-89d3c85ca124",
   "prevIds": [
     "00000000-0000-0000-0000-000000000000"
   ],
@@ -750,27 +750,17 @@
       "table": "ad"
     },
     {
-      "type": "text",
+      "type": "tsvector",
       "typeSchema": null,
       "notNull": true,
       "dimensions": 0,
       "default": null,
-      "generated": null,
+      "generated": {
+        "as": "to_tsvector('english', \"ad\".\"description\")",
+        "type": "stored"
+      },
       "identity": null,
-      "name": "breed",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "ad"
-    },
-    {
-      "type": "text",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "type",
+      "name": "tsvector",
       "entityType": "columns",
       "schema": "public",
       "table": "ad"
@@ -797,6 +787,19 @@
       "generated": null,
       "identity": null,
       "name": "status",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "ad"
+    },
+    {
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "breedName",
       "entityType": "columns",
       "schema": "public",
       "table": "ad"
@@ -946,6 +949,27 @@
       "table": "verification"
     },
     {
+      "nameExplicit": true,
+      "columns": [
+        {
+          "value": "tsvector",
+          "isExpression": false,
+          "asc": true,
+          "nullsFirst": false,
+          "opclass": null
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "with": "",
+      "method": "gin",
+      "concurrently": false,
+      "name": "ad_search_idx",
+      "entityType": "indexes",
+      "schema": "public",
+      "table": "ad"
+    },
+    {
       "nameExplicit": false,
       "columns": [
         "userId"
@@ -1046,6 +1070,23 @@
       "entityType": "fks",
       "schema": "public",
       "table": "ad_image"
+    },
+    {
+      "nameExplicit": false,
+      "columns": [
+        "breedName"
+      ],
+      "schemaTo": "public",
+      "tableTo": "animal_breed",
+      "columnsTo": [
+        "name"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "CASCADE",
+      "name": "ad_breedName_animal_breed_name_fkey",
+      "entityType": "fks",
+      "schema": "public",
+      "table": "ad"
     },
     {
       "nameExplicit": false,

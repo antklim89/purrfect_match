@@ -77,10 +77,10 @@ CREATE TABLE "ad" (
 	"id" uuid PRIMARY KEY DEFAULT uuidv7(),
 	"name" text NOT NULL,
 	"description" text NOT NULL,
-	"breed" text NOT NULL,
-	"type" text NOT NULL,
+	"tsvector" tsvector GENERATED ALWAYS AS (to_tsvector('english', "ad"."description")) STORED NOT NULL,
 	"price" numeric(10,2) NOT NULL,
 	"status" text DEFAULT 'DRAFT' NOT NULL,
+	"breedName" text NOT NULL,
 	"userId" uuid NOT NULL,
 	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
 	"published_at" timestamp with time zone DEFAULT now() NOT NULL
@@ -91,10 +91,12 @@ CREATE INDEX "account_userId_idx" ON "account" ("user_id");--> statement-breakpo
 CREATE INDEX "session_userId_idx" ON "session" ("user_id");--> statement-breakpoint
 CREATE INDEX "session_token_idx" ON "session" ("token");--> statement-breakpoint
 CREATE INDEX "verification_identifier_idx" ON "verification" ("identifier");--> statement-breakpoint
+CREATE INDEX "ad_search_idx" ON "ad" USING gin ("tsvector");--> statement-breakpoint
 ALTER TABLE "favorite" ADD CONSTRAINT "favorite_userId_user_id_fkey" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE CASCADE;--> statement-breakpoint
 ALTER TABLE "favorite" ADD CONSTRAINT "favorite_ad_id_ad_id_fkey" FOREIGN KEY ("ad_id") REFERENCES "ad"("id") ON DELETE CASCADE;--> statement-breakpoint
 ALTER TABLE "account" ADD CONSTRAINT "account_user_id_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE CASCADE;--> statement-breakpoint
 ALTER TABLE "session" ADD CONSTRAINT "session_user_id_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE CASCADE;--> statement-breakpoint
 ALTER TABLE "animal_breed" ADD CONSTRAINT "animal_breed_animalTypeName_animal_type_name_fkey" FOREIGN KEY ("animalTypeName") REFERENCES "animal_type"("name") ON DELETE RESTRICT;--> statement-breakpoint
 ALTER TABLE "ad_image" ADD CONSTRAINT "ad_image_adId_ad_id_fkey" FOREIGN KEY ("adId") REFERENCES "ad"("id") ON DELETE CASCADE;--> statement-breakpoint
+ALTER TABLE "ad" ADD CONSTRAINT "ad_breedName_animal_breed_name_fkey" FOREIGN KEY ("breedName") REFERENCES "animal_breed"("name") ON DELETE CASCADE;--> statement-breakpoint
 ALTER TABLE "ad" ADD CONSTRAINT "ad_userId_user_id_fkey" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE CASCADE;
