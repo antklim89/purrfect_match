@@ -159,15 +159,17 @@ export async function adGetDraftService({ userId }: { userId: User['id'] }) {
     });
   }
 
-  const defaultValues = {
-    breedName: breed.name,
-    description: '',
-    name: '',
-    price: 0,
-    userId,
-    status: AdStatus.DRAFT,
-  };
-  const [createdAd] = await db.insert(adTable).values(defaultValues).returning({ id: adTable.id });
+  const [createdAd] = await db
+    .insert(adTable)
+    .values({
+      breedName: breed.name,
+      description: '',
+      name: '',
+      price: 0,
+      userId,
+      status: AdStatus.DRAFT,
+    })
+    .returning();
 
   if (!createdAd) {
     throw new HTTPException(StatusCode.SERVER_ERROR, {
@@ -175,7 +177,7 @@ export async function adGetDraftService({ userId }: { userId: User['id'] }) {
     });
   }
 
-  return { ...createdAd, ...defaultValues, breed: null, images: [] };
+  return createdAd;
 }
 
 export async function adUpdateDraftService({ userId, input }: { userId: User['id']; input: Partial<AdDraftType> }) {
