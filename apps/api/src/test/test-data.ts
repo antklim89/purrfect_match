@@ -1,9 +1,8 @@
 import { faker } from '@faker-js/faker';
 import type { User } from 'better-auth';
 
-import type { AdInsertType } from '@/entities/ad/types';
+import type { AdImageInsertType, AdInsertType } from '@/entities/ad/types';
 import type { AnimalBreedInsertType, AnimalTypeInsertType } from '@/entities/animal/types';
-import type { adImageTable } from '@/schema';
 
 export function createTestUserData(): User {
   const createdAt = faker.date.between({ from: '2001-01-01T00:00:00.000Z', to: '2010-01-01T00:00:00.000Z' });
@@ -51,8 +50,8 @@ export function createTestAdImageData({
   adId,
 }: {
   adId: string;
-  adImage?: Partial<typeof adImageTable.$inferInsert>;
-}): typeof adImageTable.$inferInsert {
+  adImage?: Partial<AdImageInsertType>;
+}): AdImageInsertType {
   return {
     id: faker.string.uuid(),
     adId,

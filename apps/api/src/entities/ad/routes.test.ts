@@ -12,8 +12,8 @@ import { testApiCall } from '@/test/api-call';
 import {
   insertAd,
   insertAdImage,
+  insertAnimalBreed,
   insertAnimalType,
-  insertBreedType,
   insertFavorite,
   registerTestUser,
 } from '@/test/insert-data';
@@ -130,8 +130,8 @@ describe('[GET] /api/ad', () => {
 
   it('should find all ads with filtered breed', async () => {
     const breed = 'red';
-    const breedRed = await insertBreedType({ breed: { name: breed } });
-    const breedBlue = await insertBreedType({ breed: { name: 'blue' } });
+    const breedRed = await insertAnimalBreed({ breed: { name: breed } });
+    const breedBlue = await insertAnimalBreed({ breed: { name: 'blue' } });
     const insertedAd = await Promise.all([
       insertAd({ breed: breedRed }),
       insertAd({ breed: breedRed }),
@@ -290,7 +290,7 @@ describe('[POST] /api/ad/get-draft', () => {
   it('should get or create draft ad', async () => {
     const { headers } = await registerTestUser();
     const { headers: headersAnother } = await registerTestUser();
-    await insertBreedType();
+    await insertAnimalBreed();
     const { data: firstData } = await testApiCall(client.api.ad['get-draft'].$post({}, { headers }));
 
     expect(firstData).toHaveProperty('id');
@@ -313,7 +313,7 @@ describe('[POST] /api/ad/get-draft', () => {
 describe('[PATCH] /api/ad/update-draft', () => {
   it('should update draft ad', async () => {
     const insertedAd = await insertAd({ ad: { status: 'DRAFT' } });
-    const breedUpdated = await insertBreedType({ breed: { name: 'UPDATED' } });
+    const breedUpdated = await insertAnimalBreed({ breed: { name: 'UPDATED' } });
     await testApiCall(
       client.api.ad['update-draft'].$patch(
         {

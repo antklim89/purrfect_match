@@ -42,7 +42,7 @@ export async function insertAd({
   type?: AnimalTypeSelectType;
 } = {}) {
   const registeredUser = user ? { user, headers: undefined } : await registerTestUser();
-  const animalBreed = breed ? breed : await insertBreedType({ type });
+  const animalBreed = breed ? breed : await insertAnimalBreed({ type });
 
   const [adInserted] = await db
     .insert(adTable)
@@ -92,7 +92,7 @@ export async function insertAdImage({ ad, user }: { ad?: AdSelectType; user?: Us
   };
 }
 
-export async function insertBreedType({
+export async function insertAnimalBreed({
   type,
   breed,
 }: {
