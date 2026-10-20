@@ -15,7 +15,7 @@ const priceFormatter = Intl.NumberFormat('en-US', {
   useGrouping: false,
 });
 
-const dateFormatter = Intl.DateTimeFormat('en-US', { dateStyle: 'long', timeStyle: 'short', hour12: false });
+const dateFormatter = Intl.DateTimeFormat('en-US', { dateStyle: 'long' });
 
 export function formatPrice(price: number): string {
   return priceFormatter.format(price);
