@@ -20,8 +20,19 @@ export const apiSessionClient = hc<AppType>(
     : undefined,
 );
 
-export async function apiCall<T, U extends number = StatusCode, F extends ResponseFormat = string>(
+export async function apiCall<T, Dto, U extends number = StatusCode, F extends ResponseFormat = string>(
   fetchResponse: Promise<ClientResponse<T, U, F>>,
+  dto?: undefined,
+): Promise<{ error: { message: string; status: U }; data: null } | { error: null; data: T }>;
+
+export async function apiCall<T, Dto, U extends number = StatusCode, F extends ResponseFormat = string>(
+  fetchResponse: Promise<ClientResponse<T, U, F>>,
+  dto: (data: T) => Dto,
+): Promise<{ error: { message: string; status: U }; data: null } | { error: null; data: Dto }>;
+
+export async function apiCall<T, Dto, U extends number = StatusCode, F extends ResponseFormat = string>(
+  fetchResponse: Promise<ClientResponse<T, U, F>>,
+  dto?: (data: T) => Dto,
 ) {
   const response = await fetchResponse;
 
@@ -32,6 +43,7 @@ export async function apiCall<T, U extends number = StatusCode, F extends Respon
 
   if (response.status === 204) return { error: null, data: null as T };
 
-  const data = (await response.json()) as T;
+  const json = (await response.json()) as T;
+  const data = dto ? dto(json) : json;
   return { data, error: null };
 }
