@@ -10,35 +10,78 @@ export function AdCatalog({
   animalSlot,
 }: {
   children: ReactNode;
-  filtersSlot: ReactNode;
-  sortSlot: ReactNode;
+  filtersSlot?: ReactNode;
+  sortSlot?: ReactNode;
   paginationSlot?: ReactNode;
   animalSlot?: ReactNode;
 }) {
   return (
     <div className="flex gap-4">
-      <div className="shrink-0 w-64 hidden xl:block">
-        <Suspense>{filtersSlot}</Suspense>
-      </div>
+      {filtersSlot && (
+        <div className="shrink-0 w-64 hidden xl:block">
+          <Suspense>{filtersSlot}</Suspense>
+        </div>
+      )}
 
       <div className="flex-1 flex flex-col gap-4">
         <Suspense>{animalSlot}</Suspense>
         <div className="flex gap-4 items-center justify-end">
           <div className="w-full">{paginationSlot}</div>
 
-          <Suspense>{sortSlot}</Suspense>
+          {sortSlot && <Suspense>{sortSlot}</Suspense>}
 
-          <div className="self-end xl:hidden">
-            <AdCatalogSheet>
-              <Suspense>{filtersSlot}</Suspense>
-            </AdCatalogSheet>
-          </div>
+          {filtersSlot && (
+            <div className="self-end xl:hidden">
+              <AdCatalogSheet>
+                <Suspense>{filtersSlot}</Suspense>
+              </AdCatalogSheet>
+            </div>
+          )}
         </div>
 
         <div>{children}</div>
 
         <div className="w-full">{paginationSlot}</div>
       </div>
+    </div>
+  );
+}
+
+export function AdCatalogRoot({ children }: { children: ReactNode }) {
+  return <div className="flex gap-4">{children}</div>;
+}
+
+export function AdCatalogFilters({ children }: { children: ReactNode }) {
+  return (
+    <div className="shrink-0 w-64 hidden xl:block">
+      <Suspense>{children}</Suspense>
+      <div className="self-end xl:hidden">
+        <AdCatalogSheet>
+          <Suspense>{children}</Suspense>
+        </AdCatalogSheet>
+      </div>
+    </div>
+  );
+}
+
+export function AdCatalogList({
+  children,
+  sortSlot,
+  paginationSlot,
+}: {
+  children: ReactNode;
+  sortSlot: ReactNode;
+  paginationSlot?: ReactNode;
+}) {
+  return (
+    <div className="flex-1 flex flex-col gap-4">
+      <div className="flex gap-4 items-center justify-end">
+        <div className="w-full">{paginationSlot}</div>
+
+        <Suspense>{sortSlot}</Suspense>
+      </div>
+      <div>{children}</div>
+      <div className="w-full">{paginationSlot}</div>
     </div>
   );
 }
