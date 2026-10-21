@@ -6,7 +6,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import notFoundFallback from '@/shared/assets/not-found.png';
-import { formatDate, formatPrice } from '@/shared/lib/utils';
+import { calculateAge, formatDate, formatPrice } from '@/shared/lib/utils';
+import { Gender } from '@/shared/ui/gender';
 import { Item, ItemActions, ItemContent, ItemDescription, ItemFooter, ItemMedia, ItemTitle } from '@/shared/ui/item';
 
 export function AdItem({ ad, actionsSlot }: { ad: AdPreviewType; actionsSlot: ReactNode }) {
@@ -27,13 +28,15 @@ export function AdItem({ ad, actionsSlot }: { ad: AdPreviewType; actionsSlot: Re
       </ItemMedia>
 
       <ItemContent>
-        <ItemTitle className="text-lg">
-          <h3>
+        <ItemTitle className="text-lg flex-col">
+          <h3 className="flex gap-2 items-center">
             {ad.name} {ad.type} {ad.breed}
+            <Gender gender={ad.gender} />
           </h3>
         </ItemTitle>
 
-        <ItemDescription>{formatDate(ad.publishedAt)}</ItemDescription>
+        <ItemDescription>{calculateAge(ad.birth)?.text}</ItemDescription>
+        <ItemDescription>Published at: {formatDate(ad.publishedAt)}</ItemDescription>
       </ItemContent>
 
       <ItemActions className="z-1">{actionsSlot}</ItemActions>

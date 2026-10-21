@@ -1,7 +1,7 @@
 {
   "version": "8",
   "dialect": "postgres",
-  "id": "6d676860-94be-4d14-a22b-89d3c85ca124",
+  "id": "8ab65b9f-daee-404d-b144-0a4803732dd3",
   "prevIds": [
     "00000000-0000-0000-0000-000000000000"
   ],
@@ -745,6 +745,32 @@
       "generated": null,
       "identity": null,
       "name": "description",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "ad"
+    },
+    {
+      "type": "timestamp with time zone",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "now()",
+      "generated": null,
+      "identity": null,
+      "name": "birth",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "ad"
+    },
+    {
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "'male'",
+      "generated": null,
+      "identity": null,
+      "name": "gender",
       "entityType": "columns",
       "schema": "public",
       "table": "ad"

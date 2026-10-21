@@ -81,6 +81,8 @@ async function createAd() {
     return {
       id: faker.string.uuid({ version: 7 }),
       name: faker.animal.petName(),
+      birth: faker.date.past({ years: 7 }).toISOString(),
+      gender: faker.helpers.arrayElement(['male', 'female']),
       breedName: breed.name,
       type: type.name,
       description: faker.lorem.sentence({ min: 20, max: 1000 }).slice(0, 38000),

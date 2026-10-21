@@ -77,6 +77,8 @@ CREATE TABLE "ad" (
 	"id" uuid PRIMARY KEY DEFAULT uuidv7(),
 	"name" text NOT NULL,
 	"description" text NOT NULL,
+	"birth" timestamp with time zone DEFAULT now() NOT NULL,
+	"gender" text DEFAULT 'male' NOT NULL,
 	"tsvector" tsvector GENERATED ALWAYS AS (to_tsvector('english', "ad"."description")) STORED NOT NULL,
 	"price" numeric(10,2) NOT NULL,
 	"status" text DEFAULT 'DRAFT' NOT NULL,

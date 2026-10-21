@@ -5,13 +5,15 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import notFoundFallback from '@/shared/assets/not-found.png';
-import { formatDate, formatPrice } from '@/shared/lib/utils';
+import { calculateAge, formatDate, formatPrice } from '@/shared/lib/utils';
 import { badgeVariants } from '@/shared/ui/badge';
 import { buttonVariants } from '@/shared/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/shared/ui/card';
+import { Gender } from '@/shared/ui/gender';
 
 export function AdCard({ ad, actionSlot }: { ad: AdPreviewType; actionSlot?: ReactNode }) {
   const image = ad.images[0];
+  const age = calculateAge(ad.birth);
 
   return (
     <Card>
@@ -24,14 +26,18 @@ export function AdCard({ ad, actionSlot }: { ad: AdPreviewType; actionSlot?: Rea
         width={AD_IMAGE_WIDTH / 8}
         height={AD_IMAGE_HEIGHT / 8}
       />
-      <CardHeader className="flex gap-1">
-        <div className="flex flex-col grow">
-          <CardTitle className="text-lg">{ad.name}</CardTitle>
-          <span className="text-xs opacity-60">{formatDate(ad.publishedAt)}</span>
-        </div>
+      <div className="flex">
+        <CardHeader className="flex flex-col gap-1 grow">
+          <div className="flex">
+            <CardTitle className="text-xl">{ad.name}</CardTitle>
+            <Gender gender={ad.gender} />
+          </div>
+          {age && <span className="text-sm opacity-80">{age.text}</span>}
+          <span className="text-sm opacity-80">Published at: {formatDate(ad.publishedAt)}</span>
+        </CardHeader>
 
         <div className="flex flex-col gap-2">{actionSlot}</div>
-      </CardHeader>
+      </div>
       <CardContent className="flex flex-col gap-2">
         <div className="flex flex-col gap-2">
           <Link className={badgeVariants({ className: 'uppercase' })} href={`/ad?type=${ad.type}`}>

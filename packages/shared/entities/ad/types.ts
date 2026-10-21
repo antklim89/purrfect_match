@@ -2,6 +2,7 @@ import type { z } from 'zod/v4-mini';
 
 import type { AdStatus } from './constants';
 import type { AdDraftSchema, AdFilterSchema } from './schemas';
+import type { GenderType } from '../../models/gender';
 import type { UserContactType } from '../user/types';
 
 export type AdDraftType = z.infer<typeof AdDraftSchema>;
@@ -22,6 +23,8 @@ export interface AdPagination {
 export interface AdPreviewType {
   name: string;
   type: string;
+  birth: string;
+  gender: GenderType;
   price: number;
   breed: string;
   status: AdStatus;
@@ -37,6 +40,8 @@ export interface AdPreviewType {
 export interface AdType {
   name: string;
   type: string;
+  birth: string;
+  gender: GenderType;
   price: number;
   description: string;
   breed: string;

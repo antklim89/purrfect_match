@@ -78,6 +78,8 @@ export async function adFindManyService({
         name: true,
         price: true,
         status: true,
+        birth: true,
+        gender: true,
       },
       orderBy: (table, o) => {
         return orderBy === 'desc' ? [o.desc(table[sortBy]), o.desc(table.id)] : [o.asc(table[sortBy]), o.asc(table.id)];

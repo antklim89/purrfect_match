@@ -1,3 +1,4 @@
+import { genders } from '@purrfect_match/shared/models/gender';
 import { type SQL, sql } from 'drizzle-orm';
 import { customType, index, numeric, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
 
@@ -13,6 +14,9 @@ export const adTable = pgTable(
 
     name: text().notNull(),
     description: text().notNull(),
+    birth: timestamp({ mode: 'string', withTimezone: true }).notNull().defaultNow(),
+    gender: text({ enum: genders }).notNull().default('male'),
+
     tsvector: tsvector()
       .notNull()
       .generatedAlwaysAs((): SQL => sql`to_tsvector('english', ${adTable.description})`),

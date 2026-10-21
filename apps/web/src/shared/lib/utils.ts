@@ -32,3 +32,35 @@ export function formatDate(date: number | string | Date): string {
   }
   return dateFormatter.format(date);
 }
+
+export function calculateAge(birth: string) {
+  const birthDate = new Date(birth);
+  if (Number.isNaN(birthDate.getTime())) return null;
+
+  const today = new Date();
+
+  let years = today.getFullYear() - birthDate.getFullYear();
+  let months = today.getMonth() - birthDate.getMonth();
+
+  if (today.getDate() < birthDate.getDate()) {
+    months--;
+  }
+
+  if (months < 0) {
+    years--;
+    months += 12;
+  }
+
+  return {
+    years,
+    months,
+    text:
+      years === 0 && months === 0
+        ? `less than a month old`
+        : years === 0
+          ? `${months} months old`
+          : months === 0
+            ? `${years} years old`
+            : `${years} years and ${months} month old`,
+  };
+}
