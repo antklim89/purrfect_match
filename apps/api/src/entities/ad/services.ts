@@ -149,9 +149,10 @@ export async function adGetDraftService({ userId }: { userId: User['id'] }) {
       description: true,
       name: true,
       price: true,
+      birth: true,
+      gender: true,
     },
   });
-
   if (selectedAd) return selectedAd;
 
   const breed = await db.query.animalBreedTable.findFirst();
@@ -192,13 +193,15 @@ export async function adUpdateDraftService({ userId, input }: { userId: User['id
   const [updatedAd] = await db
     .update(adTable)
     .set({
+      birth: input.birth,
+      gender: input.gender,
       breedName: input.breedName,
       name: input.name,
       description: input.description,
       price: input.price,
     })
     .where(and(eq(adTable.status, AdStatus.DRAFT), eq(adTable.userId, userId)))
-    .returning({ id: adTable.id });
+    .returning({ id: adTable.id, birth: adTable.birth });
 
   if (!updatedAd) {
     throw new HTTPException(StatusCode.NOT_FOUND, {

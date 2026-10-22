@@ -30,6 +30,8 @@ export function createTestAdData({
 }): AdInsertType {
   return {
     id: faker.string.uuid({ version: 7 }),
+    birth: '2000-01-01',
+    gender: faker.helpers.arrayElement(['male', 'female']),
     breedName,
     userId,
     name: faker.person.firstName(),

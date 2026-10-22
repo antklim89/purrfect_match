@@ -16,6 +16,7 @@ const priceFormatter = Intl.NumberFormat('en-US', {
 });
 
 const dateFormatter = Intl.DateTimeFormat('en-US', { dateStyle: 'long' });
+const dateIsoFormatter = Intl.DateTimeFormat('sv-SE', { day: '2-digit', month: '2-digit', year: 'numeric' });
 
 export function formatPrice(price: number): string {
   return priceFormatter.format(price);
@@ -31,6 +32,18 @@ export function formatDate(date: number | string | Date): string {
     }
   }
   return dateFormatter.format(date);
+}
+
+export function formatIsoDate(date: number | string | Date | undefined): string {
+  if (typeof date === 'string') {
+    try {
+      return dateIsoFormatter.format(new Date(date));
+    } catch {
+      console.error('Failed to format date');
+      return dateIsoFormatter.format(new Date());
+    }
+  }
+  return dateIsoFormatter.format(date);
 }
 
 export function calculateAge(birth: string) {

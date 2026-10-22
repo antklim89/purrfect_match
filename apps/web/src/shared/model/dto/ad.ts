@@ -15,11 +15,9 @@ export const adDraftDto = (
   data: InferResponseType<(typeof apiSessionClient.api.ad)['get-draft']['$post']>,
 ): AdDraftType => {
   return {
-    name: data.name,
+    ...data,
     breedName: 'breedName' in data ? data.breedName : data.breed.name,
-    description: data.description,
     images: 'images' in data ? data.images : undefined,
-    price: data.price,
   };
 };
 

@@ -1,10 +1,12 @@
 import type { ReactNode } from 'react';
 import { MAX_IMAGES_PER_AD } from '@purrfect_match/shared/entities/ad/constants';
+import { genders } from '@purrfect_match/shared/models/gender';
 import { toast } from 'sonner';
 
 import { apiCall, apiSessionClient } from '@/shared/lib/api-client';
 import { useTypedAppFormContext } from '@/shared/lib/form';
 import { Field, FieldError, FieldLabel } from '@/shared/ui/field';
+import { Gender } from '@/shared/ui/gender';
 import { ImageUpload, type UploadImageType } from '@/shared/ui/image-upload';
 import { adCreateFormOptions } from '../models/form-options';
 
@@ -37,9 +39,24 @@ export function AdCreateForm({ animalSelectSlot }: { animalSelectSlot: ReactNode
       <form.AppField name="description">
         {(field) => <field.FormTextarea placeholder="Enter description" label="Description" />}
       </form.AppField>
+
       <form.AppField name="price">
         {(field) => <field.FormInputNumber placeholder="Enter price" label="Price" />}
       </form.AppField>
+
+      <form.AppField name="gender">
+        {(field) => (
+          <field.FormSelect label="Gender" className="capitalize">
+            {genders.map((gender) => (
+              <field.FormSelectItem key={gender} value={gender} className="capitalize">
+                {gender} <Gender gender={gender} />
+              </field.FormSelectItem>
+            ))}
+          </field.FormSelect>
+        )}
+      </form.AppField>
+
+      <form.AppField name="birth">{(field) => <field.FormDatePicker label="Birth Date" />}</form.AppField>
 
       <form.AppField name="images">
         {(field) => (

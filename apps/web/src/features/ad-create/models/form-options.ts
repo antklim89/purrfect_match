@@ -1,5 +1,6 @@
 import { AdDraftSchema, AdPublishSchema } from '@purrfect_match/shared/entities/ad/schemas';
 import type { AdImageType } from '@purrfect_match/shared/entities/ad/types';
+import type { GenderType } from '@purrfect_match/shared/models/gender';
 import { formOptions } from '@tanstack/react-form';
 import { toast } from 'sonner';
 import { z } from 'zod/v4-mini';
@@ -14,6 +15,8 @@ export const adCreateFormOptions = formOptions({
     type: '',
     breedName: '',
     description: '',
+    gender: 'male' as GenderType,
+    birth: '',
     images: [] as AdImageType[],
     price: 0,
   },

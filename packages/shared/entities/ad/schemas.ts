@@ -1,6 +1,7 @@
 import { z } from 'zod/v4-mini';
 
 import { ADS_SORT_BY, MAX_ADS_LIMIT, MAX_IMAGES_PER_AD } from './constants';
+import { genders } from '../../models/gender';
 
 export const AdImageSchema = z.object({
   id: z.uuid(),
@@ -13,6 +14,8 @@ export const AdPublishSchema = z.object({
   breedName: z.string().check(z.minLength(1, 'Enter animal breed')),
   price: z.number().check(z.minimum(0), z.maximum(9000000)),
   description: z.string().check(z.minLength(10), z.maxLength(40000)),
+  birth: z.iso.date(),
+  gender: z.enum(genders),
   images: z
     .array(AdImageSchema)
     .check(
@@ -27,6 +30,8 @@ export const AdDraftSchema = z.partial(
     price: z.number(),
     description: z.string(),
     breedName: z.string(),
+    birth: z.iso.date(),
+    gender: z.literal(genders),
     images: z.array(AdImageSchema).check(z.maxLength(20)),
   }),
 );

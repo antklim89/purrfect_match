@@ -3,6 +3,7 @@ import { createFormHook } from '@tanstack/react-form';
 import {
   Form,
   FormArray,
+  FormDatePicker,
   FormInput,
   FormInputNumber,
   FormSelect,
@@ -23,6 +24,7 @@ export const { useAppForm, withForm, useTypedAppFormContext } = createFormHook({
     FormArray,
     FormSelect,
     FormSelectItem,
+    FormDatePicker,
   },
   formComponents: {
     Form,

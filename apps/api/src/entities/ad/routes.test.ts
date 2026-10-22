@@ -293,6 +293,20 @@ describe('[POST] /api/ad/get-draft', () => {
     await insertAnimalBreed();
     const { data: firstData } = await testApiCall(client.api.ad['get-draft'].$post({}, { headers }));
 
+    expect(firstData).toStrictEqual({
+      id: expect.anything(),
+      name: '',
+      description: '',
+      birth: expect.anything(),
+      gender: 'male',
+      tsvector: '',
+      price: 0,
+      status: 'DRAFT',
+      breedName: expect.anything(),
+      userId: expect.anything(),
+      createdAt: expect.anything(),
+      publishedAt: expect.anything(),
+    });
     expect(firstData).toHaveProperty('id');
     expect(firstData).toHaveProperty('status', AdStatus.DRAFT);
 
@@ -318,6 +332,8 @@ describe('[PATCH] /api/ad/update-draft', () => {
       client.api.ad['update-draft'].$patch(
         {
           json: {
+            birth: '2020-01-02',
+            gender: 'female',
             breedName: breedUpdated.name,
             description: 'UPDATED',
             name: 'UPDATED',
@@ -330,6 +346,8 @@ describe('[PATCH] /api/ad/update-draft', () => {
 
     const [updatedAd] = await db.select().from(adTable).where(eq(adTable.id, insertedAd.id));
 
+    expect(updatedAd).toHaveProperty('birth', '2020-01-02');
+    expect(updatedAd).toHaveProperty('gender', 'female');
     expect(updatedAd).toHaveProperty('breedName', 'UPDATED');
     expect(updatedAd).toHaveProperty('description', 'UPDATED');
     expect(updatedAd).toHaveProperty('name', 'UPDATED');
