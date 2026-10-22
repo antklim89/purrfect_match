@@ -1,6 +1,6 @@
 import { genders } from '@purrfect_match/shared/models/gender';
 import { type SQL, sql } from 'drizzle-orm';
-import { customType, index, numeric, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
+import { customType, date, index, numeric, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
 
 import { animalBreedTable } from '@/entities/animal/tables';
 import { userTable } from '@/entities/user/tables';
@@ -14,7 +14,7 @@ export const adTable = pgTable(
 
     name: text().notNull(),
     description: text().notNull(),
-    birth: timestamp({ mode: 'string', withTimezone: true }).notNull().defaultNow(),
+    birth: date({ mode: 'string' }).notNull().defaultNow(),
     gender: text({ enum: genders }).notNull().default('male'),
 
     tsvector: tsvector()
