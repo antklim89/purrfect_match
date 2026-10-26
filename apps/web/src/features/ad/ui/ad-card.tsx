@@ -26,18 +26,19 @@ export function AdCard({ ad, actionSlot }: { ad: AdPreviewType; actionSlot?: Rea
         width={AD_IMAGE_WIDTH / 8}
         height={AD_IMAGE_HEIGHT / 8}
       />
-      <div className="flex">
-        <CardHeader className="flex flex-col gap-1 grow">
+      <CardHeader className="flex">
+        <div className="flex flex-col gap-1 grow">
           <div className="flex">
             <CardTitle className="text-xl">{ad.name}</CardTitle>
             <Gender gender={ad.gender} />
           </div>
           {age && <span className="text-sm opacity-80">{age.text}</span>}
           <span className="text-sm opacity-80">Published at: {formatDate(ad.publishedAt)}</span>
-        </CardHeader>
+        </div>
 
         <div className="flex flex-col gap-2">{actionSlot}</div>
-      </div>
+      </CardHeader>
+
       <CardContent className="flex flex-col gap-2">
         <div className="flex flex-col gap-2">
           <Link className={badgeVariants({ className: 'uppercase' })} href={`/ad?type=${ad.type}`}>
