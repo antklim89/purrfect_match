@@ -4,6 +4,7 @@ import { type ComponentProps, useRef, useTransition } from 'react';
 import type { DialogRootActions } from '@base-ui/react';
 import type { AdType } from '@purrfect_match/shared/entities/ad/types';
 import { Trash2Icon } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 
 import { adDeleteMutation } from '@/shared/api/mutations/ad-mutations';
@@ -26,6 +27,8 @@ export function AdDeleteButton({
 }: { id: AdType['id']; onDelete?: () => void } & ComponentProps<typeof AlertDialogTrigger>) {
   const actionsRef = useRef<DialogRootActions | null>(null);
   const [isPending, startTransition] = useTransition();
+  const router = useRouter();
+
   function handleAdDelete() {
     startTransition(async () => {
       const { error } = await adDeleteMutation({ adId: id });
@@ -35,6 +38,7 @@ export function AdDeleteButton({
         return;
       }
 
+      router.refresh();
       onDelete?.();
       actionsRef.current?.close();
     });
