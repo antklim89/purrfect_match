@@ -35,7 +35,7 @@ export function AdItem({ ad, actionsSlot }: { ad: AdPreviewType; actionsSlot: Re
           </h3>
         </ItemTitle>
 
-        <ItemDescription>{calculateAge(ad.birth)?.text}</ItemDescription>
+        <ItemDescription>{calculateAge(ad.birth).text}</ItemDescription>
         <ItemDescription>Published at: {formatDate(ad.publishedAt)}</ItemDescription>
       </ItemContent>
 

@@ -32,7 +32,7 @@ export function AdCard({ ad, actionSlot }: { ad: AdPreviewType; actionSlot?: Rea
             <CardTitle className="text-xl">{ad.name}</CardTitle>
             <Gender gender={ad.gender} />
           </div>
-          {age && <span className="text-sm opacity-80">{age.text}</span>}
+          <span className="text-sm opacity-80">{age.text}</span>
           <span className="text-sm opacity-80">Published at: {formatDate(ad.publishedAt)}</span>
         </div>
 

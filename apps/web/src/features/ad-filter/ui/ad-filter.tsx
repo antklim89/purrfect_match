@@ -7,7 +7,7 @@ import { XIcon } from 'lucide-react';
 import Link from 'next/link';
 import { parseAsString, useQueryStates } from 'nuqs';
 
-import { calculateAge, cn, formatIsoDate } from '@/shared/lib/utils';
+import { calculateAge, calculateIsoDateFromAge, cn, formatIsoDate } from '@/shared/lib/utils';
 import { Button, buttonVariants } from '@/shared/ui/button';
 import { Field, FieldLabel } from '@/shared/ui/field';
 import { Gender } from '@/shared/ui/gender';
@@ -65,14 +65,6 @@ const ageFields = [
     label: 'Older than',
   },
 ] as const;
-
-function calculateDateFromAge(year: number, month: number) {
-  const currentDate = new Date();
-  currentDate.setMonth(currentDate.getMonth() - month);
-  currentDate.setFullYear(currentDate.getFullYear() - year);
-
-  return formatIsoDate(currentDate);
-}
 
 export function AdFilter({ filtersSlot }: { filtersSlot?: ReactNode }) {
   const id = useId();
@@ -137,10 +129,10 @@ export function AdFilter({ filtersSlot }: { filtersSlot?: ReactNode }) {
             <div className="grid grid-cols-2 gap-2">
               <InputGroup>
                 <InputGroupInput
-                  value={age?.years || ''}
+                  value={age.years}
                   onChange={(e) =>
                     setFilter({
-                      [field.name]: calculateDateFromAge(Number(e.target.value), age?.months || 0),
+                      [field.name]: calculateIsoDateFromAge(Number(e.target.value), age.months),
                       page: null,
                     })
                   }
@@ -154,10 +146,10 @@ export function AdFilter({ filtersSlot }: { filtersSlot?: ReactNode }) {
 
               <InputGroup>
                 <InputGroupInput
-                  value={age?.months || ''}
+                  value={age.months}
                   onChange={(e) =>
                     setFilter({
-                      [field.name]: calculateDateFromAge(age?.years || 0, Number(e.target.value)),
+                      [field.name]: calculateIsoDateFromAge(age.years, Number(e.target.value)),
                       page: null,
                     })
                   }

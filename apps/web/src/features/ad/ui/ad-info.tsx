@@ -11,6 +11,7 @@ import { AdContact } from './ad-contact';
 
 export function AdInfo({ ad, actionsSlot }: { ad: AdType; actionsSlot?: ReactNode }) {
   const age = calculateAge(ad.birth);
+
   return (
     <Card>
       <CardHeader className="flex justify-between w-full">
@@ -33,7 +34,7 @@ export function AdInfo({ ad, actionsSlot }: { ad: AdType; actionsSlot?: ReactNod
         <div className="flex flex-col gap-4">{actionsSlot}</div>
       </CardHeader>
       <CardContent className="h-full flex flex-col gap-4">
-        {age && <p className="text-lg">{age.text}</p>}
+        <p className="text-lg">{age.text}</p>
 
         <ItemGroup>
           {ad.user.contacts?.map((contact) => (

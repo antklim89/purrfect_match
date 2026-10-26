@@ -1,5 +1,7 @@
 import type { ClassValue } from 'clsx';
 import { clsx } from 'clsx';
+import { addYears, differenceInMonths, differenceInYears, subMonths, subYears } from 'date-fns';
+import { format } from 'date-fns/format';
 import { twMerge } from 'tailwind-merge';
 
 export function cn(...inputs: ClassValue[]) {
@@ -15,65 +17,47 @@ const priceFormatter = Intl.NumberFormat('en-US', {
   useGrouping: false,
 });
 
-const dateFormatter = Intl.DateTimeFormat('en-US', { dateStyle: 'long' });
-const dateIsoFormatter = Intl.DateTimeFormat('sv-SE', { day: '2-digit', month: '2-digit', year: 'numeric' });
+const dateFormatter = Intl.DateTimeFormat('en-US', { timeZone: 'America/Los_Angeles' });
 
 export function formatPrice(price: number): string {
   return priceFormatter.format(price);
 }
 
 export function formatDate(date: number | string | Date): string {
-  if (typeof date === 'string') {
-    try {
-      return dateFormatter.format(new Date(date));
-    } catch {
-      console.error('Failed to format date');
-      return dateFormatter.format(new Date());
-    }
+  try {
+    return format(dateFormatter.format(new Date(date)), 'MMM dd, yyyy');
+  } catch {
+    return 'Invalid date';
   }
-  return dateFormatter.format(date);
 }
 
-export function formatIsoDate(date: number | string | Date | undefined): string {
-  if (typeof date === 'string') {
-    try {
-      return dateIsoFormatter.format(new Date(date));
-    } catch {
-      console.error('Failed to format date');
-      return dateIsoFormatter.format(new Date());
-    }
+export function formatIsoDate(date: number | string | Date): string {
+  try {
+    return format(dateFormatter.format(new Date(date)), 'yyyy-MM-dd');
+  } catch {
+    return 'Invalid date';
   }
-  return dateIsoFormatter.format(date);
 }
 
 export function calculateAge(birth: string) {
-  const birthDate = new Date(birth);
-  if (Number.isNaN(birthDate.getTime())) return null;
-
   const today = new Date();
 
-  let years = today.getFullYear() - birthDate.getFullYear();
-  let months = today.getMonth() - birthDate.getMonth();
+  const years = differenceInYears(today, birth);
+  const months = differenceInMonths(today, addYears(birth, years));
 
-  if (today.getDate() < birthDate.getDate()) {
-    months--;
-  }
+  const text =
+    years === 0 && months === 0
+      ? `less than a month old`
+      : years === 0
+        ? `${months} months old`
+        : months === 0
+          ? `${years} years old`
+          : `${years} years and ${months} month old`;
 
-  if (months < 0) {
-    years--;
-    months += 12;
-  }
+  return { years, months, text };
+}
 
-  return {
-    years,
-    months,
-    text:
-      years === 0 && months === 0
-        ? `less than a month old`
-        : years === 0
-          ? `${months} months old`
-          : months === 0
-            ? `${years} years old`
-            : `${years} years and ${months} month old`,
-  };
+export function calculateIsoDateFromAge(year: number, month: number) {
+  const date = subMonths(subYears(new Date(), year), month);
+  return formatIsoDate(date);
 }

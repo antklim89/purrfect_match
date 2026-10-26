@@ -56,7 +56,7 @@ export function DatePicker({
           disabled={(date) => date.getTime() >= Date.now()}
           selected={dateValue}
           onSelect={(v) => {
-            const date = formatIsoDate(v);
+            const date = formatIsoDate(v || new Date());
             onChange?.(date);
             popoverRef.current?.close();
           }}
