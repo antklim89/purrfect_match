@@ -1,15 +1,13 @@
-import { type ComponentProps, type ReactNode, useRef } from 'react';
-import type { PopoverRoot } from '@base-ui/react';
+import type { ComponentProps, ReactNode } from 'react';
 import { createFormHookContexts } from '@tanstack/react-form';
-import { CalendarIcon, XIcon } from 'lucide-react';
+import { XIcon } from 'lucide-react';
 
-import { cn, formatDate, formatIsoDate } from '@/shared/lib/utils';
+import { cn } from '@/shared/lib/utils';
 import { Button } from './button';
-import { Calendar } from './calendar';
+import { DatePicker } from './date-picker';
 import { Field, FieldError, FieldLabel, FieldSet } from './field';
 import type { Input } from './input';
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput, InputGroupTextarea } from './input-group';
-import { Popover, PopoverContent, PopoverTrigger } from './popover';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from './select';
 import { Spinner } from './spinner';
 
@@ -118,46 +116,13 @@ export function FormDatePicker({
   clear = false,
   className,
   ...props
-}: ComponentProps<typeof Button> & { label?: string; clear?: boolean }) {
+}: ComponentProps<typeof DatePicker> & { label?: string; clear?: boolean }) {
   const field = useFieldContext<string>();
-  const popoverRef = useRef<PopoverRoot.Actions | null>(null);
 
   return (
     <Field data-invalid={!field.state.meta.isValid}>
       {label ? <FieldLabel htmlFor={field.name + field.form.formId}>{label}</FieldLabel> : null}
-      <Popover modal actionsRef={popoverRef}>
-        <PopoverTrigger
-          render={
-            <Button
-              className={cn('justify-start', className)}
-              variant="outline"
-              data-empty={!field.state.value}
-              {...props}
-            >
-              {field.state.value ? (
-                formatDate(field.state.value)
-              ) : (
-                <span className="text-muted-foreground">Pick a date</span>
-              )}
-              <CalendarIcon data-icon="inline-end" />
-            </Button>
-          }
-        />
-        <PopoverContent>
-          <Calendar
-            mode="single"
-            disabled={(date) => {
-              return date.getTime() >= Date.now();
-            }}
-            selected={new Date(field.state.value)}
-            onSelect={(v) => {
-              const date = formatIsoDate(v);
-              field.handleChange(date);
-              popoverRef.current?.close();
-            }}
-          />
-        </PopoverContent>
-      </Popover>
+      <DatePicker {...props} value={field.state.value} onChange={(date) => field.handleChange(date)} />
       <FieldError errors={field.state.meta.errors} />
     </Field>
   );
