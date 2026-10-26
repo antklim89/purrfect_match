@@ -36,6 +36,9 @@ export async function adFindManyService({
     status = 'published',
     withoutPagination = false,
     favorites = false,
+    gender,
+    olderThan,
+    youngerThan,
   },
   userId,
 }: {
@@ -48,6 +51,7 @@ export async function adFindManyService({
     whereQuery.RAW = (t) => sql`${t.description} @@ to_tsquery('english', ${tsSearch})`;
   }
 
+  if (gender) whereQuery.gender = { eq: gender };
   if (breed) whereQuery.breedName = { eq: breed };
   if (type) whereQuery.breed = { animalTypeName: { eq: type } };
   if (authorId) whereQuery.userId = { eq: authorId };
@@ -56,6 +60,10 @@ export async function adFindManyService({
   if (status === 'all') whereQuery.status = { OR: [{ eq: AdStatus.PUBLISHED }, { eq: AdStatus.UNPUBLISHED }] };
   else if (status === 'unpublished') whereQuery.status = { eq: AdStatus.UNPUBLISHED };
   else whereQuery.status = { eq: AdStatus.PUBLISHED };
+
+  if (youngerThan != null && olderThan != null) whereQuery.birth = { lte: olderThan, gte: youngerThan };
+  else if (youngerThan != null) whereQuery.birth = { gte: youngerThan };
+  else if (olderThan != null) whereQuery.birth = { lte: olderThan };
 
   if (minPrice != null && maxPrice != null) whereQuery.price = { lte: maxPrice, gte: minPrice };
   else if (minPrice != null) whereQuery.price = { gte: minPrice };

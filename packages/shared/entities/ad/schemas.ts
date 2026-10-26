@@ -50,4 +50,7 @@ export const AdFilterSchema = z.object({
   limit: z.optional(z.coerce.number<string>().check(z.positive(), z.maximum(MAX_ADS_LIMIT))),
   withoutPagination: z.optional(z.coerce.boolean()),
   favorites: z.optional(z.coerce.boolean()),
+  gender: z.optional(z.enum(genders)),
+  youngerThan: z.optional(z.iso.date()),
+  olderThan: z.optional(z.iso.date()),
 });

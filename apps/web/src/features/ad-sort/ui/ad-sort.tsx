@@ -10,15 +10,27 @@ const defaultOptions: Options = { clearOnDefault: true, shallow: false };
 
 const sortOptions = [
   {
-    label: 'Older',
-    value: 'old',
+    label: 'Newly published',
+    value: 'newPublished',
     sortBy: 'publishedAt',
     orderBy: 'desc',
   },
   {
-    label: 'Newer',
-    value: 'new',
+    label: 'Old published',
+    value: 'oldPublished',
     sortBy: 'publishedAt',
+    orderBy: 'asc',
+  },
+  {
+    label: 'Younger',
+    value: 'younger',
+    sortBy: 'birth',
+    orderBy: 'desc',
+  },
+  {
+    label: 'Older',
+    value: 'older',
+    sortBy: 'birth',
     orderBy: 'asc',
   },
   {

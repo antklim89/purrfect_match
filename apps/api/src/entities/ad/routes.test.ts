@@ -182,6 +182,38 @@ describe('[GET] /api/ad', () => {
     );
   });
 
+  it.each([
+    { youngerThan: '2000-10-04', type: 'min' },
+    { olderThan: '2000-10-02', type: 'max' },
+    { youngerThan: '2000-10-02', olderThan: '2000-10-04', type: 'both' },
+  ])('should find ads with $type birth filter', async ({ olderThan, youngerThan, type }) => {
+    const insertedAd = await Promise.all([
+      insertAd({ ad: { birth: '2000-10-01' } }),
+      insertAd({ ad: { birth: '2000-10-02' } }),
+      insertAd({ ad: { birth: '2000-10-03' } }),
+      insertAd({ ad: { birth: '2000-10-04' } }),
+      insertAd({ ad: { birth: '2000-10-05' } }),
+    ]);
+
+    const { data } = await testApiCall(client.api.ad.$get({ query: { olderThan, youngerThan, limit: '50' } }));
+
+    expect(data!.items).toEqual(
+      expect.arrayContaining(
+        type === 'min'
+          ? [expect.objectContaining({ id: insertedAd[3].id }), expect.objectContaining({ id: insertedAd[4].id })]
+          : type === 'max'
+            ? [expect.objectContaining({ id: insertedAd[0].id }), expect.objectContaining({ id: insertedAd[1].id })]
+            : type === 'all'
+              ? [
+                  expect.objectContaining({ id: insertedAd[1].id }),
+                  expect.objectContaining({ id: insertedAd[2].id }),
+                  expect.objectContaining({ id: insertedAd[3].id }),
+                ]
+              : [],
+      ),
+    );
+  });
+
   it.each((['desc', 'asc'] as const).flatMap((orderBy) => ADS_SORT_BY.flatMap((sortBy) => ({ orderBy, sortBy }))))(
     'should find all ads with sort $sortBy and order $orderBy',
     async ({ orderBy, sortBy }) => {
