@@ -58,7 +58,7 @@ export function ImageUpload({
 
   return (
     <div className="flex flex-1 flex-col gap-0.5 leading-snug border rounded-lg">
-      <Button className="-m-0.25" onClick={() => inputRef.current?.click()} variant="outline">
+      <Button className="-m-px" onClick={() => inputRef.current?.click()} variant="outline">
         {placeholder} ({images.length}/{maxImages})
       </Button>
 

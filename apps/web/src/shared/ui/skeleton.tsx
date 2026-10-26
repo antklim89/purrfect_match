@@ -11,7 +11,7 @@ function SkeletonText({ className, children, ...props }: React.ComponentProps<'d
     <span
       data-slot="skeleton"
       className={cn(
-        'animate-pulse w-fit text-transparent leading-none rounded-md bg-muted inline-block m-w-12 my-0.25 select-none',
+        'animate-pulse w-fit text-transparent leading-none rounded-md bg-muted inline-block m-w-12 my-px select-none',
         className,
       )}
       {...props}
