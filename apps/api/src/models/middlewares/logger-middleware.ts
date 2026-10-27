@@ -45,6 +45,6 @@ export const loggerMiddleware = createMiddleware(async (c, next) => {
     modifiers.BOLD(c.req.method),
     getStatus(c.res.status),
     getResponseTime(start),
-    modifiers.DIM(`${url.pathname}?${url.searchParams}`),
+    modifiers.DIM(`${url.pathname}${url.searchParams.size > 0 ? `?${url.searchParams}` : ''}`),
   );
 });
