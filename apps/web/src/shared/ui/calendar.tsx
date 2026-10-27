@@ -1,20 +1,14 @@
+/** biome-ignore-all lint/correctness/noComponentHookFactories: ok */
+/** biome-ignore-all lint/complexity/noExcessiveLinesPerFunction: ok */
 'use client';
 
 import { useEffect, useRef } from 'react';
-import {
-  type CustomComponents,
-  type DayButton,
-  DayPicker,
-  type DayPickerLocale,
-  getDefaultClassNames,
-  type Locale,
-} from 'react-day-picker';
+import { type DayButton, DayPicker, type DayPickerLocale, getDefaultClassNames, type Locale } from 'react-day-picker';
 import { cn } from 'cn';
 import { ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 
 import { Button, buttonVariants } from '@/shared/ui/button';
 
-// biome-ignore lint/complexity/noExcessiveLinesPerFunction: ok
 function Calendar({
   className,
   classNames,
@@ -111,15 +105,14 @@ function Calendar({
         hidden: cn('invisible', defaultClassNames.hidden),
         ...classNames,
       }}
-      components={newFunction(locale, components)}
+      components={{ ...components, ...getComponents(locale) }}
       {...props}
     />
   );
 }
 
-function newFunction(
+function getComponents(
   locale: Partial<DayPickerLocale> | undefined,
-  components: Partial<CustomComponents> | undefined,
 ): Partial<import('react-day-picker').CustomComponents> | undefined {
   return {
     Root: ({ className, rootRef, ...props }) => {
@@ -144,7 +137,6 @@ function newFunction(
         </td>
       );
     },
-    ...components,
   };
 }
 

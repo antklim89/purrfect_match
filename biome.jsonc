@@ -87,10 +87,10 @@
       "test": "all",
       "types": "all",
       "solid": "none",
-      "qwik": "none"
+      "qwik": "none",
+      "reactNative": "none"
     },
     "rules": {
-      // "preset": "all"
       "a11y": {
         "preset": "all",
         "useMediaCaption": "off"
@@ -98,6 +98,7 @@
 
       "complexity": {
         "preset": "all",
+        "noExcessiveCognitiveComplexity": { "options": { "maxAllowedComplexity": 20 }, "level": "error" },
         "noExcessiveLinesPerFunction": {
           "level": "error",
           "options": { "maxLines": 60, "skipBlankLines": true, "skipIifes": true }
@@ -107,6 +108,7 @@
 
       "correctness": {
         "preset": "all",
+        "useReactAsyncServerFunction": { "fix": "safe", "level": "error" },
         "noUnresolvedImports": "off",
         "useImportExtensions": "off",
         "noUndeclaredDependencies": "off",
@@ -135,27 +137,17 @@
       },
 
       "nursery": {
-        "preset": "recommended",
-        "noExcessiveNestedCallbacks": "error",
         "noFloatingPromises": "error",
         "noImpliedEval": "error",
-        "noLoopFunc": "error",
         "noRestrictedDependencies": "error",
-        "noUnnecessaryTemplateExpression": "error",
-        "useArraySome": "error",
-        "useDomNodeTextContent": "error",
         "useExhaustiveSwitchCases": "error",
-        "useIframeSandbox": "error",
         "useIncludes": { "fix": "safe", "level": "error" },
-        "useMathMinMax": "error",
-        "useReactAsyncServerFunction": { "fix": "safe", "level": "error" },
-        "useReactFunctionComponentDefinition": { "fix": "safe", "level": "error" },
-        "useReduceTypeParameter": { "fix": "safe", "level": "error" },
-        "useRegexpTest": "error"
+        "useReactFunctionComponentDefinition": { "fix": "safe", "level": "error" }
       },
 
       "style": {
         "preset": "recommended",
+        "useReduceTypeParameter": { "fix": "safe", "level": "error" },
         "noCommonJs": "error",
         "noEnum": "error",
         "noMultiAssign": "error",

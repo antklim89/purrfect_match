@@ -224,16 +224,15 @@ describe('[GET] /api/ad', () => {
       const totalAds: Partial<AdSelectType>[] = [];
 
       while (true) {
-        const { data, error } = await testApiCall(
+        const { data } = await testApiCall(
           client.api.ad.$get({
             query: { sortBy, orderBy, limit: '10', page },
           }),
         );
-        if (error) return expect(error).toBeNull();
 
-        totalAds.push(...data.items);
-        if (data.pagination.currentPage >= data.pagination.totalPages) break;
-        page = String(data.pagination.currentPage + 1);
+        totalAds.push(...data!.items);
+        if (data!.pagination.currentPage >= data!.pagination.totalPages) break;
+        page = String(data!.pagination.currentPage + 1);
       }
 
       const allAds = insertedAds
@@ -286,10 +285,9 @@ describe('[GET] /api/ad', () => {
 describe('[GET] /api/ad/:id', () => {
   it('should find ad', async () => {
     const ad = await insertAd();
-    const { data, error } = await testApiCall(client.api.ad[':adId'].$get({ param: { adId: ad.id } }));
-    if (error) return expect(error).toBeNull();
+    const { data } = await testApiCall(client.api.ad[':adId'].$get({ param: { adId: ad.id } }));
 
-    expect(data.id).toEqual(ad.id);
+    expect(data!.id).toEqual(ad.id);
   });
 
   it('should find ad with favorites', async () => {
@@ -564,34 +562,26 @@ describe('[DELETE] /api/ad/:id', () => {
 
   it('should not delete ad if not authenticated', async () => {
     const { headers, user, ...ad } = await insertAd();
-    const { data, error } = await testApiCall(client.api.ad[':adId'].$delete({ param: { adId: ad.id } }));
-
-    if (!error) return expect(data).toBeNull();
+    const { error } = await testApiCall(client.api.ad[':adId'].$delete({ param: { adId: ad.id } }));
 
     const deletedAd = await db.query.adTable.findFirst({ where: { id: ad.id } });
     expect(deletedAd).not.toBeUndefined();
-    expect(error.status).toEqual(401);
+    expect(error!.status).toEqual(401);
   });
 
   it('should not delete ad if not valid input', async () => {
     const { headers, user, ...ad } = await insertAd();
-    const { data, error } = await testApiCall(
-      client.api.ad[':adId'].$delete({ param: { adId: 'invalid_id' } }, { headers }),
-    );
-
-    if (!error) return expect(data).toBeNull();
+    const { error } = await testApiCall(client.api.ad[':adId'].$delete({ param: { adId: 'invalid_id' } }, { headers }));
 
     const deletedAd = await db.query.adTable.findFirst({ where: { id: ad.id } });
     expect(deletedAd).not.toBeUndefined();
-    expect(error.status).toEqual(400);
+    expect(error!.status).toEqual(400);
   });
 
   it('should not delete ad if user id from another user', async () => {
     const { headers } = await registerTestUser();
     const { user, ...ad } = await insertAd();
-    const { data, error } = await testApiCall(client.api.ad[':adId'].$delete({ param: { adId: ad.id } }, { headers }));
-
-    if (!error) return expect(data).toBeNull();
+    await testApiCall(client.api.ad[':adId'].$delete({ param: { adId: ad.id } }, { headers }));
 
     const deletedAd = await db.query.adTable.findFirst({ where: { id: ad.id } });
     expect(deletedAd).not.toBeUndefined();

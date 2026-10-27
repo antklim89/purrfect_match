@@ -68,8 +68,7 @@ describe('[GET] /api/auth/:id/get-user', () => {
 describe('[POST] /api/auth/update-user', () => {
   it('should update user', async () => {
     const { headers, user } = await registerTestUser();
-    const { error, data } = await testApiCall(client.api.user['update-user'].$post({ json: testProfile }, { headers }));
-    if (error) return expect(error).toBeNull();
+    const { data } = await testApiCall(client.api.user['update-user'].$post({ json: testProfile }, { headers }));
 
     const updatedProfile = await db.query.userTable.findFirst({
       where: { id: user.id },
