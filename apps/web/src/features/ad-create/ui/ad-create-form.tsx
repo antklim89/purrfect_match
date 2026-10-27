@@ -78,7 +78,7 @@ export function AdCreateForm({ animalSelectSlot }: { animalSelectSlot: ReactNode
               accept="image/*"
               multiple
             />
-            <FieldError></FieldError>
+            <FieldError errors={field.state.meta.errors}></FieldError>
           </Field>
         )}
       </form.AppField>
