@@ -2,6 +2,7 @@ import { StatusCode } from '@purrfect_match/shared/models/status-codes';
 import { HTTPException } from 'hono/http-exception';
 
 import { db } from '@/lib/db';
+import { animalTypeTable } from './tables';
 
 export async function animalFindManyService() {
   const animals = await db.query.animalTypeTable.findMany({
@@ -14,7 +15,14 @@ export async function animalFindManyService() {
 export async function animalFindOneService({ name }: { name: string }) {
   const animal = await db.query.animalTypeTable.findFirst({
     where: { name },
-    with: { breeds: { columns: { name: true } } },
+    extras: {
+      animalNames: (_, { sql }) => sql<string[]>`SELECT ARRAY(SELECT ${animalTypeTable.name} FROM ${animalTypeTable})`,
+    },
+    with: {
+      breeds: {
+        columns: { name: true, description: true },
+      },
+    },
   });
 
   if (!animal) throw new HTTPException(StatusCode.NOT_FOUND, { message: `Animal with name ${name} not found.` });

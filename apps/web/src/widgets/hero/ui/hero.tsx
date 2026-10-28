@@ -1,4 +1,4 @@
-import { ArrowRightIcon } from 'lucide-react';
+import { BookIcon, SearchIcon } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -31,8 +31,11 @@ export function Hero() {
           </p>
 
           <div className="fade-in slide-in-from-bottom-10 flex w-fit animate-in items-center justify-center gap-3 fill-mode-backwards pt-2 delay-300 duration-500 ease-out">
+            <Link href="/animal" className={buttonVariants({ variant: 'outline' })}>
+              Explore <BookIcon />
+            </Link>
             <Link href="/ad" className={buttonVariants()}>
-              Explore <ArrowRightIcon />
+              Catalog <SearchIcon />
             </Link>
           </div>
         </div>

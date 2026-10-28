@@ -17,6 +17,9 @@ export function Header() {
       </Link>
 
       <div className="hidden items-center gap-2 md:flex">
+        <Link className={buttonVariants({ variant: 'ghost' })} href="/animal">
+          Explore
+        </Link>
         <Link className={buttonVariants({ variant: 'ghost' })} href="/about">
           About
         </Link>
@@ -25,7 +28,7 @@ export function Header() {
         </Suspense>
         <ThemeToggle />
         <Link className={buttonVariants()} href="/ad">
-          Explore
+          Catalog
         </Link>
       </div>
 
@@ -55,8 +58,16 @@ export function Header() {
         <SheetClose
           nativeButton={false}
           render={
-            <Link className={buttonVariants()} href="/">
+            <Link className={buttonVariants({ variant: 'outline' })} href="/animal">
               Explore
+            </Link>
+          }
+        />
+        <SheetClose
+          nativeButton={false}
+          render={
+            <Link className={buttonVariants()} href="/ad">
+              Catalog
             </Link>
           }
         />

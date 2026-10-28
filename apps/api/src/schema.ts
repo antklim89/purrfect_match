@@ -71,6 +71,10 @@ export const relations = defineRelations(
         from: r.animalBreedTable.animalTypeName,
         to: r.animalTypeTable.name,
       }),
+      ads: r.many.adTable({
+        from: r.animalBreedTable.name,
+        to: r.adTable.breedName,
+      }),
     },
 
     userTable: {
