@@ -25,7 +25,9 @@ describe('[GET] /api/animal', () => {
       },
     ]);
   });
+});
 
+describe('[GET] /api/animal/:name', () => {
   it('should find animal by name', async () => {
     const insertedAnimalType = await insertAnimalType();
     const insertedBreed1 = await insertAnimalBreed({ type: insertedAnimalType });
@@ -35,9 +37,13 @@ describe('[GET] /api/animal', () => {
 
     expect(data).toStrictEqual({
       name: insertedAnimalType.name,
+      animalNames: [insertedAnimalType.name],
       imageUrl: insertedAnimalType.imageUrl,
       description: insertedAnimalType.description,
-      breeds: [{ name: insertedBreed1.name }, { name: insertedBreed2.name }],
+      breeds: [
+        { name: insertedBreed1.name, description: insertedBreed1.description },
+        { name: insertedBreed2.name, description: insertedBreed2.description },
+      ],
     });
   });
 });
