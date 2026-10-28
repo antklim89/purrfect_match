@@ -1,6 +1,6 @@
 'use client';
 
-import type { AnimalType } from '@purrfect_match/shared/entities/animal/types';
+import type { AnimalPreviewType } from '@purrfect_match/shared/entities/animal/types';
 
 import {
   Combobox,
@@ -19,7 +19,7 @@ export function AnimalSelect({
   onAnimalTypeSelect,
   onAnimalBreedSelect,
 }: {
-  animals: AnimalType[];
+  animals: AnimalPreviewType[];
   breedName?: string | null;
   typeName?: string | null;
   onAnimalTypeSelect: (name: string | null) => void;

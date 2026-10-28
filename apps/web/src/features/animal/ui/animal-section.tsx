@@ -1,6 +1,7 @@
 'use client';
 
 import { Activity, useDeferredValue, useMemo } from 'react';
+import type { AnimalType } from '@purrfect_match/shared/entities/animal/types';
 import { CatIcon, SearchIcon, XIcon } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -11,20 +12,7 @@ import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@/
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@/shared/ui/input-group';
 import { Item, ItemActions, ItemContent, ItemDescription, ItemGroup, ItemHeader, ItemTitle } from '@/shared/ui/item';
 
-export function AnimalSection({
-  animal,
-}: {
-  animal: {
-    name: string;
-    animalNames: string[];
-    imageUrl: string;
-    description: string;
-    breeds: {
-      name: string;
-      description: string;
-    }[];
-  };
-}) {
+export function AnimalSection({ animal }: { animal: AnimalType }) {
   const [search, setSearch] = useQueryState('search', parseAsString.withDefault(''));
   const searchedBreeds = useDeferredValue(
     useMemo(

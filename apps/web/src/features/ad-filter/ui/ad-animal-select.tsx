@@ -1,5 +1,5 @@
 'use client';
-import type { AnimalType } from '@purrfect_match/shared/entities/animal/types';
+import type { AnimalPreviewType } from '@purrfect_match/shared/entities/animal/types';
 import { parseAsInteger, parseAsString, useQueryStates } from 'nuqs';
 
 import { AnimalSelect } from '@/features/animal-select';
@@ -11,7 +11,7 @@ const queries = {
   page: parseAsInteger,
 };
 
-export function AdAnimalSelect({ animals }: { animals: AnimalType[] }) {
+export function AdAnimalSelect({ animals }: { animals: AnimalPreviewType[] }) {
   const [queryState, setQueryState] = useQueryStates(queries, { shallow: false });
 
   return (

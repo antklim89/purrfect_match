@@ -1,12 +1,12 @@
 'use client';
-import type { AnimalType } from '@purrfect_match/shared/entities/animal/types';
+import type { AnimalPreviewType } from '@purrfect_match/shared/entities/animal/types';
 
 import { AnimalSelect } from '@/features/animal-select';
 import { useTypedAppFormContext } from '@/shared/lib/form';
 import { FieldError } from '@/shared/ui/field';
 import { adCreateFormOptions } from '../models/form-options';
 
-export function AdCreateAnimalSelect({ animals }: { animals: AnimalType[] }) {
+export function AdCreateAnimalSelect({ animals }: { animals: AnimalPreviewType[] }) {
   const form = useTypedAppFormContext(adCreateFormOptions);
 
   return (

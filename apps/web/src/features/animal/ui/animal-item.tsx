@@ -1,4 +1,4 @@
-import type { AnimalType } from '@purrfect_match/shared/entities/animal/types';
+import type { AnimalPreviewType } from '@purrfect_match/shared/entities/animal/types';
 import { BookIcon, SearchIcon } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { Badge } from '@/shared/ui/badge';
 import { Item, ItemContent, ItemFooter, ItemHeader, ItemMedia, ItemTitle } from '@/shared/ui/item';
 
-export function AnimalItem({ animal }: { animal: AnimalType }) {
+export function AnimalItem({ animal }: { animal: AnimalPreviewType }) {
   return (
     <Item variant="muted" role="listitem">
       <ItemMedia>
