@@ -2,7 +2,7 @@
 import type { AnimalPreviewType } from '@purrfect_match/shared/entities/animal/types';
 import { parseAsInteger, parseAsString, useQueryStates } from 'nuqs';
 
-import { AnimalSelect } from '@/features/animal-select';
+import { AnimalSelect } from '../@x/animal-select';
 
 const queries = {
   type: parseAsString,
