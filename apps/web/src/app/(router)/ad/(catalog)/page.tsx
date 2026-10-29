@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { AdCard, AdCardFallback, AdList } from '@/features/ad';
 import { AdAnimalSelect, AdFilter } from '@/features/ad-filter';
 import { AdSort } from '@/features/ad-sort';
+import { ToggleFavoriteButton } from '@/features/toggle-favorite';
 import { adFindListQuery } from '@/shared/api/queries/ad-queries';
 import { animalFindManyQuery } from '@/shared/api/queries/animal-queries';
 import { loader } from '@/shared/lib/loader';
@@ -34,7 +35,11 @@ async function Page(props: PageProps<'/ad'>) {
       return (
         <AdList>
           {ads.items.map((ad) => (
-            <AdCard ad={ad} key={ad.id} />
+            <AdCard
+              ad={ad}
+              key={ad.id}
+              actionSlot={<ToggleFavoriteButton inFavorites={ad.inFavorites} adId={ad.id} />}
+            />
           ))}
         </AdList>
       );
