@@ -4,7 +4,7 @@ import { ToggleFavoriteButton } from '@/features/toggle-favorite';
 import { adFavoritesListQuery } from '@/shared/api/queries/ad-queries';
 import { ErrorComponent } from '@/shared/ui/error-component';
 import { Pagination } from '@/shared/ui/pagination';
-import { AdCatalog } from '@/widgets/ad-catalog';
+import { AdCatalog, AdCatalogFavoritesEmpty } from '@/widgets/ad-catalog';
 
 export default async function Page({ searchParams }: PageProps<'/profile/favorites'>) {
   const query = await searchParams;
@@ -16,6 +16,7 @@ export default async function Page({ searchParams }: PageProps<'/profile/favorit
       sortSlot={<AdSort />}
       paginationSlot={<Pagination totalPages={ads.pagination.totalPages} page={ads.pagination.currentPage} />}
     >
+      {ads.items.length === 0 && <AdCatalogFavoritesEmpty />}
       <AdList>
         {ads.items.map((ad) => (
           <AdCard key={ad.id} ad={ad} actionSlot={<ToggleFavoriteButton adId={ad.id} inFavorites={ad.inFavorites} />} />
