@@ -9,7 +9,7 @@ import type { PgTable, TableConfig } from 'drizzle-orm/pg-core';
 import type { AdImageInsertType, AdInsertType } from '@/entities/ad/types';
 import { auth } from '@/lib/auth';
 import { db } from '@/lib/db';
-import { adImageTable, adTable, animalBreedTable, animalTypeTable } from '@/schema';
+import { adImageTable, adTable, animalBreedTable, animalTypeTable, userTable } from '@/schema';
 import animalTypes from './animals.json' with { type: 'json' };
 import birdBreed from './bird.json' with { type: 'json' };
 import catBreed from './cat.json' with { type: 'json' };
@@ -19,7 +19,7 @@ import fishBreed from './fish.json' with { type: 'json' };
 import rodentBreed from './rodent.json' with { type: 'json' };
 
 const USERS_NUMBER = 20;
-const ADS_NUMBER = 1000;
+const ADS_NUMBER = 5000;
 const contacts = [
   { number: '1 (555) 555 44 55', type: 'phone' },
   { number: '1 (555) 555 33 55', type: 'whatsapp' },
@@ -51,22 +51,35 @@ function insertChunks<Table extends PgTable<TableConfig>, Insert extends InferIn
   );
 }
 
+async function clearDb() {
+  await db.delete(userTable);
+  await db.delete(adTable);
+  await db.delete(animalBreedTable);
+  await db.delete(animalTypeTable);
+}
+
 async function createUsers() {
   for (let index = 0; index < USERS_NUMBER; index++) {
-    await auth.api.signUpEmail({
-      body: {
-        email: index === 0 ? 'admin@mail.com' : faker.internet.email(),
-        name: faker.person.firstName(),
-        password: 'qwer1234',
-        fullName: faker.person.fullName(),
-        address: `${faker.location.country()} ${faker.location.city()} ${faker.location.streetAddress()}`,
-        description: faker.lorem.text(),
-        contacts: faker.helpers.multiple(() => ({
-          number: faker.phone.number(),
-          type: faker.helpers.arrayElement(contacts.map((i) => i.type)),
-        })),
-      },
-    });
+    const fullName = faker.person.fullName();
+    await auth.api
+      .signUpEmail({
+        body: {
+          email:
+            index === 0
+              ? 'admin@mail.com'
+              : faker.internet.email({ firstName: fullName, lastName: faker.person.lastName() }),
+          name: faker.person.firstName(),
+          password: 'qwer1234',
+          fullName,
+          address: `${faker.location.country()} ${faker.location.city()} ${faker.location.streetAddress()}`,
+          description: faker.lorem.text(),
+          contacts: faker.helpers.multiple(() => ({
+            number: faker.phone.number(),
+            type: faker.helpers.arrayElement(contacts.map((i) => i.type)),
+          })),
+        },
+      })
+      .catch(() => null);
   }
   console.log('Users inserted');
 }
@@ -136,6 +149,7 @@ async function createBreed() {
   console.log('Animal breeds inserted');
 }
 
+await clearDb();
 await createUsers();
 await createAnimal();
 await createBreed();
