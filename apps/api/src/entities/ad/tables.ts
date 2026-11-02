@@ -37,16 +37,24 @@ export const adTable = pgTable(
     createdAt: timestamp('created_at', { mode: 'string', withTimezone: true }).defaultNow().notNull(),
     publishedAt: timestamp('published_at', { mode: 'string', withTimezone: true }).defaultNow().notNull(),
   },
-  (table) => [index('ad_search_idx').using('gin', table.tsvector)],
+  (table) => [
+    index('ad_search_idx').using('gin', table.tsvector),
+    index('ad_status_idx').on(table.status),
+    index('ad_breedName_idx').on(table.breedName),
+  ],
 );
 
-export const adImageTable = pgTable('ad_image', {
-  id: uuid().default(sql`uuidv7()`).primaryKey(),
+export const adImageTable = pgTable(
+  'ad_image',
+  {
+    id: uuid().default(sql`uuidv7()`).primaryKey(),
 
-  url: text().notNull(),
-  blurDataUrl: text().notNull(),
+    url: text().notNull(),
+    blurDataUrl: text().notNull(),
 
-  adId: uuid()
-    .notNull()
-    .references(() => adTable.id, { onDelete: 'cascade' }),
-});
+    adId: uuid()
+      .notNull()
+      .references(() => adTable.id, { onDelete: 'cascade' }),
+  },
+  (table) => [index('ad_image_adId_idx').on(table.adId)],
+);

@@ -77,7 +77,7 @@ CREATE TABLE "ad" (
 	"id" uuid PRIMARY KEY DEFAULT uuidv7(),
 	"name" text NOT NULL,
 	"description" text NOT NULL,
-	"birth" timestamp with time zone DEFAULT now() NOT NULL,
+	"birth" date DEFAULT now() NOT NULL,
 	"gender" text DEFAULT 'male' NOT NULL,
 	"tsvector" tsvector GENERATED ALWAYS AS (to_tsvector('english', "ad"."description")) STORED NOT NULL,
 	"price" numeric(10,2) NOT NULL,
@@ -89,11 +89,16 @@ CREATE TABLE "ad" (
 );
 --> statement-breakpoint
 CREATE INDEX "user_id_idx" ON "user" ("id");--> statement-breakpoint
+CREATE INDEX "favorite_userId_adId_idx" ON "favorite" ("userId","ad_id");--> statement-breakpoint
 CREATE INDEX "account_userId_idx" ON "account" ("user_id");--> statement-breakpoint
 CREATE INDEX "session_userId_idx" ON "session" ("user_id");--> statement-breakpoint
 CREATE INDEX "session_token_idx" ON "session" ("token");--> statement-breakpoint
 CREATE INDEX "verification_identifier_idx" ON "verification" ("identifier");--> statement-breakpoint
+CREATE INDEX "animal_breed_animalTypeName_idx" ON "animal_breed" ("animalTypeName");--> statement-breakpoint
+CREATE INDEX "ad_image_adId_idx" ON "ad_image" ("adId");--> statement-breakpoint
 CREATE INDEX "ad_search_idx" ON "ad" USING gin ("tsvector");--> statement-breakpoint
+CREATE INDEX "ad_status_idx" ON "ad" ("status");--> statement-breakpoint
+CREATE INDEX "ad_breedName_idx" ON "ad" ("breedName");--> statement-breakpoint
 ALTER TABLE "favorite" ADD CONSTRAINT "favorite_userId_user_id_fkey" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE CASCADE;--> statement-breakpoint
 ALTER TABLE "favorite" ADD CONSTRAINT "favorite_ad_id_ad_id_fkey" FOREIGN KEY ("ad_id") REFERENCES "ad"("id") ON DELETE CASCADE;--> statement-breakpoint
 ALTER TABLE "account" ADD CONSTRAINT "account_user_id_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE CASCADE;--> statement-breakpoint

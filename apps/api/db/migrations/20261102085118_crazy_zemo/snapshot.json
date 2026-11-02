@@ -1,7 +1,7 @@
 {
   "version": "8",
   "dialect": "postgres",
-  "id": "8ab65b9f-daee-404d-b144-0a4803732dd3",
+  "id": "4f1dfdd0-35e9-44b4-b223-d218dd7aaf54",
   "prevIds": [
     "00000000-0000-0000-0000-000000000000"
   ],
@@ -750,7 +750,7 @@
       "table": "ad"
     },
     {
-      "type": "timestamp with time zone",
+      "type": "date",
       "typeSchema": null,
       "notNull": true,
       "dimensions": 0,
@@ -894,6 +894,34 @@
       "nameExplicit": true,
       "columns": [
         {
+          "value": "userId",
+          "isExpression": false,
+          "asc": true,
+          "nullsFirst": false,
+          "opclass": null
+        },
+        {
+          "value": "ad_id",
+          "isExpression": false,
+          "asc": true,
+          "nullsFirst": false,
+          "opclass": null
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "with": "",
+      "method": "btree",
+      "concurrently": false,
+      "name": "favorite_userId_adId_idx",
+      "entityType": "indexes",
+      "schema": "public",
+      "table": "favorite"
+    },
+    {
+      "nameExplicit": true,
+      "columns": [
+        {
           "value": "user_id",
           "isExpression": false,
           "asc": true,
@@ -978,6 +1006,48 @@
       "nameExplicit": true,
       "columns": [
         {
+          "value": "animalTypeName",
+          "isExpression": false,
+          "asc": true,
+          "nullsFirst": false,
+          "opclass": null
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "with": "",
+      "method": "btree",
+      "concurrently": false,
+      "name": "animal_breed_animalTypeName_idx",
+      "entityType": "indexes",
+      "schema": "public",
+      "table": "animal_breed"
+    },
+    {
+      "nameExplicit": true,
+      "columns": [
+        {
+          "value": "adId",
+          "isExpression": false,
+          "asc": true,
+          "nullsFirst": false,
+          "opclass": null
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "with": "",
+      "method": "btree",
+      "concurrently": false,
+      "name": "ad_image_adId_idx",
+      "entityType": "indexes",
+      "schema": "public",
+      "table": "ad_image"
+    },
+    {
+      "nameExplicit": true,
+      "columns": [
+        {
           "value": "tsvector",
           "isExpression": false,
           "asc": true,
@@ -991,6 +1061,48 @@
       "method": "gin",
       "concurrently": false,
       "name": "ad_search_idx",
+      "entityType": "indexes",
+      "schema": "public",
+      "table": "ad"
+    },
+    {
+      "nameExplicit": true,
+      "columns": [
+        {
+          "value": "status",
+          "isExpression": false,
+          "asc": true,
+          "nullsFirst": false,
+          "opclass": null
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "with": "",
+      "method": "btree",
+      "concurrently": false,
+      "name": "ad_status_idx",
+      "entityType": "indexes",
+      "schema": "public",
+      "table": "ad"
+    },
+    {
+      "nameExplicit": true,
+      "columns": [
+        {
+          "value": "breedName",
+          "isExpression": false,
+          "asc": true,
+          "nullsFirst": false,
+          "opclass": null
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "with": "",
+      "method": "btree",
+      "concurrently": false,
+      "name": "ad_breedName_idx",
       "entityType": "indexes",
       "schema": "public",
       "table": "ad"

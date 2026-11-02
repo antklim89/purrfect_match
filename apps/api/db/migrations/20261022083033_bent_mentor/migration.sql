@@ -1,1 +1,0 @@
-ALTER TABLE "ad" ALTER COLUMN "birth" SET DATA TYPE date USING "birth"::date;

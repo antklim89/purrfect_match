@@ -1,4 +1,4 @@
-import { pgTable, primaryKey, uuid } from 'drizzle-orm/pg-core';
+import { index, pgTable, primaryKey, uuid } from 'drizzle-orm/pg-core';
 
 import { adTable } from '@/entities/ad/tables';
 import { userTable } from '@/entities/user/tables';
@@ -13,5 +13,8 @@ export const favoriteTable = pgTable(
       .notNull()
       .references(() => adTable.id, { onDelete: 'cascade' }),
   },
-  (t) => [primaryKey({ columns: [t.adId, t.userId] })],
+  (table) => [
+    primaryKey({ columns: [table.adId, table.userId] }),
+    index('favorite_userId_adId_idx').on(table.userId, table.adId),
+  ],
 );
