@@ -37,7 +37,7 @@ export const AdDraftSchema = z.partial(
 );
 
 export const AdFilterSchema = z.object({
-  search: z.optional(z.string().check(z.maxLength(5))),
+  search: z.optional(z.string().check(z.maxLength(500))),
   type: z.optional(z.string().check(z.maxLength(500))),
   breed: z.optional(z.string().check(z.maxLength(500))),
   minPrice: z.optional(z.coerce.number<string>().check(z.minimum(0))),
